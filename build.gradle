@@ -67,6 +67,9 @@ dependencies {
     // mysql
     implementation 'com.mysql:mysql-connector-j'
 
+    // password encoder
+    implementation 'org.springframework.security:spring-security-crypto:5.5.8'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'

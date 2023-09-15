@@ -1,5 +1,6 @@
-package server.application.member;
+package server.service.member;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.member.persist.Member;
@@ -14,15 +15,17 @@ import static server.global.constant.ExceptionMessage.*;
 public class MemberSignupService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public MemberSignupService(final MemberRepository memberRepository) {
+    public MemberSignupService(final MemberRepository memberRepository, final PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     public void signup(final MemberSignupRequest dto) {
         validatePassword(dto);
-        Member member = MemberMapper.toEntity(dto);
+        Member member = MemberMapper.toEntity(dto, passwordEncoder);
         memberRepository.save(member);
     }
 

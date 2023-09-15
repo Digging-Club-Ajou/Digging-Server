@@ -15,4 +15,8 @@ public class MemberRepository {
     public void save(final Member member) {
         memberJpaRepository.save(member);
     }
+
+    public long count() {
+        return memberJpaRepository.count();
+    }
 }
