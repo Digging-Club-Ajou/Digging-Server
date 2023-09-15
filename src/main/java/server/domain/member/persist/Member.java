@@ -18,6 +18,8 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
+    private String username;
+
     private String nickname;
 
     private String loginId;
@@ -31,12 +33,13 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Enumerated(EnumType.STRING)
     private LoginType loginType;
 
     @Builder
-    private Member(final String nickname, final String loginId, final String password,
-                   final String phoneNumber, final String email,
-                   final Gender gender, final LoginType loginType) {
+    private Member(final String username, final String nickname, final String loginId, final String password,
+                  final String phoneNumber, final String email, final Gender gender, final LoginType loginType) {
+        this.username = username;
         this.nickname = nickname;
         this.loginId = loginId;
         this.password = password;

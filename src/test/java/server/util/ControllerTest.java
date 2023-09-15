@@ -1,5 +1,6 @@
 package server.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,13 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 @AutoConfigureMockMvc
 @ExtendWith(RestDocumentationExtension.class)
 @AcceptanceTest
-public class ControllerTest {
+public abstract class ControllerTest {
 
     @Autowired
     protected MockMvc mockMvc;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
@@ -32,7 +36,7 @@ public class ControllerTest {
                         .and()
                         .uris()
                         .withScheme("http")
-                        .withHost("localhost")
+                        .withHost("3.34.171.76")
                         .withPort(8080))
                 .build();
     }
