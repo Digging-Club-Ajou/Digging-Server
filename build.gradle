@@ -39,7 +39,7 @@ swaggerSources {
 
 openapi3 {
     servers = [
-            { url = "http://localhost:8080" }
+            { url = "http://3.34.171.76:8080" }
     ]
     title = "API 문서"
     description = "Server API Docs"

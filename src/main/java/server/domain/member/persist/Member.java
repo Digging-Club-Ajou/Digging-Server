@@ -9,6 +9,7 @@ import server.domain.BaseTimeEntity;
 import server.domain.member.vo.Gender;
 import server.domain.member.vo.LoginType;
 
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
