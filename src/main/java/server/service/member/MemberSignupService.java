@@ -24,14 +24,12 @@ public class MemberSignupService {
 
     @Transactional
     public void signup(final MemberSignupRequest dto) {
-        validatePassword(dto);
+        validatePassword(dto.password(), dto.passwordCheck());
         Member member = MemberMapper.toEntity(dto, passwordEncoder);
         memberRepository.save(member);
     }
 
-    private void validatePassword(final MemberSignupRequest dto) {
-        String password = dto.password();
-        String passwordCheck = dto.passwordCheck();
+    private void validatePassword(final String password, final String passwordCheck) {
         if (!password.equals(passwordCheck)) {
             throw new BadRequestException(PASSWORD_NOT_MATCH_EXCEPTION.message);
         }
