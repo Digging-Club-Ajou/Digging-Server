@@ -20,3 +20,7 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
+# 운영환경과 다른 개발용 jwt 키 값
+jwt:
+  key: OewPcNeX7cy++FrTqVsB14Fg8kC9xaphxD9LEdWu170=
