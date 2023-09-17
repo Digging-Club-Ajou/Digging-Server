@@ -4,6 +4,8 @@ import org.springframework.stereotype.Repository;
 import server.domain.member.persist.Member;
 import server.global.exception.NotFoundException;
 
+import java.util.Optional;
+
 import static server.global.constant.ExceptionMessage.*;
 
 @Repository
@@ -22,6 +24,10 @@ public class MemberRepository {
     public Member getById(final long memberId) {
         return memberJpaRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException(MEMBER_NOT_FOUND_EXCEPTION.message));
+    }
+
+    public Optional<Member> findByLoginId(final String loginId) {
+        return memberJpaRepository.findByLoginId(loginId);
     }
 
     public long count() {
