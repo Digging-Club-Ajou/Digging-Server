@@ -48,11 +48,11 @@ class MemberControllerTest extends ControllerTest {
                                 .requestFields(
                                         fieldWithPath("username").type(STRING).description("동영상 정보 id"),
                                         fieldWithPath("loginId").type(STRING).description("이전 리액션"),
-                                        fieldWithPath("password").type(STRING).description("업데이트 리액션"),
-                                        fieldWithPath("passwordCheck").type(STRING).description("업데이트 리액션"),
-                                        fieldWithPath("phoneNumber").type(STRING).description("업데이트 리액션"),
-                                        fieldWithPath("email").type(STRING).description("업데이트 리액션"),
-                                        fieldWithPath("gender").type(STRING).description("업데이트 리액션")
+                                        fieldWithPath("password").type(STRING).description("비밀번호"),
+                                        fieldWithPath("passwordCheck").type(STRING).description("비밀번호 확인"),
+                                        fieldWithPath("phoneNumber").type(STRING).description("전화번호"),
+                                        fieldWithPath("email").type(STRING).description("이메일"),
+                                        fieldWithPath("gender").type(STRING).description("성별")
                                 )
                                 .responseFields(
                                         fieldWithPath("statusCode").type(STRING).description("상태 코드"),
@@ -90,11 +90,11 @@ class MemberControllerTest extends ControllerTest {
                                 .requestFields(
                                         fieldWithPath("username").type(STRING).description("동영상 정보 id"),
                                         fieldWithPath("loginId").type(STRING).description("이전 리액션"),
-                                        fieldWithPath("password").type(STRING).description("업데이트 리액션"),
-                                        fieldWithPath("passwordCheck").type(STRING).description("업데이트 리액션"),
-                                        fieldWithPath("phoneNumber").type(STRING).description("업데이트 리액션"),
-                                        fieldWithPath("email").type(STRING).description("업데이트 리액션"),
-                                        fieldWithPath("gender").type(STRING).description("업데이트 리액션")
+                                        fieldWithPath("password").type(STRING).description("비밀번호"),
+                                        fieldWithPath("passwordCheck").type(STRING).description("비밀번호 확인"),
+                                        fieldWithPath("phoneNumber").type(STRING).description("전화번호"),
+                                        fieldWithPath("email").type(STRING).description("이메일"),
+                                        fieldWithPath("gender").type(STRING).description("성별")
                                 )
                                 .build()
                         )));
