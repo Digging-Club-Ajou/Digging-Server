@@ -3,6 +3,7 @@ package server.mapper.member;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
+import server.mapper.member.dto.KakaoSignupRequest;
 import server.mapper.member.dto.MemberSignupRequest;
 
 public class MemberMapper {
@@ -20,6 +21,13 @@ public class MemberMapper {
                 .phoneNumber(dto.phoneNumber())
                 .email(dto.email())
                 .gender(dto.gender())
+                .build();
+    }
+
+    public static Member toEntity(final KakaoSignupRequest dto) {
+        return Member.builder()
+                .email(dto.email())
+                .phoneNumber(dto.phoneNumber())
                 .build();
     }
 

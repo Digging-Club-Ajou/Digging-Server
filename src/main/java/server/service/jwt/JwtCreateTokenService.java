@@ -45,4 +45,20 @@ public class JwtCreateTokenService {
             throw new BadRequestException(MEMBER_SESSION_JSON_PARSING.message);
         }
     }
+
+
+    // MemberId를 RefreshToken에 넣습니다
+    public String createRefreshToken(final long memberId, final long expired) {
+        Date now = new Date();
+        Date expiredDate = new Date(new Date().getTime() + expired);
+        SecretKey tokenKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(JWT_KEY));
+
+        return Jwts.builder()
+                .setId(UUID.randomUUID().toString())
+                .setSubject(String.valueOf(memberId))
+                .setIssuedAt(now)
+                .setExpiration(expiredDate)
+                .signWith(tokenKey)
+                .compact();
+    }
 }

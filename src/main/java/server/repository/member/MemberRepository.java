@@ -17,8 +17,8 @@ public class MemberRepository {
         this.memberJpaRepository = memberJpaRepository;
     }
 
-    public void save(final Member member) {
-        memberJpaRepository.save(member);
+    public Member save(final Member member) {
+        return memberJpaRepository.save(member);
     }
 
     public Member getById(final long memberId) {
@@ -26,8 +26,8 @@ public class MemberRepository {
                 .orElseThrow(() -> new NotFoundException(MEMBER_NOT_FOUND_EXCEPTION.message));
     }
 
-    public Optional<Member> findByLoginId(final String loginId) {
-        return memberJpaRepository.findByLoginId(loginId);
+    public Optional<Member> findByEmail(final String email) {
+        return memberJpaRepository.findByEmail(email);
     }
 
     public long count() {

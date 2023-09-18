@@ -8,16 +8,16 @@ import server.repository.member.MemberRepository;
 import java.util.Optional;
 
 @Service
-public class MemberFindByLoginService {
+public class MemberFindByEmailService {
 
     private final MemberRepository memberRepository;
 
-    public MemberFindByLoginService(final MemberRepository memberRepository) {
+    public MemberFindByEmailService(final MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
     @Transactional(readOnly = true)
-    public Optional<Member> findByLoginId(final String loginId) {
-        return memberRepository.findByLoginId(loginId);
+    public Optional<Member> findByEmail(final String email) {
+        return memberRepository.findByEmail(email);
     }
 }
