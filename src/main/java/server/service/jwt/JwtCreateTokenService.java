@@ -25,7 +25,7 @@ public class JwtCreateTokenService {
         this.objectMapper = objectMapper;
     }
 
-    // MemberSession 객체 정보를 AccessToken에 넣음
+    // MemberSession 객체 정보를 AccessToken에 넣습니다
     public String createAccessToken(final MemberSession memberSession, final long expired) {
         Date now = new Date();
         Date expiredDate = new Date(new Date().getTime() + expired);
@@ -45,7 +45,6 @@ public class JwtCreateTokenService {
             throw new BadRequestException(MEMBER_SESSION_JSON_PARSING.message);
         }
     }
-
 
     // MemberId를 RefreshToken에 넣습니다
     public String createRefreshToken(final long memberId, final long expired) {
