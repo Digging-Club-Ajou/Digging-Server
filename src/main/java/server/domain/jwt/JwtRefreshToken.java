@@ -27,4 +27,8 @@ public class JwtRefreshToken extends BaseTimeEntity {
         this.memberId = memberId;
         this.refreshToken = refreshToken;
     }
+
+    public void update(final String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }

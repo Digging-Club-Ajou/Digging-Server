@@ -2,8 +2,10 @@ package server.mapper.member;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import server.domain.member.persist.Member;
+import server.domain.member.vo.LoginType;
 import server.domain.member.vo.MemberSession;
 import server.mapper.member.dto.KakaoSignupRequest;
+import server.mapper.member.dto.MemberResponse;
 import server.mapper.member.dto.MemberSignupRequest;
 
 public class MemberMapper {
@@ -28,6 +30,7 @@ public class MemberMapper {
         return Member.builder()
                 .email(dto.email())
                 .phoneNumber(dto.phoneNumber())
+                .loginType(LoginType.KAKAO)
                 .build();
     }
 
@@ -37,5 +40,9 @@ public class MemberMapper {
                 .username(member.getUsername())
                 .nickname(member.getNickname())
                 .build();
+    }
+
+    public static MemberResponse toMemberResponse(final Member member) {
+        return new MemberResponse(member.getNickname());
     }
 }
