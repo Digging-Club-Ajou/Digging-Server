@@ -45,4 +45,6 @@ public class MemberMapper {
     public static MemberResponse toMemberResponse(final Member member) {
         return new MemberResponse(member.getNickname());
     }
+
+
 }
