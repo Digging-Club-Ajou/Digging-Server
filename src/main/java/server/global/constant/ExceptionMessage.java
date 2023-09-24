@@ -3,6 +3,7 @@ package server.global.constant;
 public enum ExceptionMessage {
 
     MEMBER_NOT_FOUND_EXCEPTION("회원을 찾을 수 없습니다"),
+    NICKNAME_DUPLICATE_EXCEPTION("이미 존재하는 닉네임입니다"),
     REFRESH_TOKEN_NOT_FOUND_EXCEPTION("RefreshToken을 찾을 수 없습니다"),
     PASSWORD_NOT_MATCH_EXCEPTION("비밀번호가 일치하지 않습니다"),
     ACCESS_TOKEN_JSON_PARSING("AccessToken으로부터 정보를 가져올 수 없습니다"),

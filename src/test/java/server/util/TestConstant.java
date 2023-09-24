@@ -3,6 +3,7 @@ package server.util;
 public enum TestConstant {
 
     TEST_USERNAME("테스트 이름"),
+    TEST_NICKNAME("TestNickname"),
     TEST_LOGIN_ID("TestLoginId123@"),
     TEST_PASSWORD("TestPassword123@"),
     TEST_PHONE_NUMBER("010-1234-5678"),
