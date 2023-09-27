@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import server.mapper.member.dto.AuthCodeRequest;
 import server.service.oauth.KakaoLoginService;
 
+
 @RequestMapping("/api")
 @RestController
 public class KakaoController {
@@ -16,8 +17,10 @@ public class KakaoController {
     }
 
     @PostMapping("/kakao")
+
     public void kakaoLogin(@RequestBody final AuthCodeRequest dto,
                            final HttpServletResponse response) {
         kakaoLoginService.kakaoLogin(dto.authCode(), response);
+
     }
 }
