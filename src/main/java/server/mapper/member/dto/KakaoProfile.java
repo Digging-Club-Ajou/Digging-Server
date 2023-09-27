@@ -1,33 +1,20 @@
 package server.mapper.member.dto;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
-import server.domain.member.persist.Member;
-import server.domain.member.vo.Gender;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-import static server.domain.member.vo.LoginType.KAKAO;
-
-public record KakaoMemberResponse(Long id,
-                                  boolean hasSignedUp,
-                                  LocalDateTime connectedAt,
-                                  KakaoAccount kakaoAccount) {
-
-    public Member extract() {
-        Gender gender;
-        if(kakaoAccount().gender == "FEMALE")
-            gender = Gender.FEMALE;
-        else
-            gender = Gender.MALE;
-
-        return Member.builder()
-                .nickname(kakaoAccount().profile.nickname).email(kakaoAccount().email).loginId(String.valueOf(id)).gender(gender).build();
-
-    }
-
-    @JsonNaming(SnakeCaseStrategy.class)
+@Builder
+public record KakaoProfile(
+     String id,
+     String connected_at,
+     KakaoAccount kakao_account
+){
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public record KakaoAccount(
+            boolean has_email,
             boolean profileNeedsAgreement,
             boolean profileNicknameNeedsAgreement,
             boolean profileImageNeedsAgreement,
@@ -38,6 +25,7 @@ public record KakaoMemberResponse(Long id,
             boolean isEmailValid,
             boolean isEmailVerified,
             String email,
+            boolean has_age_range,
             boolean ageRangeNeedsAgreement,
             String ageRange,
             boolean birthyearNeedsAgreement,
@@ -45,6 +33,7 @@ public record KakaoMemberResponse(Long id,
             boolean birthdayNeedsAgreement,
             String birthday,
             String birthdayType,
+            boolean has_gender,
             boolean genderNeedsAgreement,
             String gender,
             boolean phoneNumberNeedsAgreement,
@@ -55,7 +44,7 @@ public record KakaoMemberResponse(Long id,
     ) {
     }
 
-    @JsonNaming(SnakeCaseStrategy.class)
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public record Profile(
             String nickname,
             String thumbnailImageUrl,
@@ -63,4 +52,6 @@ public record KakaoMemberResponse(Long id,
             boolean isDefaultImage
     ) {
     }
+
 }
+

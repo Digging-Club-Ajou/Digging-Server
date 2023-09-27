@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<Button id="loginButton">로그인</Button>
+</body>
+
+<script>
+  function addEventListenerToButton() {
+    const loginButton = document.getElementById("loginButton");
+
+            loginButton.onclick = function() {
+              window.location.href = 'https://kauth.kakao.com/oauth/authorize?' +
+                      'response_type=code&'+
+                      'client_id=ef5ad1c2419c33bf6a46d75d27ed06fc&' +
+                      'redirect_uri=https://diggle.com/oauth';
+            }
+  }
+
+        addEventListenerToButton();
+</script>
+</html>
