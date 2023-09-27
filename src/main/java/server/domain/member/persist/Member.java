@@ -49,4 +49,8 @@ public class Member extends BaseTimeEntity {
         this.gender = gender;
         this.loginType = loginType;
     }
+
+    public void createNickname(final String nickname) {
+        this.nickname = nickname;
+    }
 }

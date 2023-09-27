@@ -24,3 +24,16 @@ logging:
 # 운영환경과 다른 개발용 jwt 키 값
 jwt:
   key: OewPcNeX7cy++FrTqVsB14Fg8kC9xaphxD9LEdWu170=
+
+cloud:
+  aws:
+    s3:
+      bucket: digging-club
+    credentials:
+      access-key: dev-access-key
+      secret-key: dev-secret-key
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false

@@ -30,6 +30,10 @@ public class MemberRepository {
         return memberJpaRepository.findByEmail(email);
     }
 
+    public Optional<Member> findByNickname(final String nickname) {
+        return memberJpaRepository.findByNickname(nickname);
+    }
+
     public long count() {
         return memberJpaRepository.count();
     }
