@@ -1,16 +1,13 @@
 package server.service.oauth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
-import lombok.Synchronized;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import server.domain.member.vo.Gender;
 import server.mapper.member.dto.KakaoProfile;
@@ -21,13 +18,17 @@ import server.mapper.member.dto.KakaoToken;
 @Service
 public class KakaoService {
 
+    private final DiggingLoginService diggingLoginService;
+
+    public KakaoService(final DiggingLoginService diggingLoginService) {
+        this.diggingLoginService = diggingLoginService;
+    }
+
     @SneakyThrows
-    @Transactional
-    public void kakaoLogin(String authCode){
+    public void kakaoLogin(final String authCode, final HttpServletResponse response){
         String accessToken = getAccessToken(authCode);
         KakaoSignupRequest kakaoProfile = getUserProfile(accessToken);
-        System.out.println(kakaoProfile);
-
+        diggingLoginService.kakaoLogin(kakaoProfile, response);
     }
 
     private synchronized String getAccessToken(String authCode) throws JsonProcessingException {

@@ -1,27 +1,23 @@
 package server.service.oauth;
 
 import jakarta.servlet.http.Cookie;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletResponse;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.Gender;
-import server.global.constant.LoginConstant;
 import server.mapper.member.dto.KakaoSignupRequest;
 import server.util.ServiceTest;
-import server.util.TestConstant;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static server.global.constant.LoginConstant.*;
 import static server.util.TestConstant.*;
 
-class KakaoLoginServiceTest extends ServiceTest {
+class DiggingLoginServiceTest extends ServiceTest {
 
     @Autowired
-    private KakaoLoginService kakaoLoginService;
+    private DiggingLoginService diggingLoginService;
 
     @Test
     @DisplayName("이미 가입된 회원은 회원가입 없이 바로 로그인을 합니다")
@@ -43,7 +39,7 @@ class KakaoLoginServiceTest extends ServiceTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         // when
-        Member member = kakaoLoginService.kakaoLogin(dto, response);
+        Member member = diggingLoginService.kakaoLogin(dto, response);
         Cookie cookie = response.getCookie(REFRESH_TOKEN.value);
 
         // then
@@ -66,7 +62,7 @@ class KakaoLoginServiceTest extends ServiceTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         // when
-        Member member = kakaoLoginService.kakaoLogin(dto, response);
+        Member member = diggingLoginService.kakaoLogin(dto, response);
         Cookie cookie = response.getCookie(REFRESH_TOKEN.value);
 
         // then

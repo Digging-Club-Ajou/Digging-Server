@@ -16,29 +16,27 @@ import static server.global.constant.TimeConstant.ONE_HOUR;
 import static server.global.constant.TimeConstant.ONE_MONTH;
 
 @Service
-public class KakaoLoginService {
+public class DiggingLoginService {
 
     private final MemberFindByEmailService memberFindByEmailService;
     private final KakaoSignupService kakaoSignupService;
     private final JwtFacade jwtFacade;
 
-    public KakaoLoginService(final MemberFindByEmailService memberFindByEmailService,
-                             final KakaoSignupService kakaoSignupService,
-                             final JwtFacade jwtFacade) {
+    public DiggingLoginService(final MemberFindByEmailService memberFindByEmailService,
+                               final KakaoSignupService kakaoSignupService,
+                               final JwtFacade jwtFacade) {
         this.memberFindByEmailService = memberFindByEmailService;
         this.kakaoSignupService = kakaoSignupService;
         this.jwtFacade = jwtFacade;
     }
 
-    public Member kakaoLogin(final KakaoSignupRequest dto, final HttpServletResponse response) {
+    public void kakaoLogin(final KakaoSignupRequest dto, final HttpServletResponse response) {
         Optional<Member> optionalMember = memberFindByEmailService.findByEmail(dto.email());
         Member member = optionalMember
                 .orElseGet(() -> kakaoSignupService.kakaoSignup(dto));
 
         MemberSession memberSession = MemberMapper.toMemberSession(member);
         createToken(response, memberSession);
-
-        return member;
     }
 
     private void createToken(final HttpServletResponse response, final MemberSession memberSession) {

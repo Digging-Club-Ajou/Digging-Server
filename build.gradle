@@ -78,6 +78,9 @@ dependencies {
     // s3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    // thymeleaf - test
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
