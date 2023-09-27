@@ -19,9 +19,9 @@ public class ProfileController {
         this.profileCreateService = profileCreateService;
     }
 
-    @PostMapping("/profiles")
-    public void createProfiles(@Login final MemberSession memberSession,
-                               @RequestPart final MultipartFile profileImage) {
-        profileCreateService.createProfiles(memberSession.id(), profileImage);
-    }
+//    @PostMapping("/profiles")
+//    public void createProfiles(@Login final MemberSession memberSession,
+//                               @RequestPart final MultipartFile profileImage) {
+//        profileCreateService.createProfiles(memberSession.id(), profileImage);
+//    }
 }

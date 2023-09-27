@@ -40,7 +40,7 @@ class DiggingLoginServiceTest extends ServiceTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         // when
-        Member member = diggingLoginService.kakaoLogin(dto, response);
+        diggingLoginService.kakaoLogin(dto, response);
         Cookie cookie = response.getCookie(REFRESH_TOKEN.value);
 
         // then
@@ -63,7 +63,7 @@ class DiggingLoginServiceTest extends ServiceTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         // when
-        Member member = diggingLoginService.kakaoLogin(dto, response);
+        diggingLoginService.kakaoLogin(dto, response);
         Cookie cookie = response.getCookie(REFRESH_TOKEN.value);
 
         // then

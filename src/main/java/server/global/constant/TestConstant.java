@@ -1,4 +1,4 @@
-package server.util;
+package server.global.constant;
 
 public enum TestConstant {
 
@@ -8,7 +8,7 @@ public enum TestConstant {
     TEST_PASSWORD("TestPassword123@"),
     TEST_PHONE_NUMBER("010-1234-5678"),
     TEST_EMAIL("test@gmail.com"),
-    TEST_AUTH_CODE("Test Auth Code");
+    TEST_ACCESS_TOKEN("Test AccessToken");
 
     public final String value;
 
