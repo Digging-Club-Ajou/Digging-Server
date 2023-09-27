@@ -1,4 +1,4 @@
-package server.service.oauth;
+package server.service.member;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
@@ -7,8 +7,7 @@ import server.domain.member.vo.MemberSession;
 import server.mapper.member.MemberMapper;
 import server.mapper.member.dto.KakaoSignupRequest;
 import server.service.jwt.JwtFacade;
-import server.service.member.KakaoSignupService;
-import server.service.member.MemberFindByEmailService;
+import server.service.oauth.KakaoSignupService;
 
 import java.util.Optional;
 

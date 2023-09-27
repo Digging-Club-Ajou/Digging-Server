@@ -8,6 +8,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.Gender;
 import server.mapper.member.dto.KakaoSignupRequest;
+import server.service.member.DiggingLoginService;
 import server.util.ServiceTest;
 
 import static org.assertj.core.api.Assertions.*;

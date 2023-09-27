@@ -13,14 +13,15 @@ import server.domain.member.vo.Gender;
 import server.mapper.member.dto.KakaoProfile;
 import server.mapper.member.dto.KakaoSignupRequest;
 import server.mapper.member.dto.KakaoToken;
+import server.service.member.DiggingLoginService;
 
 
 @Service
-public class KakaoService {
+public class KakaoLoginService {
 
     private final DiggingLoginService diggingLoginService;
 
-    public KakaoService(final DiggingLoginService diggingLoginService) {
+    public KakaoLoginService(final DiggingLoginService diggingLoginService) {
         this.diggingLoginService = diggingLoginService;
     }
 
