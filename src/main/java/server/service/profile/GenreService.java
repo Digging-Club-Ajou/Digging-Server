@@ -1,5 +1,6 @@
 package server.service.profile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.profile.Genre;
@@ -18,7 +19,7 @@ public class GenreService {
     }
 
     @Transactional
-    public void saveUserGenre(GenreRequest genreRequest){
+    public void saveUserGenre(GenreRequest genreRequest) throws JsonProcessingException {
 
         Genre genre = GenreMapper.toEntity(genreRequest);
 

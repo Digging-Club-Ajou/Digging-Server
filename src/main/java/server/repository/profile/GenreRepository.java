@@ -16,6 +16,6 @@ public class GenreRepository {
 
     public void save(final Genre genre){
         genreJpaRepository.save(genre);
-        Systems.out.println(genre.getCreateAt());
+//        System.out.println(genre.getCreateAt());
     }
 }
