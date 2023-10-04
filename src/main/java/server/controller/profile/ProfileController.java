@@ -24,4 +24,5 @@ public class ProfileController {
 //                               @RequestPart final MultipartFile profileImage) {
 //        profileCreateService.createProfiles(memberSession.id(), profileImage);
 //    }
+
 }
