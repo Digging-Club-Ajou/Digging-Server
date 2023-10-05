@@ -11,20 +11,23 @@ import server.global.annotation.Association;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Profile extends BaseTimeEntity {
+public class Album extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "profile_id")
+    @Column(name = "album_id")
     private Long id;
 
     @Association
     private Long memberId;
 
-    private String profileDescription;
+    private String albumName;
+
+    private String albumDescription;
 
     @Builder
-    private Profile(final Long memberId, final String profileDescription) {
+    private Album(final Long memberId, final String albumName, final String albumDescription) {
         this.memberId = memberId;
-        this.profileDescription = profileDescription;
+        this.albumName = albumName;
+        this.albumDescription = albumDescription;
     }
 }

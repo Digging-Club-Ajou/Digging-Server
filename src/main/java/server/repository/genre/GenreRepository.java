@@ -1,4 +1,4 @@
-package server.repository.profile;
+package server.repository.genre;
 
 import org.springframework.stereotype.Repository;
 import server.domain.profile.Genre;

@@ -12,7 +12,7 @@ import server.service.member.DiggingLoginService;
 import server.util.ServiceTest;
 
 import static org.assertj.core.api.Assertions.*;
-import static server.global.constant.LoginConstant.*;
+import static server.global.constant.TextConstant.*;
 import static server.util.TestConstant.*;
 
 class DiggingLoginServiceTest extends ServiceTest {

@@ -9,7 +9,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 
-import static server.global.constant.LoginConstant.MEMBER_SESSION;
+import static server.global.constant.TextConstant.MEMBER_SESSION;
 
 public class LoginArgumentResolver implements HandlerMethodArgumentResolver {
 

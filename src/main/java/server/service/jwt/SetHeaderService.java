@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 
-import static server.global.constant.LoginConstant.ACCESS_TOKEN;
-import static server.global.constant.LoginConstant.REFRESH_TOKEN;
+import static server.global.constant.TextConstant.ACCESS_TOKEN;
+import static server.global.constant.TextConstant.REFRESH_TOKEN;
 import static server.global.constant.TimeConstant.THIRTY_DAY;
 
 @Service

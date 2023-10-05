@@ -1,4 +1,4 @@
-package server.repository.profile;
+package server.repository.genre;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import server.domain.profile.Genre;

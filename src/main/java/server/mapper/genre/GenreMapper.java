@@ -1,9 +1,8 @@
-package server.mapper.profile;
+package server.mapper.genre;
 
 import org.joda.time.DateTime;
 import server.domain.profile.Genre;
-import server.domain.profile.Profile;
-import server.mapper.profile.dto.GenreRequest;
+import server.mapper.genre.dto.GenreRequest;
 
 public class GenreMapper {
     private GenreMapper() {

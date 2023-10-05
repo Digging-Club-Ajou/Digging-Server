@@ -17,10 +17,8 @@ public class KakaoController {
     }
 
     @PostMapping("/kakao")
-
     public void kakaoLogin(@RequestBody final AuthCodeRequest dto,
                            final HttpServletResponse response) {
         kakaoLoginService.kakaoLogin(dto.authCode(), response);
-
     }
 }

@@ -22,7 +22,7 @@ import java.util.Base64;
 
 import static server.global.constant.ExceptionMessage.*;
 import static server.global.constant.JwtKey.JWT_KEY;
-import static server.global.constant.LoginConstant.*;
+import static server.global.constant.TextConstant.*;
 
 public class LoginInterceptor implements HandlerInterceptor {
 

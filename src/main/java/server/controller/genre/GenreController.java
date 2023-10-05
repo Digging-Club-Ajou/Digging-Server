@@ -1,13 +1,12 @@
-package server.controller.profile;
+package server.controller.genre;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import server.domain.profile.Genre;
-import server.mapper.profile.dto.GenreRequest;
-import server.service.profile.GenreService;
+import server.mapper.genre.dto.GenreRequest;
+import server.service.genre.GenreService;
 
 @RequestMapping("/api")
 @RestController

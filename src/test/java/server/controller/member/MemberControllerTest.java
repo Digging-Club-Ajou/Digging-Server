@@ -18,7 +18,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static server.global.constant.LoginConstant.ACCESS_TOKEN;
+import static server.global.constant.TextConstant.ACCESS_TOKEN;
 import static server.util.TestConstant.*;
 
 class MemberControllerTest extends ControllerTest {
