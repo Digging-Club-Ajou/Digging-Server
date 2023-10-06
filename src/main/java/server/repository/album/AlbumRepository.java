@@ -1,7 +1,7 @@
 package server.repository.album;
 
 import org.springframework.stereotype.Repository;
-import server.domain.profile.Album;
+import server.domain.album.Album;
 
 @Repository
 public class AlbumRepository {
@@ -18,5 +18,9 @@ public class AlbumRepository {
 
     public boolean existsByMemberId(final long memberId) {
         return albumJpaRepository.existsByMemberId(memberId);
+    }
+
+    public boolean existsByAlbumName(final String albumName) {
+        return albumJpaRepository.existsByAlbumName(albumName);
     }
 }

@@ -3,7 +3,7 @@ package server.service.genre;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import server.domain.profile.Genre;
+import server.domain.genre.Genre;
 import server.mapper.genre.GenreMapper;
 import server.mapper.genre.dto.GenreRequest;
 import server.repository.genre.GenreRepository;

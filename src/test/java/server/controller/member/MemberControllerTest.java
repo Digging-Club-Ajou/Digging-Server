@@ -13,6 +13,7 @@ import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
@@ -204,6 +205,51 @@ class MemberControllerTest extends ControllerTest {
                                 )
                                 .requestFields(
                                         fieldWithPath("nickname").type(STRING).description("닉네임")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("로그인한 회원의 닉네임 정보를 가져옵니다")
+    void getNicknameSuccess() throws Exception {
+        // given
+        String accessToken = loginCreateNickname();
+
+        // expected
+        mockMvc.perform(get("/api/nickname")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("닉네임 가져오기 성공",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("회원")
+                                .summary("닉네임")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .responseFields(
+                                        fieldWithPath("nickname").type(STRING).description("닉네임")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("로그인하지 않으면 회원의 닉네임을 가져올 수 없습니다")
+    void getNicknameFail() throws Exception {
+        // expected
+        mockMvc.perform(get("/api/nickname"))
+                .andExpect(status().isUnauthorized())
+                .andDo(document("닉네임 가져오기 실패",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("회원")
+                                .summary("닉네임")
+                                .responseFields(
+                                        fieldWithPath("statusCode").type(STRING).description("상태 코드"),
+                                        fieldWithPath("message").type(STRING).description("오류 메세지")
                                 )
                                 .build()
                         )));

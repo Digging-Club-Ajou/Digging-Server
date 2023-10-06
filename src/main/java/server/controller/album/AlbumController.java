@@ -1,15 +1,17 @@
 package server.controller.album;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.mapper.album.AlbumMapper;
+import server.mapper.album.dto.AlbumNameRequest;
 import server.mapper.album.dto.AlbumValidateResponse;
 import server.mapper.album.dto.AlbumImageUrlResponse;
-import server.service.album.AlbumCreateService;
 import server.service.album.AlbumReadService;
 import server.service.album.AlbumValidationService;
+import server.service.album.AlbumCreateService;
 
 @RequestMapping("/api")
 @RestController
@@ -41,8 +43,8 @@ public class AlbumController {
 
     @PostMapping("/albums")
     public void createAlbum(@Login final MemberSession memberSession,
-                            @RequestPart final String albumName,
+                            @RequestPart @Valid final AlbumNameRequest albumNameRequest,
                             @RequestPart final MultipartFile albumImage) {
-        albumCreateService.createAlbum(memberSession.id(), albumName, albumImage);
+        albumCreateService.createAlbum(memberSession, albumNameRequest.albumName(), albumImage);
     }
 }

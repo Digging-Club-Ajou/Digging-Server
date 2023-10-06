@@ -1,7 +1,7 @@
 package server.repository.genre;
 
 import org.springframework.stereotype.Repository;
-import server.domain.profile.Genre;
+import server.domain.genre.Genre;
 
 @Repository
 public class GenreRepository {

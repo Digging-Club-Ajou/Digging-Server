@@ -1,4 +1,4 @@
-package server.domain.profile;
+package server.domain.album;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,14 +20,14 @@ public class Album extends BaseTimeEntity {
     @Association
     private Long memberId;
 
+    private String nickname;
+
     private String albumName;
 
-    private String albumDescription;
-
     @Builder
-    private Album(final Long memberId, final String albumName, final String albumDescription) {
+    private Album(final Long memberId, final String nickname, final String albumName) {
         this.memberId = memberId;
+        this.nickname = nickname;
         this.albumName = albumName;
-        this.albumDescription = albumDescription;
     }
 }

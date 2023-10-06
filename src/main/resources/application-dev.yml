@@ -28,10 +28,10 @@ jwt:
 cloud:
   aws:
     s3:
-      bucket: digging-club
+      bucket: test-value
     credentials:
-      access-key: test-access-key
-      secret-key: test-secret-key
+      access-key: test-value
+      secret-key: test-value
     region:
       static: ap-northeast-2
       auto: false

@@ -1,4 +1,4 @@
-package server.domain.profile;
+package server.domain.genre;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
