@@ -8,7 +8,8 @@ public enum TestConstant {
     TEST_PASSWORD("TestPassword123@"),
     TEST_PHONE_NUMBER("010-1234-5678"),
     TEST_EMAIL("test@gmail.com"),
-    TEST_ACCESS_TOKEN("Test AccessToken");
+    TEST_ACCESS_TOKEN("Test AccessToken"),
+    TEST_URL("https://digging-club-image-testurl");
 
     public final String value;
 

@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
+import server.domain.profile.Album;
+import server.repository.album.AlbumRepository;
 import server.repository.member.MemberRepository;
 import server.service.jwt.JwtFacade;
 
@@ -39,6 +41,9 @@ public abstract class ControllerTest {
 
     @Autowired
     protected MemberRepository memberRepository;
+
+    @Autowired
+    protected AlbumRepository albumRepository;
 
     @Autowired
     protected JwtFacade jwtFacade;
@@ -67,6 +72,38 @@ public abstract class ControllerTest {
         memberRepository.save(member);
 
         // given 2
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        // given 3
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+        String refreshToken = jwtFacade.createRefreshToken(memberSession.id(), ONE_MONTH.value);
+        jwtFacade.saveJwtRefreshToken(memberSession.id(), refreshToken);
+        jwtFacade.setHeader(response, accessToken, refreshToken);
+
+        return response.getHeader(ACCESS_TOKEN.value);
+    }
+
+    protected String loginAndCreateAlbum() {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        Album album = Album.builder()
+                .memberId(member.getId())
+                .build();
+
+        albumRepository.save(album);
+
+        // given 3
         MemberSession memberSession = MemberSession.builder()
                 .id(member.getId())
                 .username(TEST_USERNAME.value)

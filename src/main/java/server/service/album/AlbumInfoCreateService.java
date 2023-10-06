@@ -3,7 +3,7 @@ package server.service.album;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.profile.Album;
-import server.mapper.profile.AlbumMapper;
+import server.mapper.album.AlbumMapper;
 import server.repository.album.AlbumRepository;
 
 @Service
