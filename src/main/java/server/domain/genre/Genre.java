@@ -6,12 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
+import server.domain.BaseTimeEntity;
 import server.global.annotation.Association;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Genre {
+public class Genre extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,30 +22,25 @@ public class Genre {
     @Association
     private Long memberId;
 
-    private int kPop;
+    private boolean kPop;
 
-    private int jPop;
+    private boolean jPop;
 
-    private int rock;
+    private boolean rock;
 
-    private int pop;
+    private boolean pop;
 
-    private DateTime createAt;
-
-    private DateTime lastModifiedAt;
 
 
     @Builder
-    private Genre(final Long memberId, final int kPop, final int jPop, final int rock, final int pop,
-                  final DateTime createAt, final DateTime lastModifiedAt) {
+    private Genre(final Long memberId, final boolean kPop, final boolean jPop, final boolean rock, final boolean pop) {
 
         this.memberId = memberId;
         this.kPop = kPop;
         this.jPop = jPop;
         this.rock = rock;
         this.pop = pop;
-        this.createAt = createAt;
-        this.lastModifiedAt = lastModifiedAt;
+
 
     }
 

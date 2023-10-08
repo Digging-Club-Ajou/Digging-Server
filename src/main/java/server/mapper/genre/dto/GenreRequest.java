@@ -9,13 +9,11 @@ import org.joda.time.DateTime;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record GenreRequest(
         Long id,
-        Long memberId,
-        int kPop,
-        int jPop,
-        int rock,
-        int pop,
-        String createAt,
-        String lastModifiedAt
+        boolean kPop,
+        boolean jPop,
+        boolean rock,
+        boolean pop
+
 ){
 
 }

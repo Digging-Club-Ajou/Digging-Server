@@ -8,15 +8,13 @@ public class GenreMapper {
     private GenreMapper() {
     }
 
-    public static Genre toEntity(GenreRequest genreRequest) {
+    public static Genre toEntity(Long memberId,GenreRequest genreRequest) {
         return Genre.builder()
-                .memberId(genreRequest.memberId())
+                .memberId(memberId)
                 .kPop(genreRequest.kPop())
                 .jPop(genreRequest.jPop())
                 .rock(genreRequest.rock())
                 .pop(genreRequest.pop())
-                .createAt(DateTime.now())
-                .lastModifiedAt(DateTime.now())
                 .build();
     }
 }
