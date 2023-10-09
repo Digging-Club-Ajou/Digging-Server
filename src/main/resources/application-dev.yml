@@ -37,3 +37,8 @@ cloud:
       auto: false
     stack:
       auto: false
+
+spotify:
+  client-id: eb9c2bc88c014e5e9a78cdb743d7a6df
+  client-secret: 0ca8f3e352bd4f8082044c6c5eb64023
+  get-token-url: https://accounts.spotify.com/api/token

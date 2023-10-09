@@ -1,6 +1,5 @@
 package server.controller.album;
 
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.vo.MemberSession;
