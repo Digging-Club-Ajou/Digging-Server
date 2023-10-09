@@ -7,6 +7,7 @@ import server.domain.member.vo.MemberSession;
 import server.mapper.member.dto.KakaoSignupRequest;
 import server.mapper.member.dto.NicknameResponse;
 import server.mapper.member.dto.MemberSignupRequest;
+import server.mapper.member.dto.NicknameValidationResponse;
 
 public class MemberMapper {
 
@@ -44,5 +45,9 @@ public class MemberMapper {
 
     public static NicknameResponse toNicknameResponse(final MemberSession memberSession) {
         return new NicknameResponse(memberSession.nickname());
+    }
+
+    public static NicknameValidationResponse toNicknameValidationResponse(final boolean alreadyExist) {
+        return new NicknameValidationResponse(alreadyExist);
     }
 }

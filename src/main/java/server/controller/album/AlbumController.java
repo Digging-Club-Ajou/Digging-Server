@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
+import server.global.exception.dto.ResultResponse;
 import server.mapper.album.AlbumMapper;
 import server.mapper.album.dto.AlbumNameRequest;
 import server.mapper.album.dto.AlbumValidateResponse;
@@ -29,8 +30,13 @@ public class AlbumController {
         this.albumValidationService = albumValidationService;
     }
 
-    @GetMapping("/albums-validation")
-    public AlbumValidateResponse validationExist(@Login final MemberSession memberSession) {
+    @PostMapping("/albums/name-validation")
+    public ResultResponse validateAlbumName(@RequestBody final AlbumNameRequest dto) {
+        return dto.validateRegex();
+    }
+
+    @PostMapping("/albums-validation")
+    public AlbumValidateResponse validateExist(@Login final MemberSession memberSession) {
         boolean alreadyExist = albumValidationService.validateAlreadyExist(memberSession.id());
         return AlbumMapper.toAlbumValidateResponse(alreadyExist);
     }

@@ -1,11 +1,20 @@
 package server.mapper.member.dto;
 
-import jakarta.validation.constraints.Pattern;
+import server.global.exception.BadRequestException;
 
-import static server.global.constant.AnnotationValidConstant.*;
+import java.util.regex.Pattern;
+
+import static server.global.constant.ExceptionMessage.NICKNAME_REGEX_EXCEPTION;
 
 public record NicknameRequest(
-        @Pattern(regexp = NICKNAME_REGEXP, message = NICKNAME_VALID_MESSAGE)
         String nickname
 ) {
+
+    private static final String NICKNAME_REGEXP = "^[a-zA-Z0-9_.]{2,20}$";
+
+    public void validateRegex() {
+        if (!Pattern.matches(NICKNAME_REGEXP, nickname)) {
+            throw new BadRequestException(NICKNAME_REGEX_EXCEPTION.message);
+        }
+    }
 }
