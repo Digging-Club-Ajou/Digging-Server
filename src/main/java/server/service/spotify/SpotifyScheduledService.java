@@ -10,15 +10,15 @@ import server.global.constant.SpotifyConstant;
 public class SpotifyScheduledService {
 
     private static final int FIFTY_MINUTE = 60 * 1000 * 50;
-    private final SpotifyTokenService spotifyTokenService;
+    private final SpotifyTokenProdService spotifyTokenProdService;
 
-    public SpotifyScheduledService(final SpotifyTokenService spotifyTokenService) {
-        this.spotifyTokenService = spotifyTokenService;
+    public SpotifyScheduledService(final SpotifyTokenProdService spotifyTokenProdService) {
+        this.spotifyTokenProdService = spotifyTokenProdService;
     }
 
     @Scheduled(fixedRate = FIFTY_MINUTE)
     public void updateToken() {
-        String token = spotifyTokenService.getToken();
+        String token = spotifyTokenProdService.getToken();
         SpotifyConstant.updateToken(token);
         log.info("spotify token={}", token);
     }

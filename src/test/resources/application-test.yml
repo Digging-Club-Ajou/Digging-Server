@@ -28,12 +28,17 @@ jwt:
 cloud:
   aws:
     s3:
-      bucket: digging-club
+      bucket: test-value
     credentials:
-      access-key: dev-access-key
-      secret-key: dev-secret-key
+      access-key: test-value
+      secret-key: test-value
     region:
       static: ap-northeast-2
       auto: false
     stack:
       auto: false
+
+spotify:
+  client-id: client-id
+  client-secret: client-secret
+  get-token-url: https://accounts.spotify.com/api/token

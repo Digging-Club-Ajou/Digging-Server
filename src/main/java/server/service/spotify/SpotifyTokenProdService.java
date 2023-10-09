@@ -1,6 +1,5 @@
 package server.service.spotify;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import server.mapper.spotify.SpotifyTokenInfo;
 
 @Service
-public class SpotifyTokenService {
+public class SpotifyTokenProdService {
 
     @Value("${spotify.client-id}")
     private String clientId;
@@ -31,7 +30,7 @@ public class SpotifyTokenService {
 
     private final RestTemplate restTemplate;
 
-    public SpotifyTokenService(final RestTemplate restTemplate) {
+    public SpotifyTokenProdService(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
