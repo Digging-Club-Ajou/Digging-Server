@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.vo.MemberSession;
 import server.global.exception.BadRequestException;
+import server.mapper.album.dto.AlbumNameRequest;
 import server.service.album.AlbumInfoCreateService;
 import server.service.album.AlbumValidationService;
 
@@ -32,7 +33,11 @@ public class AlbumCreateService {
         this.albumInfoCreateService = albumInfoCreateService;
     }
 
-    public void createAlbum(final MemberSession memberSession, final String albumName, final MultipartFile albumImage) {
+    public void createAlbum(final MemberSession memberSession, final AlbumNameRequest dto,
+                            final MultipartFile albumImage) {
+
+        dto.validateRegex();
+        String albumName = dto.albumName();
         validateExist(memberSession.id());
 
         ObjectMetadata objectMetadata = getObjectMetadata(albumImage);

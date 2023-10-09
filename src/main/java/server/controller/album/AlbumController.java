@@ -49,8 +49,8 @@ public class AlbumController {
 
     @PostMapping("/albums")
     public void createAlbum(@Login final MemberSession memberSession,
-                            @RequestPart @Valid final AlbumNameRequest albumNameRequest,
+                            @RequestPart final AlbumNameRequest albumNameRequest,
                             @RequestPart final MultipartFile albumImage) {
-        albumCreateService.createAlbum(memberSession, albumNameRequest.albumName(), albumImage);
+        albumCreateService.createAlbum(memberSession, albumNameRequest, albumImage);
     }
 }
