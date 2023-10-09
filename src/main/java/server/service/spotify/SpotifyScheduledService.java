@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import server.global.constant.SpotifyConstant;
 
 @Slf4j
-@Profile({"prod", "dev"})
+@Profile({"prod"})
 @Service
 public class SpotifyScheduledService {
 
