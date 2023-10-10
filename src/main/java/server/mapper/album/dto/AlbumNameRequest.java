@@ -7,6 +7,7 @@ import server.global.exception.dto.ResultResponse;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.*;
 import static server.global.constant.ExceptionMessage.*;
 import static server.global.constant.StatusCodeConstant.*;
 
@@ -17,15 +18,14 @@ public record AlbumNameRequest(
         private static final String ALBUM_NAME_REGEXP = "^[a-zA-Z0-9가-힣\\s]{1,15}$";
 
         public ResultResponse validateRegex() {
-                Pattern pattern = java.util.regex.Pattern.compile("[^\\p{L}\\p{N}\\p{P}\\p{Z}]",
-                        Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
+                Pattern pattern = compile("[^\\p{L}\\p{N}\\p{Z}]", UNICODE_CASE | CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(albumName);
 
                 if (matcher.find()) {
                         throw new BadRequestException(ALBUM_EMOTICONS_REGEX_EXCEPTION.message);
                 }
 
-                if (!Pattern.matches(ALBUM_NAME_REGEXP, albumName)) {
+                if (!matches(ALBUM_NAME_REGEXP, albumName)) {
                         throw new BadRequestException(ALBUM_NAME_REGEX.message);
                 }
 

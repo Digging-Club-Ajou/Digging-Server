@@ -3,6 +3,7 @@ package server.service.spotify;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import server.mapper.spotify.SpotifySearchDto;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import static server.global.constant.ExceptionMessage.*;
 import static server.global.constant.SpotifyConstant.*;
 
 @Profile({"prod", "dev"})
+@Slf4j
 @Service
 public class SpotifySearchMusicsProdService implements SpotifySearchMusicService {
 
@@ -62,8 +62,7 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
     }
 
     private ResponseEntity<String> getStringResponseEntity(final String search) {
-        String encodedSearch = URLEncoder.encode(search, StandardCharsets.UTF_8);
-        String apiUrl = SPOTIFY_TRACKS_URL + encodedSearch + BASIC_CONDITION;
+        String apiUrl = SPOTIFY_TRACKS_URL + search + BASIC_CONDITION;
         String spotifyAccessToken = server.global.constant.SpotifyConstant.spotifyAccessToken;
 
         HttpHeaders headers = new HttpHeaders();
