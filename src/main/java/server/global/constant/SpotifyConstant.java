@@ -22,4 +22,8 @@ public enum SpotifyConstant {
     public static void updateToken(final String updateToken) {
         spotifyAccessToken = updateToken;
     }
+
+    public static String getSpotifyToken() {
+        return spotifyAccessToken;
+    }
 }

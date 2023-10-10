@@ -50,6 +50,6 @@ public class SpotifyTokenProdService {
 
         SpotifyTokenInfo spotifyTokenInfo = response.getBody();
         assert spotifyTokenInfo != null;
-        return spotifyTokenInfo.access_token();
+        return spotifyTokenInfo.accessToken();
     }
 }

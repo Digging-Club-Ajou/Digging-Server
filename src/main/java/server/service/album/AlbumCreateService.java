@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import static server.global.constant.ExceptionMessage.*;
 import static server.global.constant.ExceptionMessage.PROFILES_SAVE_EXCEPTION;
+import static server.global.constant.TextConstant.ALBUM_IMAGE;
 import static server.global.constant.TextConstant.DIGGING_CLUB;
 
 @Service
@@ -45,7 +46,7 @@ public class AlbumCreateService {
         try {
             PutObjectRequest putObjectRequest = new PutObjectRequest(
                     DIGGING_CLUB.value,
-                    String.valueOf(memberSession.id()),
+                    ALBUM_IMAGE.value + memberSession.id(),
                     albumImage.getInputStream(),
                     objectMetadata
             );

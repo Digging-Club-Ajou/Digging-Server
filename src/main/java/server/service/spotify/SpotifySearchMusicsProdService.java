@@ -47,7 +47,7 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
         }
     }
 
-    private static List<SpotifySearchDto> getSearchDtos(final JsonNode itemsNode) {
+    private List<SpotifySearchDto> getSearchDtos(final JsonNode itemsNode) {
         List<SpotifySearchDto> spotifySearchDtos = new ArrayList<>();
 
         for (JsonNode item : itemsNode) {
@@ -63,7 +63,7 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
 
     private ResponseEntity<String> getStringResponseEntity(final String search) {
         String apiUrl = SPOTIFY_TRACKS_URL + search + BASIC_CONDITION;
-        String spotifyAccessToken = server.global.constant.SpotifyConstant.spotifyAccessToken;
+        String spotifyAccessToken = getSpotifyToken();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(AUTHORIZATION, BEARER + spotifyAccessToken);

@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.Date;
 
 import static server.global.constant.ExceptionMessage.*;
+import static server.global.constant.TextConstant.ALBUM_IMAGE;
 import static server.global.constant.TextConstant.DIGGING_CLUB;
 import static server.global.constant.TimeConstant.*;
 
@@ -35,7 +36,7 @@ public class AlbumReadProdService implements AlbumReadService {
             expiration.setTime(expTimeMillis);
 
             GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                    new GeneratePresignedUrlRequest(DIGGING_CLUB.value, String.valueOf(memberId))
+                    new GeneratePresignedUrlRequest(DIGGING_CLUB.value, ALBUM_IMAGE.value + memberId)
                             .withMethod(HttpMethod.GET)
                             .withExpiration(expiration);
 
