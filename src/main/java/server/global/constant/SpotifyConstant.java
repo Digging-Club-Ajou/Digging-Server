@@ -17,6 +17,7 @@ public enum SpotifyConstant {
     public static final String NAME = "name";
     public static final String ARTISTS = "artists";
     public static final String ALBUM = "album";
+    public static final String PREVIEW_URL = "preview_url";
     public static final String IMAGES = "images";
     public static final String URL = "url";
     public static final String QUERY = "query";

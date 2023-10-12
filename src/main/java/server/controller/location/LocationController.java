@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import server.mapper.location.LocationResponse;
+import server.mapper.location.LocationResult;
+import server.service.location.LocationProdService;
 import server.service.location.LocationService;
 
 import java.util.List;
@@ -20,9 +22,10 @@ public class LocationController {
     }
 
     @GetMapping("/location")
-    public List<LocationResponse> findLocation(@RequestParam final String query,
-                                               @RequestParam final String x,
-                                               @RequestParam final String y) {
-        return locationService.findLocation(query, x, y);
+    public LocationResult findLocation(@RequestParam final String query,
+                                       @RequestParam final String x,
+                                       @RequestParam final String y) {
+        List<LocationResponse> locationResponses = locationService.findLocation(query, x, y);
+        return new LocationResult(locationResponses);
     }
 }

@@ -47,20 +47,6 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
         }
     }
 
-    private List<SpotifySearchDto> getSearchDtos(final JsonNode itemsNode) {
-        List<SpotifySearchDto> spotifySearchDtos = new ArrayList<>();
-
-        for (JsonNode item : itemsNode) {
-            String name = item.path(NAME).asText();
-            String artistName = item.path(ARTISTS).get(ZERO).path(NAME).asText();
-            String imageUrl = item.path(ALBUM).path(IMAGES).get(ZERO).path(URL).asText();
-
-            SpotifySearchDto dto = new SpotifySearchDto(artistName, name, imageUrl);
-            spotifySearchDtos.add(dto);
-        }
-        return spotifySearchDtos;
-    }
-
     private ResponseEntity<String> getStringResponseEntity(final String search) {
         String apiUrl = SPOTIFY_TRACKS_URL + search + BASIC_CONDITION;
         String spotifyAccessToken = getSpotifyToken();
@@ -70,5 +56,20 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
         return restTemplate.exchange(apiUrl, HttpMethod.GET, entity, String.class);
+    }
+
+    private List<SpotifySearchDto> getSearchDtos(final JsonNode itemsNode) {
+        List<SpotifySearchDto> spotifySearchDtos = new ArrayList<>();
+
+        for (JsonNode item : itemsNode) {
+            String name = item.path(NAME).asText();
+            String artistName = item.path(ARTISTS).get(ZERO).path(NAME).asText();
+            String imageUrl = item.path(ALBUM).path(IMAGES).get(ZERO).path(URL).asText();
+            String previewUrl = item.path(PREVIEW_URL).asText();
+
+            SpotifySearchDto dto = new SpotifySearchDto(artistName, name, imageUrl, previewUrl);
+            spotifySearchDtos.add(dto);
+        }
+        return spotifySearchDtos;
     }
 }
