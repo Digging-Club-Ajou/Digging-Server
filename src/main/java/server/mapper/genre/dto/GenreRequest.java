@@ -1,13 +1,15 @@
 package server.mapper.genre.dto;
 
+import lombok.Builder;
 
+@Builder
 public record GenreRequest(
-        Long id,
-        boolean kPop,
-        boolean jPop,
-        boolean rock,
-        boolean pop
-
+        boolean ballade,
+        boolean dance,
+        boolean rockMetal,
+        boolean pop,
+        boolean rapHiphop,
+        boolean folkBlues,
+        boolean indie
 ){
-
 }
