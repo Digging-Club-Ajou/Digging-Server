@@ -1,6 +1,5 @@
 package server.mapper.genre;
 
-import org.joda.time.DateTime;
 import server.domain.genre.Genre;
 import server.mapper.genre.dto.GenreRequest;
 
@@ -8,13 +7,16 @@ public class GenreMapper {
     private GenreMapper() {
     }
 
-    public static Genre toEntity(Long memberId,GenreRequest genreRequest) {
+    public static Genre toEntity(final long memberId, final GenreRequest dto) {
         return Genre.builder()
                 .memberId(memberId)
-                .kPop(genreRequest.kPop())
-                .jPop(genreRequest.jPop())
-                .rock(genreRequest.rock())
-                .pop(genreRequest.pop())
+                .ballade(dto.ballade())
+                .dance(dto.dance())
+                .rockMetal(dto.rockMetal())
+                .pop(dto.pop())
+                .rapHiphop(dto.rapHiphop())
+                .folkBlues(dto.folkBlues())
+                .indie(dto.indie())
                 .build();
     }
 }

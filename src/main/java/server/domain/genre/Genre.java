@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.joda.time.DateTime;
 import server.domain.BaseTimeEntity;
 import server.global.annotation.Association;
 
@@ -16,32 +15,36 @@ public class Genre extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_genre_id")
+    @Column(name = "genre_id")
     private Long id;
 
     @Association
     private Long memberId;
 
-    private boolean kPop;
+    private boolean ballade;
 
-    private boolean jPop;
+    private boolean dance;
 
-    private boolean rock;
+    private boolean rockMetal;
 
     private boolean pop;
 
+    private boolean rapHiphop;
 
+    private boolean folkBlues;
+
+    private boolean indie;
 
     @Builder
-    private Genre(final Long memberId, final boolean kPop, final boolean jPop, final boolean rock, final boolean pop) {
-
+    private Genre(final Long memberId, final boolean ballade, final boolean dance, final boolean rockMetal,
+                 final boolean pop, final boolean rapHiphop, final boolean folkBlues, final boolean indie) {
         this.memberId = memberId;
-        this.kPop = kPop;
-        this.jPop = jPop;
-        this.rock = rock;
+        this.ballade = ballade;
+        this.dance = dance;
+        this.rockMetal = rockMetal;
         this.pop = pop;
-
-
+        this.rapHiphop = rapHiphop;
+        this.folkBlues = folkBlues;
+        this.indie = indie;
     }
-
 }
