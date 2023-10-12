@@ -6,7 +6,8 @@ public enum TextConstant {
     ACCESS_TOKEN("AccessToken"),
     REFRESH_TOKEN("RefreshToken"),
     DIGGING_CLUB("digging-club"),
-    ALBUM_IMAGE("AlbumImage");
+    ALBUM_IMAGE("AlbumImage"),
+    MelodyCard_IMAGE("MelodyCardImage");
 
     public final String value;
 

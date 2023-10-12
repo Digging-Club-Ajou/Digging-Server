@@ -31,8 +31,8 @@ public class InterceptorWebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor(objectMapper, memberRepository, jwtRefreshTokenRepository))
                 .order(1)
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/signup", "/api/login", "/api/kakao-login", "/api/kakao", "/api/genres",
-                        "/api/location");
+                .excludePathPatterns("/api/signup", "/api/login", "/api/kakao-login", "/api/kakao", "/api/genres","/api/melodyCard","/api/location");
+
     }
 
     @Override

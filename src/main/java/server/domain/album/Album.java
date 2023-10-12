@@ -13,7 +13,8 @@ import server.global.annotation.Association;
 @Entity
 public class Album extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "album_id")
     private Long id;
 
@@ -25,7 +26,7 @@ public class Album extends BaseTimeEntity {
     private String albumName;
 
     @Builder
-    private Album(final Long memberId, final String nickname, final String albumName) {
+    public Album(final Long memberId, final String nickname, final String albumName) {
         this.memberId = memberId;
         this.nickname = nickname;
         this.albumName = albumName;
