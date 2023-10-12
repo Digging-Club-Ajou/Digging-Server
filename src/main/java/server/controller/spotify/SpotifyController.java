@@ -1,9 +1,6 @@
 package server.controller.spotify;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import server.mapper.spotify.SpotifyMusicResult;
 import server.mapper.spotify.SpotifySearchDto;
 import server.service.spotify.SpotifySearchMusicService;
@@ -24,5 +21,10 @@ public class SpotifyController {
     public SpotifyMusicResult getMusics(@RequestParam final String search) {
         List<SpotifySearchDto> spotifySearchDtos = spotifySearchMusicService.searchTracks(search);
         return new SpotifyMusicResult(spotifySearchDtos);
+    }
+
+    @PutMapping("/musics")
+    public void putMusics(@RequestParam final String url){
+
     }
 }

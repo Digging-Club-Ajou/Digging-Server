@@ -23,7 +23,7 @@ public class GenreService {
     }
 
     @Transactional
-    public void saveUserGenre(final long memberId,GenreRequest genreRequest) throws JsonProcessingException {
+    public void saveUserGenre(final long memberId,GenreRequest genreRequest) {
 
         Genre genre = GenreMapper.toEntity(memberId, genreRequest);
         genreRepository.save(genre);

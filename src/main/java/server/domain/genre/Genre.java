@@ -30,8 +30,6 @@ public class Genre extends BaseTimeEntity {
 
     private boolean pop;
 
-
-
     @Builder
     private Genre(final Long memberId, final boolean kPop, final boolean jPop, final boolean rock, final boolean pop) {
 
@@ -40,8 +38,6 @@ public class Genre extends BaseTimeEntity {
         this.jPop = jPop;
         this.rock = rock;
         this.pop = pop;
-
-
     }
 
 }

@@ -8,7 +8,7 @@ public class GenreMapper {
     private GenreMapper() {
     }
 
-    public static Genre toEntity(Long memberId,GenreRequest genreRequest) {
+    public static Genre toEntity(final Long memberId, final GenreRequest genreRequest) {
         return Genre.builder()
                 .memberId(memberId)
                 .kPop(genreRequest.kPop())
