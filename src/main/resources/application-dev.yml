@@ -42,3 +42,6 @@ spotify:
   client-id: client-id
   client-secret: client-secret
   get-token-url: https://accounts.spotify.com/api/token
+
+kakao:
+  rest-api: kakao-rest-api
