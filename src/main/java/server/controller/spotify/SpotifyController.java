@@ -23,8 +23,4 @@ public class SpotifyController {
         return new SpotifyMusicResult(spotifySearchDtos);
     }
 
-    @PutMapping("/musics")
-    public void putMusics(@RequestParam final String url){
-
-    }
 }

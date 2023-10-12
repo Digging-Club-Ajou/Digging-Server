@@ -16,7 +16,6 @@ public class MelodyCardMapper {
     }
     public static MelodyCard toEntity(final Album album, final MelodyCardRequest melodyCardRequest) {
 
-
         return MelodyCard.builder()
                 .albumId(album.getId())
                 .singer(melodyCardRequest.singer())
@@ -28,6 +27,8 @@ public class MelodyCardMapper {
                 .color(melodyCardRequest.color())
                 .build();
     }
+
+
 
     public static MelodyCardImageUrlResponse toMelodyCardImageUrlResponse(final String imageUrl) {
         return new MelodyCardImageUrlResponse(imageUrl);
