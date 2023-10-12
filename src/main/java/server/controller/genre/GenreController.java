@@ -21,7 +21,7 @@ public class GenreController {
     }
 
     @PostMapping("/genres")
-    public void createGenre(@Login final MemberSession memberSession, @RequestBody GenreRequest genreRequest) throws JsonProcessingException {
+    public void createGenre(@Login final MemberSession memberSession, @RequestBody final GenreRequest genreRequest) {
         System.out.println(genreRequest.toString());
         genreService.saveUserGenre(memberSession.id(),genreRequest);
 

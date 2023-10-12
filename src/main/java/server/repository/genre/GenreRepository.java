@@ -6,7 +6,7 @@ import server.domain.genre.Genre;
 @Repository
 public class GenreRepository {
 
-    private GenreJpaRepository genreJpaRepository;
+    private final GenreJpaRepository genreJpaRepository;
 
     public GenreRepository(final GenreJpaRepository genreJpaRepository){
         this.genreJpaRepository = genreJpaRepository;
