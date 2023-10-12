@@ -1,6 +1,5 @@
 package server.controller.genre;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +20,8 @@ public class GenreController {
     }
 
     @PostMapping("/genres")
-    public void createGenre(@Login final MemberSession memberSession, @RequestBody final GenreRequest genreRequest) {
-        System.out.println(genreRequest.toString());
+    public void createGenre(@Login final MemberSession memberSession,
+                            @RequestBody final GenreRequest genreRequest) {
         genreService.saveUserGenre(memberSession.id(),genreRequest);
-
     }
 }

@@ -10,12 +10,9 @@ public class GenreRepository {
 
     public GenreRepository(final GenreJpaRepository genreJpaRepository){
         this.genreJpaRepository = genreJpaRepository;
-
     }
-
 
     public void save(final Genre genre){
         genreJpaRepository.save(genre);
-//        System.out.println(genre.getCreateAt());
     }
 }

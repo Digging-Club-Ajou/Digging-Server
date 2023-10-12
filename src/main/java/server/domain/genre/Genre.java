@@ -36,7 +36,7 @@ public class Genre extends BaseTimeEntity {
     private boolean indie;
 
     @Builder
-    private Genre(final Long memberId, final boolean ballade, final boolean dance, final boolean rockMetal,
+    private Genre(final long memberId, final boolean ballade, final boolean dance, final boolean rockMetal,
                  final boolean pop, final boolean rapHiphop, final boolean folkBlues, final boolean indie) {
         this.memberId = memberId;
         this.ballade = ballade;
