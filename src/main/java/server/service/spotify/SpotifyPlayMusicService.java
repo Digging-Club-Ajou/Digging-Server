@@ -22,7 +22,7 @@ public class SpotifyPlayMusicService {
     }
 
     @SneakyThrows
-    public String playMusic(String id){
+    public SpotifyTrackPreviewURL playMusic(String id){
 
         HttpHeaders headers = new HttpHeaders();
 //        headers.add("id", id);

@@ -3,6 +3,7 @@ package server.controller.spotify;
 import org.springframework.web.bind.annotation.*;
 import server.mapper.spotify.SpotifyMusicResult;
 import server.mapper.spotify.SpotifySearchDto;
+import server.mapper.spotify.SpotifyTrackPreviewURL;
 import server.service.spotify.SpotifyPlayMusicService;
 import server.service.spotify.SpotifySearchMusicService;
 
@@ -25,5 +26,6 @@ public class SpotifyController {
         List<SpotifySearchDto> spotifySearchDtos = spotifySearchMusicService.searchTracks(search);
         return new SpotifyMusicResult(spotifySearchDtos);
     }
+
 
 }
