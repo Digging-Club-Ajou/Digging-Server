@@ -17,6 +17,7 @@ public class MelodyCardRepository {
 
     public Optional<MelodyCard> findByAlbumId(Long albumId){return melodyCardJpaRepository.findByAlbumId(albumId);}
     public void save (MelodyCard melodyCard){
+
         melodyCardJpaRepository.save(melodyCard);
     }
 
