@@ -20,4 +20,5 @@ public class MelodyCardInfoCreateService {
         MelodyCard melodyCard = MelodyCardMapper.toEntity(album, dto);
         melodyCardRepository.save(melodyCard);
     }
+
 }

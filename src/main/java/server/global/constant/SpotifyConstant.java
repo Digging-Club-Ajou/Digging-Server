@@ -7,7 +7,9 @@ public enum SpotifyConstant {
 
     public static String spotifyAccessToken;
     public static final String SPOTIFY_TRACKS_URL = "https://api.spotify.com/v1/search?q=";
+
     public static final String KAKAO_LOCATION_KEYWORD_URL = "https://dapi.kakao.com/v2/local/search/keyword";
+
     public static final String BASIC_CONDITION = "&type=track&limit=30";
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
@@ -30,6 +32,8 @@ public enum SpotifyConstant {
     public static final String Y = "y";
     public static final String M = "m";
     public static final int ZERO = 0;
+
+    public static final String countryCode = "KR";
 
     public static void updateToken(final String updateToken) {
         spotifyAccessToken = updateToken;
