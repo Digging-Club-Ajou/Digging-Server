@@ -30,14 +30,13 @@ public class MelodyCardController {
     }
 
     @PostMapping("/melodyCard")
-    public ResponseEntity<String> createMelodyCard(
+    public void createMelodyCard(
             @Login final MemberSession memberSession,
             @RequestPart final MelodyCardRequest melodyCardRequest,
             @RequestPart final MultipartFile melodyImage){
 
         melodyCardService.createMelodyCard(memberSession,melodyCardRequest, melodyImage);
 
-        return new ResponseEntity<> ("success", HttpStatus.CREATED);
     }
 
 }

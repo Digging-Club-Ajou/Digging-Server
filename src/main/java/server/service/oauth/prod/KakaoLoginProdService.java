@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -18,12 +18,19 @@ import server.mapper.member.dto.KakaoToken;
 import server.service.member.DiggingLoginService;
 import server.service.oauth.KakaoLoginService;
 
+import static server.global.constant.KakaoConstant.*;
+
 @Profile({"prod", "dev"})
 @Service
 public class KakaoLoginProdService implements KakaoLoginService {
 
     private final DiggingLoginService diggingLoginService;
 
+    @Value("https://kapi.kakao.com/v2/user/me")
+    private String getProfileURL;
+
+    @Value("https://kauth.kakao.com/oauth/token")
+    private String getAccessTokenURL;
     public KakaoLoginProdService(final DiggingLoginService diggingLoginService) {
         this.diggingLoginService = diggingLoginService;
     }
@@ -39,14 +46,14 @@ public class KakaoLoginProdService implements KakaoLoginService {
 
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add(CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("grant_type", "authorization_code");
-        body.add("client_id", "590bb77122a44a817acaabfe3a5ea8fc");
-        body.add("redirect_uri", "https://diggle.com/oauth");
-        body.add("code", authCode);
+        body.add(GRANT_TYPE, AUTHORIZATION_CODE);
+        body.add(CLIENT_ID, KAKAO_CLIENT_ID);
+        body.add(REDIRECT_URI, KAKAO_REDIRECT_URI);
+        body.add(CODE, authCode);
 
 
         // HTTP 요청 보내기
@@ -54,7 +61,7 @@ public class KakaoLoginProdService implements KakaoLoginService {
 
         RestTemplate rt = new RestTemplate();
         ResponseEntity<String> response = rt.exchange(
-                "https://kauth.kakao.com/oauth/token",
+                getAccessTokenURL,
                 HttpMethod.POST,
                 kakaoTokenRequest,
                 String.class
@@ -71,15 +78,15 @@ public class KakaoLoginProdService implements KakaoLoginService {
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
 
-        String header = "Bearer "+ accessToken;
-        headers.add("Authorization", header);
-        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        String header = BEARER + accessToken;
+        headers.add(AUTHORIZATION, header);
+        headers.add(CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 
         // HTTP 요청 보내기
         HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
         RestTemplate rt = new RestTemplate();
         ResponseEntity<String> response = rt.exchange(
-                "https://kapi.kakao.com/v2/user/me",
+                getProfileURL,
                 HttpMethod.POST,
                 kakaoProfileRequest,
                 String.class
@@ -89,10 +96,12 @@ public class KakaoLoginProdService implements KakaoLoginService {
         String responseBody = response.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         KakaoProfile kakaoProfile = objectMapper.readValue(responseBody,KakaoProfile.class);
-        Gender gender = kakaoProfile.kakao_account().gender() == "male"?Gender.MALE:Gender.FEMALE;
+        Gender gender = Gender.getGender(kakaoProfile.kakao_account().gender());
         KakaoSignupRequest kakaoSignupRequest = new KakaoSignupRequest(kakaoProfile.kakao_account().email(), kakaoProfile.kakao_account().phoneNumber(),gender);
 
         return kakaoSignupRequest;
     }
+
+
 
 }
