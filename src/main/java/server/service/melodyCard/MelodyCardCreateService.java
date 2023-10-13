@@ -50,11 +50,12 @@ public class MelodyCardCreateService implements MelodyCardReadService {
 
         if(albums.isEmpty()){
             throw new BadRequestException(ALBUM_NOT_EXIST.message);
+
         }
 
         Album album = albumRepository.getByMemberId(memberSession.id());
-
         Optional<MelodyCard> melodyCards = melodyCardRepository.findByAlbumId(album.getId());
+
 
         if(melodyCards.stream().count()>=10){
             throw new BadRequestException(MELODY_CARD_LIMIT.message);
@@ -62,6 +63,7 @@ public class MelodyCardCreateService implements MelodyCardReadService {
 
         ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
         try {
+
             PutObjectRequest putObjectRequest = new PutObjectRequest(
                     DIGGING_CLUB.value,
                     MelodyCard_IMAGE.value + album.getId(),

@@ -22,4 +22,6 @@ public class SpotifyController {
         List<SpotifySearchDto> spotifySearchDtos = spotifySearchMusicService.searchTracks(search);
         return new SpotifyMusicResult(spotifySearchDtos);
     }
+
+
 }
