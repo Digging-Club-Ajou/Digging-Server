@@ -3,8 +3,6 @@ package server.controller.spotify;
 import org.springframework.web.bind.annotation.*;
 import server.mapper.spotify.SpotifyMusicResult;
 import server.mapper.spotify.SpotifySearchDto;
-import server.mapper.spotify.SpotifyTrackPreviewURL;
-import server.service.spotify.SpotifyPlayMusicService;
 import server.service.spotify.SpotifySearchMusicService;
 
 import java.util.List;
@@ -14,11 +12,9 @@ import java.util.List;
 public class SpotifyController {
 
     private final SpotifySearchMusicService spotifySearchMusicService;
-    private final SpotifyPlayMusicService spotifyPlayMusicService;
 
-    public SpotifyController(final SpotifySearchMusicService spotifySearchMusicService, final SpotifyPlayMusicService spotifyPlayMusicService) {
+    public SpotifyController(final SpotifySearchMusicService spotifySearchMusicService) {
         this.spotifySearchMusicService = spotifySearchMusicService;
-        this.spotifyPlayMusicService = spotifyPlayMusicService;
     }
 
     @GetMapping("/musics")

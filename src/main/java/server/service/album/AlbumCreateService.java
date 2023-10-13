@@ -53,6 +53,7 @@ public class AlbumCreateService {
 
             amazonS3Client.putObject(putObjectRequest);
             albumInfoCreateService.createProfileInfo(memberSession, albumName);
+
         } catch (IOException e) {
             throw new BadRequestException(PROFILES_SAVE_EXCEPTION.message);
         }
