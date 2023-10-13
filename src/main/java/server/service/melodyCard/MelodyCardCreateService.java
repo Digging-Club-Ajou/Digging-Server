@@ -15,7 +15,6 @@ import server.global.exception.BadRequestException;
 import server.mapper.melodyCard.dto.MelodyCardRequest;
 import server.repository.album.AlbumRepository;
 import server.repository.melodyCard.MelodyCardRepository;
-import server.service.album.AlbumValidationService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,7 +56,7 @@ public class MelodyCardCreateService implements MelodyCardReadService {
         Optional<MelodyCard> melodyCards = melodyCardRepository.findByAlbumId(album.getId());
 
 
-        if(melodyCards.stream().count()>=10){
+        if(melodyCards.stream().count()>10){
             throw new BadRequestException(MELODY_CARD_LIMIT.message);
         }
 
@@ -66,7 +65,7 @@ public class MelodyCardCreateService implements MelodyCardReadService {
 
             PutObjectRequest putObjectRequest = new PutObjectRequest(
                     DIGGING_CLUB.value,
-                    MelodyCard_IMAGE.value + album.getId(),
+                    MELODYCARD_IMAGE.value + album.getId(),
                     melodyCardImage.getInputStream(),
                     objectMetadata
             );
@@ -88,7 +87,7 @@ public class MelodyCardCreateService implements MelodyCardReadService {
         expiration.setTime(expTimeMillis);
 
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(DIGGING_CLUB.value, MelodyCard_IMAGE.value + memberId)
+                new GeneratePresignedUrlRequest(DIGGING_CLUB.value, MELODYCARD_IMAGE.value + memberId)
                         .withMethod(HttpMethod.GET)
                         .withExpiration(expiration);
 
