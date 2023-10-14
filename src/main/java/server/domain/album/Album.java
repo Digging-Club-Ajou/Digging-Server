@@ -26,7 +26,7 @@ public class Album extends BaseTimeEntity {
     private String albumName;
 
     @Builder
-    public Album(final Long memberId, final String nickname, final String albumName) {
+    private Album(final Long memberId, final String nickname, final String albumName) {
         this.memberId = memberId;
         this.nickname = nickname;
         this.albumName = albumName;

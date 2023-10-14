@@ -14,12 +14,10 @@ import server.global.annotation.Association;
 @Entity
 public class MelodyCard extends BaseTimeEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profile_melodyCard_id")
     private Long id;
-
 
     @Association
     private Long albumId;
@@ -37,7 +35,6 @@ public class MelodyCard extends BaseTimeEntity {
     private String cardDescription;
 
     private String color;
-
 
     @Builder
     private MelodyCard(final Long albumId, final String singer, final String songTitle,
