@@ -1,4 +1,4 @@
-package server.mapper.melodyCard.dto;
+package server.mapper.melody_card.dto;
 
 public record MelodyCardRequest (
         String singer,

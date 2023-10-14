@@ -1,12 +1,11 @@
-package server.service.melodyCard;
+package server.service.melody_card;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import server.domain.album.Album;
-import server.domain.melodyCard.MelodyCard;
-import server.mapper.melodyCard.MelodyCardMapper;
-import server.mapper.melodyCard.dto.MelodyCardRequest;
-import server.repository.melodyCard.MelodyCardRepository;
+import server.domain.melody_card.MelodyCard;
+import server.mapper.melody_card.MelodyCardMapper;
+import server.mapper.melody_card.dto.MelodyCardRequest;
+import server.repository.melody_card.MelodyCardRepository;
 
 @Service
 public class MelodyCardInfoCreateService {

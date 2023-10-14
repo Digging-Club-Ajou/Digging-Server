@@ -1,18 +1,19 @@
-package server.service.melodyCard;
+package server.service.melody_card;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.album.Album;
-import server.domain.melodyCard.MelodyCard;
+import server.domain.melody_card.MelodyCard;
 import server.domain.member.vo.MemberSession;
 import server.global.exception.BadRequestException;
-import server.mapper.melodyCard.dto.MelodyCardRequest;
-import server.mapper.melodyCard.dto.MelodyCardResponse;
+import server.mapper.melody_card.dto.MelodyCardRequest;
+import server.mapper.melody_card.dto.MelodyCardResponse;
 import server.repository.album.AlbumRepository;
 
 import java.io.IOException;
@@ -25,18 +26,19 @@ import static server.global.constant.ExceptionMessage.*;
 import static server.global.constant.TextConstant.*;
 import static server.global.constant.TimeConstant.ONE_HOUR;
 
+@Profile({"prod", "dev"})
 @Service
-public class MelodyCardCreateService {
+public class MelodyCardCreateProdService implements MelodyCardCreateService {
 
     private final AmazonS3 amazonS3Client;
     private final MelodyCardInfoCreateService melodyCardInfoCreateService;
     private final MelodyCardFindService melodyCardFindService;
     private final AlbumRepository albumRepository;
 
-    public MelodyCardCreateService(final AmazonS3 amazonS3Client,
-                                   final MelodyCardInfoCreateService melodyCardInfoCreateService,
-                                   final MelodyCardFindService melodyCardFindService,
-                                   final AlbumRepository albumRepository) {
+    public MelodyCardCreateProdService(final AmazonS3 amazonS3Client,
+                                       final MelodyCardInfoCreateService melodyCardInfoCreateService,
+                                       final MelodyCardFindService melodyCardFindService,
+                                       final AlbumRepository albumRepository) {
         this.amazonS3Client = amazonS3Client;
         this.melodyCardInfoCreateService = melodyCardInfoCreateService;
         this.melodyCardFindService = melodyCardFindService;

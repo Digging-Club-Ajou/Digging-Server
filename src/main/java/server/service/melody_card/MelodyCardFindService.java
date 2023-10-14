@@ -1,15 +1,15 @@
-package server.service.melodyCard;
+package server.service.melody_card;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.album.Album;
-import server.domain.melodyCard.MelodyCard;
+import server.domain.melody_card.MelodyCard;
 import server.domain.member.vo.MemberSession;
 import server.global.exception.BadRequestException;
-import server.mapper.melodyCard.MelodyCardMapper;
-import server.mapper.melodyCard.dto.MelodyCardResponse;
+import server.mapper.melody_card.MelodyCardMapper;
+import server.mapper.melody_card.dto.MelodyCardResponse;
 import server.repository.album.AlbumRepository;
-import server.repository.melodyCard.MelodyCardRepository;
+import server.repository.melody_card.MelodyCardRepository;
 
 import java.util.List;
 

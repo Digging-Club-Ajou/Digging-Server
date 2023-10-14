@@ -1,11 +1,11 @@
-package server.mapper.melodyCard;
+package server.mapper.melody_card;
 
-import server.domain.melodyCard.MelodyCard;
+import server.domain.melody_card.MelodyCard;
 import server.domain.member.vo.MemberSession;
-import server.mapper.melodyCard.dto.MelodyCardImageUrlResponse;
-import server.mapper.melodyCard.dto.MelodyCardImageUrlResponses;
-import server.mapper.melodyCard.dto.MelodyCardRequest;
-import server.mapper.melodyCard.dto.MelodyCardResponse;
+import server.mapper.melody_card.dto.MelodyCardImageUrlResponse;
+import server.mapper.melody_card.dto.MelodyCardImageUrlResponses;
+import server.mapper.melody_card.dto.MelodyCardRequest;
+import server.mapper.melody_card.dto.MelodyCardResponse;
 
 import java.util.List;
 

@@ -1,8 +1,7 @@
-package server.repository.melodyCard;
+package server.repository.melody_card;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import server.domain.album.Album;
-import server.domain.melodyCard.MelodyCard;
+import server.domain.melody_card.MelodyCard;
 
 import java.util.List;
 import java.util.Optional;

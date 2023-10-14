@@ -1,8 +1,8 @@
-package server.repository.melodyCard;
+package server.repository.melody_card;
 
 
 import org.springframework.stereotype.Repository;
-import server.domain.melodyCard.MelodyCard;
+import server.domain.melody_card.MelodyCard;
 import server.global.exception.NotFoundException;
 
 import java.util.List;

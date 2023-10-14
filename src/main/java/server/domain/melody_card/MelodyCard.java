@@ -1,4 +1,4 @@
-package server.domain.melodyCard;
+package server.domain.melody_card;
 
 
 import jakarta.persistence.*;
