@@ -30,11 +30,11 @@ public class MelodyCardControllerTest extends ControllerTest {
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("회원의 멜로디 카드 리스트 가져오기",
+                .andDo(document("멜로디 카드 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("멜로디 카드")
-                                .summary("회원의 멜로디 카드 리스트 가져오기")
+                                .summary("멜로디 카드 가져오기")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
@@ -64,7 +64,7 @@ public class MelodyCardControllerTest extends ControllerTest {
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("멜로디 카드 가져오기",
+                .andDo(document("멜로디 카드 리스트 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("멜로디 카드")
