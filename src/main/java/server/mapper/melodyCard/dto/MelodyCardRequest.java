@@ -8,7 +8,5 @@ public record MelodyCardRequest (
         String address,
         String cardDescription,
         String color
-
 ){
-
 }

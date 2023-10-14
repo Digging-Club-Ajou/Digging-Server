@@ -1,32 +1,36 @@
 package server.controller.melodyCard;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
-import server.mapper.melodyCard.MelodyCardMapper;
-import server.mapper.melodyCard.dto.MelodyCardImageUrlResponse;
 import server.mapper.melodyCard.dto.MelodyCardRequest;
+import server.mapper.melodyCard.dto.MelodyCardResponse;
 import server.service.melodyCard.MelodyCardCreateService;
+
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
 public class MelodyCardController {
-    MelodyCardCreateService melodyCardService;
-
+    private final MelodyCardCreateService melodyCardService;
 
     public MelodyCardController(MelodyCardCreateService melodyCardService) {
         this.melodyCardService = melodyCardService;
     }
 
+    @GetMapping("/melodyCard/{melodyCardId}")
+    public MelodyCardResponse getMelodyCardImage(@Login final MemberSession memberSession,
+                                                 @PathVariable final long melodyCardId) {
+        return melodyCardService.getMelodyCardInfo(memberSession, melodyCardId);
+    }
 
-    @GetMapping("/melodyCard-image")
-    public MelodyCardImageUrlResponse getMelodyCardImage(@Login final MemberSession memberSession) {
-        String imageUrl = melodyCardService.getMelodyCardImageUrl(memberSession.id());
-        return MelodyCardMapper.toMelodyCardImageUrlResponse(imageUrl);
+    @GetMapping("/melodyCard")
+    public List<MelodyCardResponse> getMelodyCardImages(@Login final MemberSession memberSession) {
+        return melodyCardService.getMelodyCardImageUrls(memberSession);
     }
 
     @PostMapping("/melodyCard")
@@ -34,9 +38,6 @@ public class MelodyCardController {
             @Login final MemberSession memberSession,
             @RequestPart final MelodyCardRequest melodyCardRequest,
             @RequestPart final MultipartFile melodyImage){
-
-        melodyCardService.createMelodyCard(memberSession,melodyCardRequest, melodyImage);
-
+        melodyCardService.createMelodyCard(memberSession.id(), melodyCardRequest, melodyImage);
     }
-
 }
