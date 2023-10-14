@@ -41,10 +41,10 @@ public class MelodyCardControllerTest extends ControllerTest {
                                 .responseFields(
                                         fieldWithPath("memberId").type(NUMBER).description("회원 id"),
                                         fieldWithPath("nickname").type(STRING).description("닉네임"),
-                                        fieldWithPath("singer").type(STRING).description("가수"),
+                                        fieldWithPath("artistName").type(STRING).description("가수"),
                                         fieldWithPath("songTitle").type(STRING).description("노래 제목"),
                                         fieldWithPath("imageUrl").type(STRING).description("이미지 url"),
-                                        fieldWithPath("streamingLink").type(STRING).description("스트리밍 url"),
+                                        fieldWithPath("previewUrl").type(STRING).description("스트리밍 url"),
                                         fieldWithPath("address").type(STRING).description("주소"),
                                         fieldWithPath("cardDescription").type(STRING).description("카드 설명"),
                                         fieldWithPath("color").type(STRING).description("색상")
@@ -77,13 +77,13 @@ public class MelodyCardControllerTest extends ControllerTest {
                                                 .description("회원 id"),
                                         fieldWithPath("melodyCardResponses[0].nickname").type(STRING)
                                                 .description("닉네임"),
-                                        fieldWithPath("melodyCardResponses[0].singer").type(STRING)
+                                        fieldWithPath("melodyCardResponses[0].artistName").type(STRING)
                                                 .description("가수"),
                                         fieldWithPath("melodyCardResponses[0].songTitle").type(STRING)
                                                 .description("노래 제목"),
                                         fieldWithPath("melodyCardResponses[0].imageUrl").type(STRING)
                                                 .description("이미지 url"),
-                                        fieldWithPath("melodyCardResponses[0].streamingLink").type(STRING)
+                                        fieldWithPath("melodyCardResponses[0].previewUrl").type(STRING)
                                                 .description("스트리밍 url"),
                                         fieldWithPath("melodyCardResponses[0].address").type(STRING)
                                                 .description("주소"),

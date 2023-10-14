@@ -27,10 +27,10 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
         return MelodyCardResponse.builder()
                 .memberId(1L)
                 .nickname("testnickname123")
-                .singer("NewJeans")
+                .artistName("NewJeans")
                 .songTitle("Super Shy")
                 .imageUrl("https://i.scdn.co/image/ab67616d0000b2733d98a0ae7c78a3a9babaf8af")
-                .streamingLink("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
+                .previewUrl("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
                         "cid=eb9c2bc88c014e5e9a78cdb743d7a6df")
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명")
@@ -43,10 +43,10 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
         MelodyCardResponse melodyCardResponse1 = MelodyCardResponse.builder()
                 .memberId(1L)
                 .nickname("testnickname123")
-                .singer("NewJeans")
+                .artistName("NewJeans")
                 .songTitle("Super Shy")
                 .imageUrl("https://i.scdn.co/image/ab67616d0000b2733d98a0ae7c78a3a9babaf8af")
-                .streamingLink("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
+                .previewUrl("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
         "cid=eb9c2bc88c014e5e9a78cdb743d7a6df")
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명1")
@@ -56,10 +56,10 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
         MelodyCardResponse melodyCardResponse2 = MelodyCardResponse.builder()
                 .memberId(1L)
                 .nickname("testnickname123")
-                .singer("NewJeans")
+                .artistName("NewJeans")
                 .songTitle("Super Shy2")
                 .imageUrl("https://i.scdn.co/image/ab67616d0000b2733d98a0ae7c78a3a9babaf8af")
-                .streamingLink("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
+                .previewUrl("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
                         "cid=eb9c2bc88c014e5e9a78cdb743d7a6df")
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명2")
@@ -69,10 +69,10 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
         MelodyCardResponse melodyCardResponse3 = MelodyCardResponse.builder()
                 .memberId(1L)
                 .nickname("testnickname123")
-                .singer("NewJeans")
+                .artistName("NewJeans")
                 .songTitle("Super Shy3")
                 .imageUrl("https://i.scdn.co/image/ab67616d0000b2733d98a0ae7c78a3a9babaf8af")
-                .streamingLink("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
+                .previewUrl("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
                         "cid=eb9c2bc88c014e5e9a78cdb743d7a6df")
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명3")

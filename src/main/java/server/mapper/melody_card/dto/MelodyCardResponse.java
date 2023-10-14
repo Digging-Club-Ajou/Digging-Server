@@ -8,26 +8,26 @@ public class MelodyCardResponse {
 
     private long memberId;
     private String nickname;
-    private String singer;
+    private String artistName;
     private String songTitle;
-    private String streamingLink;
+    private String previewUrl;
+    private String imageUrl;
     private String address;
     private String cardDescription;
     private String color;
-    private String imageUrl;
 
     protected MelodyCardResponse() {
     }
 
     @Builder
-    private MelodyCardResponse(final long memberId, final String nickname, final String singer,
-                              final String songTitle, final String streamingLink, final String address,
+    private MelodyCardResponse(final long memberId, final String nickname, final String artistName,
+                              final String songTitle, final String previewUrl, final String address,
                               final String cardDescription, final String color, final String imageUrl) {
         this.memberId = memberId;
         this.nickname = nickname;
-        this.singer = singer;
+        this.artistName = artistName;
         this.songTitle = songTitle;
-        this.streamingLink = streamingLink;
+        this.previewUrl = previewUrl;
         this.address = address;
         this.cardDescription = cardDescription;
         this.color = color;
