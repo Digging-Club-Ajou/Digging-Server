@@ -8,7 +8,7 @@ public enum TextConstant {
     DIGGING_CLUB("digging-club"),
     ALBUM_IMAGE("AlbumImage"),
     MELODY_CARD_IMAGE("MelodyCardImage");
-
+  
     public final String value;
 
     TextConstant(final String value) {
