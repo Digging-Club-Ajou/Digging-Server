@@ -1,8 +1,5 @@
 package server.controller.melodyCard;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.vo.MemberSession;
@@ -22,18 +19,18 @@ public class MelodyCardController {
         this.melodyCardService = melodyCardService;
     }
 
-    @GetMapping("/melodyCard/{melodyCardId}")
+    @GetMapping("/melody-cards/{melodyCardId}")
     public MelodyCardResponse getMelodyCardImage(@Login final MemberSession memberSession,
                                                  @PathVariable final long melodyCardId) {
         return melodyCardService.getMelodyCardInfo(memberSession, melodyCardId);
     }
 
-    @GetMapping("/melodyCard")
+    @GetMapping("/melody-cards")
     public List<MelodyCardResponse> getMelodyCardImages(@Login final MemberSession memberSession) {
         return melodyCardService.getMelodyCardImageUrls(memberSession);
     }
 
-    @PostMapping("/melodyCard")
+    @PostMapping("/melody-cards")
     public void createMelodyCard(
             @Login final MemberSession memberSession,
             @RequestPart final MelodyCardRequest melodyCardRequest,

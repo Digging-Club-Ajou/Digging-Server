@@ -14,7 +14,6 @@ import server.global.exception.BadRequestException;
 import server.mapper.melodyCard.dto.MelodyCardRequest;
 import server.mapper.melodyCard.dto.MelodyCardResponse;
 import server.repository.album.AlbumRepository;
-import server.repository.melodyCard.MelodyCardRepository;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,34 +49,12 @@ public class MelodyCardCreateService {
         List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
         Album album = albumRepository.getByMemberId(memberId);
         MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album.getId(), dto);
-    }
-
-    @Transactional
-    public void createMelodyCard(final MemberSession memberSession, final MelodyCardRequest dto, final MultipartFile melodyCardImage) {
-
-        Optional<Album> albums = albumRepository.findByMemberId(memberSession.id());
-
-        if(albums.isEmpty()){
-            throw new BadRequestException(ALBUM_NOT_EXIST.message);
-
-        }
-
-        Album album = albumRepository.getByMemberId(memberSession.id());
-        Optional<MelodyCard> melodyCards = melodyCardRepository.findByAlbumId(album.getId());
-
-
-        if(melodyCards.stream().count()>10){
-            throw new BadRequestException(MELODY_CARD_LIMIT.message);
-        }
 
         ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
         try {
-
             PutObjectRequest putObjectRequest = new PutObjectRequest(
                     DIGGING_CLUB.value,
-
                     MELODY_CARD_IMAGE.value + melodyCard.getId(),
-
                     melodyCardImage.getInputStream(),
                     objectMetadata
             );
@@ -96,7 +73,6 @@ public class MelodyCardCreateService {
 
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
                 new GeneratePresignedUrlRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value + melodyCardId)
-                new GeneratePresignedUrlRequest(DIGGING_CLUB.value, MELODYCARD_IMAGE.value + memberId)
                         .withMethod(HttpMethod.GET)
                         .withExpiration(expiration);
 

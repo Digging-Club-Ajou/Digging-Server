@@ -28,6 +28,7 @@ public class MelodyCardRepository {
     public MelodyCard getById(final long melodyCardId) {
         return melodyCardJpaRepository.findById(melodyCardId)
                 .orElseThrow(() -> new NotFoundException(MELODY_CARD_NOT_FOUND.message));
+    }
 
     public List<MelodyCard> findAllByAlbumId(final long albumId) {
         return melodyCardJpaRepository.findAllByAlbumId(albumId);
