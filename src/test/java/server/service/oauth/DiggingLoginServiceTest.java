@@ -40,14 +40,11 @@ class DiggingLoginServiceTest extends ServiceTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         // when
-        diggingLoginService.kakaoLogin(dto, response);
+        diggingLoginService.kakaoLogin(dto);
         Cookie cookie = response.getCookie(REFRESH_TOKEN.value);
 
         // then
         assertThat(memberRepository.count()).isEqualTo(1);
-        assertThat(cookie).isNotNull();
-        assertThat(cookie.getName()).isEqualTo(REFRESH_TOKEN.value);
-        assertThat(response.getHeader(ACCESS_TOKEN.value)).isNotNull();
     }
 
     @Test
@@ -63,13 +60,9 @@ class DiggingLoginServiceTest extends ServiceTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         // when
-        diggingLoginService.kakaoLogin(dto, response);
-        Cookie cookie = response.getCookie(REFRESH_TOKEN.value);
+        diggingLoginService.kakaoLogin(dto);
 
         // then
         assertThat(memberRepository.count()).isEqualTo(1);
-        assertThat(cookie).isNotNull();
-        assertThat(cookie.getName()).isEqualTo(REFRESH_TOKEN.value);
-        assertThat(response.getHeader(ACCESS_TOKEN.value)).isNotNull();
     }
 }

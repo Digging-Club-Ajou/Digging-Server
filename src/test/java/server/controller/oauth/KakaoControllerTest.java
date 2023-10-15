@@ -41,9 +41,6 @@ class KakaoControllerTest extends ControllerTest {
                                 .requestFields(
                                         fieldWithPath("authCode").type(STRING).description("인가 코드")
                                 )
-                                .responseHeaders(
-                                        headerWithName("AccessToken").description("JWT Access Token")
-                                )
                                 .build()
                         )));
     }

@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import server.domain.member.vo.Gender;
+import server.mapper.jwt.dto.JwtToken;
 import server.mapper.member.dto.KakaoSignupRequest;
 import server.service.member.DiggingLoginService;
 import server.service.oauth.KakaoLoginService;
@@ -23,14 +24,16 @@ public class KakaoLoginTestService implements KakaoLoginService {
     }
 
     @Override
-    public void kakaoLogin(final String authCode, final HttpServletResponse response) {
+    public JwtToken kakaoLogin(final String authCode) {
         try {
             String accessToken = getAccessToken(authCode);
             KakaoSignupRequest dto = getUserProfile(accessToken);
-            diggingLoginService.kakaoLogin(dto, response);
+            diggingLoginService.kakaoLogin(dto);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
+        return new JwtToken("accessToken", "refreshToken");
     }
 
     private synchronized String getAccessToken(String authCode) throws JsonProcessingException {

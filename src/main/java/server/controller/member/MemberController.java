@@ -1,6 +1,6 @@
 package server.controller.member;
 
-import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
@@ -8,26 +8,31 @@ import server.global.exception.dto.ResultResponse;
 import server.mapper.member.MemberMapper;
 import server.mapper.member.dto.NicknameResponse;
 import server.mapper.member.dto.NicknameRequest;
-import server.mapper.member.dto.NicknameValidationResponse;
 import server.service.member.NicknameCreateService;
+import server.service.member.NicknameFindService;
 import server.service.member.NicknameValidationService;
 
+@Slf4j
 @RequestMapping("/api")
 @RestController
 public class MemberController {
 
+    private final NicknameFindService nicknameFindService;
     private final NicknameCreateService nicknameCreateService;
     private final NicknameValidationService nicknameValidationService;
 
-    public MemberController(final NicknameCreateService nicknameCreateService,
+    public MemberController(final NicknameFindService nicknameFindService,
+                            final NicknameCreateService nicknameCreateService,
                             final NicknameValidationService nicknameValidationService) {
+        this.nicknameFindService = nicknameFindService;
         this.nicknameCreateService = nicknameCreateService;
         this.nicknameValidationService = nicknameValidationService;
     }
 
     @GetMapping("/nickname")
     public NicknameResponse getNickname(@Login final MemberSession memberSession) {
-        return MemberMapper.toNicknameResponse(memberSession);
+        String nickname = nicknameFindService.findNickname(memberSession.id());
+        return MemberMapper.toNicknameResponse(nickname);
     }
 
     @PostMapping("/nickname-validation")

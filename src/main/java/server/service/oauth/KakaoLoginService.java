@@ -1,8 +1,8 @@
 package server.service.oauth;
 
-import jakarta.servlet.http.HttpServletResponse;
+import server.mapper.jwt.dto.JwtToken;
 
 public interface KakaoLoginService {
 
-    void kakaoLogin(final String authCode, final HttpServletResponse response);
+    JwtToken kakaoLogin(final String authCode);
 }

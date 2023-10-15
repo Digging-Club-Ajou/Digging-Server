@@ -13,14 +13,14 @@ import java.util.Optional;
 @Service
 public class JwtFacade {
 
-    private final JwtCreateTokenService jwtCreateTokenService;
     private final SetHeaderService setHeaderService;
+    private final JwtCreateTokenService jwtCreateTokenService;
     private final JwtRefreshTokenRepository jwtRefreshTokenRepository;
 
-    public JwtFacade(final JwtCreateTokenService jwtCreateTokenService, final SetHeaderService setHeaderService,
+    public JwtFacade(final SetHeaderService setHeaderService, final JwtCreateTokenService jwtCreateTokenService,
                      final JwtRefreshTokenRepository jwtRefreshTokenRepository) {
-        this.jwtCreateTokenService = jwtCreateTokenService;
         this.setHeaderService = setHeaderService;
+        this.jwtCreateTokenService = jwtCreateTokenService;
         this.jwtRefreshTokenRepository = jwtRefreshTokenRepository;
     }
 
@@ -32,10 +32,8 @@ public class JwtFacade {
         return jwtCreateTokenService.createRefreshToken(memberId, expired);
     }
 
-    public void setHeader(final HttpServletResponse response, final String accessToken,
-                          final String refreshToken) {
+    public void setHeader(final HttpServletResponse response, final String accessToken) {
         setHeaderService.setAccessTokenHeader(response, accessToken);
-        setHeaderService.setRefreshTokenCookie(response, refreshToken);
     }
 
     @Transactional

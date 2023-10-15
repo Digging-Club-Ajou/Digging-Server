@@ -83,7 +83,7 @@ public abstract class ControllerTest {
         String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
         String refreshToken = jwtFacade.createRefreshToken(memberSession.id(), ONE_MONTH.value);
         jwtFacade.saveJwtRefreshToken(memberSession.id(), refreshToken);
-        jwtFacade.setHeader(response, accessToken, refreshToken);
+        jwtFacade.setHeader(response, accessToken);
 
         return response.getHeader(ACCESS_TOKEN.value);
     }
@@ -110,7 +110,7 @@ public abstract class ControllerTest {
         String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
         String refreshToken = jwtFacade.createRefreshToken(memberSession.id(), ONE_MONTH.value);
         jwtFacade.saveJwtRefreshToken(memberSession.id(), refreshToken);
-        jwtFacade.setHeader(response, accessToken, refreshToken);
+        jwtFacade.setHeader(response, accessToken);
 
         return response.getHeader(ACCESS_TOKEN.value);
     }
@@ -142,7 +142,7 @@ public abstract class ControllerTest {
         String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
         String refreshToken = jwtFacade.createRefreshToken(memberSession.id(), ONE_MONTH.value);
         jwtFacade.saveJwtRefreshToken(memberSession.id(), refreshToken);
-        jwtFacade.setHeader(response, accessToken, refreshToken);
+        jwtFacade.setHeader(response, accessToken);
 
         return response.getHeader(ACCESS_TOKEN.value);
     }

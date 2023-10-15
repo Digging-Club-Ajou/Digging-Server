@@ -1,10 +1,9 @@
 package server.controller.oauth;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
+import server.mapper.jwt.dto.JwtToken;
 import server.mapper.member.dto.AuthCodeRequest;
 import server.service.oauth.KakaoLoginService;
-
 
 @RequestMapping("/api")
 @RestController
@@ -17,8 +16,7 @@ public class KakaoController {
     }
 
     @PostMapping("/kakao")
-    public void kakaoLogin(@RequestBody final AuthCodeRequest dto,
-                           final HttpServletResponse response) {
-        kakaoLoginService.kakaoLogin(dto.authCode(), response);
+    public JwtToken kakaoLogin(@RequestBody final AuthCodeRequest dto) {
+        return kakaoLoginService.kakaoLogin(dto.authCode());
     }
 }

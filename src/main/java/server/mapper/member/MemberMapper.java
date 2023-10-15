@@ -43,8 +43,8 @@ public class MemberMapper {
                 .build();
     }
 
-    public static NicknameResponse toNicknameResponse(final MemberSession memberSession) {
-        return new NicknameResponse(memberSession.nickname());
+    public static NicknameResponse toNicknameResponse(final String nickname) {
+        return new NicknameResponse(nickname);
     }
 
     public static NicknameValidationResponse toNicknameValidationResponse(final boolean alreadyExist) {

@@ -2,7 +2,6 @@ package server.service.oauth.prod;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -12,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import server.domain.member.vo.Gender;
+import server.mapper.jwt.dto.JwtToken;
 import server.mapper.member.dto.KakaoProfile;
 import server.mapper.member.dto.KakaoSignupRequest;
 import server.mapper.member.dto.KakaoToken;
@@ -36,13 +36,13 @@ public class KakaoLoginProdService implements KakaoLoginService {
     }
 
     @SneakyThrows
-    public void kakaoLogin(final String authCode, final HttpServletResponse response){
+    public JwtToken kakaoLogin(final String authCode){
         String accessToken = getAccessToken(authCode);
         KakaoSignupRequest kakaoProfile = getUserProfile(accessToken);
-        diggingLoginService.kakaoLogin(kakaoProfile, response);
+        return diggingLoginService.kakaoLogin(kakaoProfile);
     }
 
-    private synchronized String getAccessToken(String authCode) throws JsonProcessingException {
+    private synchronized String getAccessToken(final String authCode) throws JsonProcessingException {
 
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
@@ -101,7 +101,4 @@ public class KakaoLoginProdService implements KakaoLoginService {
 
         return kakaoSignupRequest;
     }
-
-
-
 }
