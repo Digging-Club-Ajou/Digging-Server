@@ -1,18 +1,13 @@
 package server.domain.artist;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import server.domain.BaseTimeEntity;
-import server.domain.genre.Genre;
 import server.domain.member.vo.Gender;
 import server.global.annotation.Association;
 
-import java.util.List;
-
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class ArtistInfo extends BaseTimeEntity {
@@ -26,7 +21,7 @@ public class ArtistInfo extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private String group;
+    private String isGroup;
 
     @Association
     private Long genreId;
@@ -39,7 +34,7 @@ public class ArtistInfo extends BaseTimeEntity {
         this.imageURL = imageURL;
         this.nation = nation;
         this.gender = gender;
-        this.group = group;
+        this.isGroup = group;
         this.genreId = genreId;
         this.popularity = popularity;
     }

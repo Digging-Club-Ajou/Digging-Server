@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface SpotifySearchArtistService {
 
-    List<SpotifySearchDto> searchArtist(final String search);
+    String searchArtist(final String search);
 
 }
