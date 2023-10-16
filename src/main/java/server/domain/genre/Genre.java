@@ -27,7 +27,7 @@ public class Genre extends BaseTimeEntity {
 
     private boolean rockMetal;
 
-    private boolean pop;
+    private boolean rbAndSoul;
 
     private boolean rapHiphop;
 
@@ -35,16 +35,23 @@ public class Genre extends BaseTimeEntity {
 
     private boolean indie;
 
+    private boolean pop;
+
+    private boolean ostAndMusical;
+
     @Builder
-    private Genre(final long memberId, final boolean ballade, final boolean dance, final boolean rockMetal,
-                 final boolean pop, final boolean rapHiphop, final boolean folkBlues, final boolean indie) {
+    private Genre(final Long memberId, final boolean ballade, final boolean dance, final boolean rockMetal,
+                 final boolean rbAndSoul, final boolean rapHiphop, final boolean folkBlues,
+                 final boolean indie, final boolean pop, final boolean ostAndMusical) {
         this.memberId = memberId;
         this.ballade = ballade;
         this.dance = dance;
         this.rockMetal = rockMetal;
-        this.pop = pop;
+        this.rbAndSoul = rbAndSoul;
         this.rapHiphop = rapHiphop;
         this.folkBlues = folkBlues;
         this.indie = indie;
+        this.pop = pop;
+        this.ostAndMusical = ostAndMusical;
     }
 }

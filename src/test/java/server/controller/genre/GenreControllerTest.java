@@ -30,7 +30,7 @@ class GenreControllerTest extends ControllerTest {
         String accessToken = login();
 
         GenreRequest genreRequest = new GenreRequest(true, true, true, true,
-                true, false, false);
+                true, false, false, false, false);
 
         // expected
         mockMvc.perform(post("/api/genres")
@@ -51,10 +51,12 @@ class GenreControllerTest extends ControllerTest {
                                         fieldWithPath("ballade").type(BOOLEAN).description("발라드"),
                                         fieldWithPath("dance").type(BOOLEAN).description("댄스"),
                                         fieldWithPath("rockMetal").type(BOOLEAN).description("록/메탈"),
-                                        fieldWithPath("pop").type(BOOLEAN).description("팝"),
+                                        fieldWithPath("rbAndSoul").type(BOOLEAN).description("R&B/soul"),
                                         fieldWithPath("rapHiphop").type(BOOLEAN).description("랩/힙합"),
                                         fieldWithPath("folkBlues").type(BOOLEAN).description("포크/블루스"),
-                                        fieldWithPath("indie").type(BOOLEAN).description("인디")
+                                        fieldWithPath("indie").type(BOOLEAN).description("인디"),
+                                        fieldWithPath("pop").type(BOOLEAN).description("팝"),
+                                        fieldWithPath("ostAndMusical").type(BOOLEAN).description("OST/뮤지컬")
                                 )
                                 .build()
                         )));

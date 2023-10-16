@@ -13,10 +13,12 @@ public class GenreMapper {
                 .ballade(dto.ballade())
                 .dance(dto.dance())
                 .rockMetal(dto.rockMetal())
-                .pop(dto.pop())
+                .rbAndSoul(dto.rbAndSoul())
                 .rapHiphop(dto.rapHiphop())
                 .folkBlues(dto.folkBlues())
                 .indie(dto.indie())
+                .pop(dto.pop())
+                .ostAndMusical(dto.ostAndMusical())
                 .build();
     }
 }

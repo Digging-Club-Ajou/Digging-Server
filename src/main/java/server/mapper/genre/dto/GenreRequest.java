@@ -7,9 +7,11 @@ public record GenreRequest(
         boolean ballade,
         boolean dance,
         boolean rockMetal,
-        boolean pop,
+        boolean rbAndSoul,
         boolean rapHiphop,
         boolean folkBlues,
-        boolean indie
+        boolean indie,
+        boolean pop,
+        boolean ostAndMusical
 ){
 }
