@@ -8,6 +8,7 @@ public enum ExceptionMessage {
     NICKNAME_REGEX_EXCEPTION("영문, 숫자, 밑줄(_), 마침표(.)중 최소 2가지 이상의 조합으로 2-20자를 지원합니다"),
     REFRESH_TOKEN_NOT_FOUND_EXCEPTION("RefreshToken을 찾을 수 없습니다"),
     ALBUM_IMAGE_NOT_FOUND_EXCEPTION("앨범 이미지를 찾을 수 없습니다"),
+    ALBUM_NOT_FOUND_EXCEPTION("앨범을 찾을 수 없습니다"),
     ALBUM_ALREADY_EXIST_EXCEPTION("앨범이 이미 존재합니다"),
     ALBUM_EMOTICONS_REGEX_EXCEPTION("특수문자 및 이모티콘은 사용할 수 없습니다"),
     ALBUM_NAME_REGEX("한글, 영문, 숫자를 포함한 15자를 지원합니다"),

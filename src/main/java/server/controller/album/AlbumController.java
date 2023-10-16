@@ -7,9 +7,12 @@ import server.global.annotation.Login;
 import server.global.exception.dto.ResultResponse;
 import server.mapper.album.AlbumMapper;
 import server.mapper.album.dto.AlbumNameRequest;
+import server.mapper.album.dto.AlbumResponse;
 import server.mapper.album.dto.AlbumValidateResponse;
 import server.mapper.album.dto.AlbumImageUrlResponse;
-import server.service.album.AlbumReadService;
+import server.service.album.AlbumFindService;
+import server.service.album.prod.AlbumFindProdService;
+import server.service.album.AlbumImageReadService;
 import server.service.album.AlbumValidationService;
 import server.service.album.AlbumCreateService;
 
@@ -18,15 +21,18 @@ import server.service.album.AlbumCreateService;
 public class AlbumController {
 
     private final AlbumCreateService albumCreateService;
-    private final AlbumReadService albumReadService;
+    private final AlbumImageReadService albumImageReadService;
     private final AlbumValidationService albumValidationService;
+    private final AlbumFindService albumFindService;
 
     public AlbumController(final AlbumCreateService albumCreateService,
-                           final AlbumReadService albumReadService,
-                           final AlbumValidationService albumValidationService) {
+                           final AlbumImageReadService albumImageReadService,
+                           final AlbumValidationService albumValidationService,
+                           final AlbumFindService albumFindService) {
         this.albumCreateService = albumCreateService;
-        this.albumReadService = albumReadService;
+        this.albumImageReadService = albumImageReadService;
         this.albumValidationService = albumValidationService;
+        this.albumFindService = albumFindService;
     }
 
     @PostMapping("/albums/name-validation")
@@ -36,14 +42,19 @@ public class AlbumController {
 
     @PostMapping("/albums-validation")
     public AlbumValidateResponse validateExist(@Login final MemberSession memberSession) {
-        boolean alreadyExist = albumValidationService.validateAlreadyExist(memberSession.id());
+        boolean alreadyExist = albumValidationService.validateExistByMemberId(memberSession.id());
         return AlbumMapper.toAlbumValidateResponse(alreadyExist);
     }
 
     @GetMapping("/albums-image")
     public AlbumImageUrlResponse getAlbumImage(@Login final MemberSession memberSession) {
-        String imageUrl = albumReadService.getAlbumImageUrl(memberSession.id());
+        String imageUrl = albumImageReadService.getAlbumImageUrl(memberSession.id());
         return AlbumMapper.toAlbumImageUrlResponse(imageUrl);
+    }
+
+    @GetMapping("/albums/{albumId}")
+    public AlbumResponse getAlbumResponse(@PathVariable final long albumId) {
+        return albumFindService.getAlbumResponse(albumId);
     }
 
     @PostMapping("/albums")

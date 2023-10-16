@@ -18,8 +18,8 @@ public class AlbumInfoCreateService {
     }
 
     @Transactional
-    public void createProfileInfo(final MemberSession memberSession, final String albumName) {
+    public Album createProfileInfo(final MemberSession memberSession, final String albumName) {
         Album album = AlbumMapper.toEntity(memberSession, albumName);
-        albumRepository.save(album);
+        return albumRepository.save(album);
     }
 }

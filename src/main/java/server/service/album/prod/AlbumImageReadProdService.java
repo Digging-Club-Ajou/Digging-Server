@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import server.global.exception.NotFoundException;
-import server.service.album.AlbumReadService;
+import server.service.album.AlbumImageReadService;
 import server.service.album.AlbumValidationService;
 
 import java.net.URL;
@@ -19,18 +19,18 @@ import static server.global.constant.TimeConstant.*;
 
 @Profile({"prod", "dev"})
 @Service
-public class AlbumReadProdService implements AlbumReadService {
+public class AlbumImageReadProdService implements AlbumImageReadService {
 
     private final AmazonS3 amazonS3Client;
     private final AlbumValidationService albumValidationService;
 
-    public AlbumReadProdService(final AmazonS3 amazonS3Client, final AlbumValidationService albumValidationService) {
+    public AlbumImageReadProdService(final AmazonS3 amazonS3Client, final AlbumValidationService albumValidationService) {
         this.amazonS3Client = amazonS3Client;
         this.albumValidationService = albumValidationService;
     }
 
     public String getAlbumImageUrl(final long memberId) {
-        if (albumValidationService.validateAlreadyExist(memberId)) {
+        if (albumValidationService.validateExistByMemberId(memberId)) {
             Date expiration = new Date();
             long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
             expiration.setTime(expTimeMillis);

@@ -18,12 +18,16 @@ public class AlbumRepository {
         this.albumJpaRepository = albumJpaRepository;
     }
 
-    public void save(final Album album) {
-        albumJpaRepository.save(album);
+    public Album save(final Album album) {
+        return albumJpaRepository.save(album);
     }
 
     public boolean existsByMemberId(final long memberId) {
         return albumJpaRepository.existsByMemberId(memberId);
+    }
+
+    public boolean existsByAlbumId(final long albumId) {
+        return albumJpaRepository.existsById(albumId);
     }
 
     public boolean existsByAlbumName(final String albumName) {
@@ -31,6 +35,11 @@ public class AlbumRepository {
     }
 
     public Optional<Album> findByMemberId(final long memberId){return albumJpaRepository.findByMemberId(memberId);}
+
+    public Album getByAlbumId(final long albumId){
+        return albumJpaRepository.findById(albumId)
+                .orElseThrow(() -> new BadRequestException(ALBUM_NOT_EXIST.message));
+    }
 
     public Album getByMemberId(final long memberId){
         return albumJpaRepository.findByMemberId(memberId)

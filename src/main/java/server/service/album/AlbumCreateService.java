@@ -3,14 +3,12 @@ package server.service.album;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import server.domain.album.Album;
 import server.domain.member.vo.MemberSession;
 import server.global.exception.BadRequestException;
 import server.mapper.album.dto.AlbumNameRequest;
-import server.service.album.AlbumInfoCreateService;
-import server.service.album.AlbumValidationService;
 
 import java.io.IOException;
 
@@ -40,19 +38,19 @@ public class AlbumCreateService {
         dto.validateRegex();
         String albumName = dto.albumName();
         validateExist(memberSession.id());
+        Album album = albumInfoCreateService.createProfileInfo(memberSession, albumName);
 
         ObjectMetadata objectMetadata = getObjectMetadata(albumImage);
 
         try {
             PutObjectRequest putObjectRequest = new PutObjectRequest(
                     DIGGING_CLUB.value,
-                    ALBUM_IMAGE.value + memberSession.id(),
+                    ALBUM_IMAGE.value + album.getId(),
                     albumImage.getInputStream(),
                     objectMetadata
             );
 
             amazonS3Client.putObject(putObjectRequest);
-            albumInfoCreateService.createProfileInfo(memberSession, albumName);
 
         } catch (IOException e) {
             throw new BadRequestException(PROFILES_SAVE_EXCEPTION.message);
@@ -60,7 +58,7 @@ public class AlbumCreateService {
     }
 
     private void validateExist(final long memberId) {
-        if (albumValidationService.validateAlreadyExist(memberId)) {
+        if (albumValidationService.validateExistByMemberId(memberId)) {
             throw new BadRequestException(ALBUM_ALREADY_EXIST_EXCEPTION.message);
         }
     }

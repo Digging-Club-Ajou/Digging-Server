@@ -14,7 +14,12 @@ public class AlbumValidationService {
     }
 
     @Transactional(readOnly = true)
-    public boolean validateAlreadyExist(final long memberId) {
+    public boolean validateExistByMemberId(final long memberId) {
         return albumRepository.existsByMemberId(memberId);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean validateExistByAlbumId(final long albumId) {
+        return albumRepository.existsByAlbumId(albumId);
     }
 }

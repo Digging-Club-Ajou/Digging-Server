@@ -1,6 +1,6 @@
 package server.service.album;
 
-public interface AlbumReadService {
+public interface AlbumImageReadService {
 
     String getAlbumImageUrl(final long memberId);
 }
