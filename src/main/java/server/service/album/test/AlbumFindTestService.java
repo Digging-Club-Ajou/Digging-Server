@@ -12,15 +12,12 @@ import server.repository.album.AlbumRepository;
 import server.service.album.AlbumFindService;
 import server.service.album.AlbumValidationService;
 
-import java.net.URL;
-import java.util.Date;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static server.global.constant.ExceptionMessage.ALBUM_NOT_FOUND_EXCEPTION;
 import static server.global.constant.TestConstant.TEST_URL;
-import static server.global.constant.TextConstant.ALBUM_IMAGE;
-import static server.global.constant.TextConstant.DIGGING_CLUB;
-import static server.global.constant.TimeConstant.ONE_HOUR;
-import static server.mapper.album.dto.AlbumResponse.toAlbumResponse;
 
 // Test Double
 @Profile("test")
@@ -38,9 +35,14 @@ public class AlbumFindTestService implements AlbumFindService {
 
     @Override
     public AlbumResponse getAlbumResponse(final long albumId) {
+        List<String> artistNames = new ArrayList<>();
+        artistNames.add("artist1");
+        artistNames.add("artist2");
+        artistNames.add("artist3");
+
         if (albumValidationService.validateExistByAlbumId(albumId)) {
             Album album = albumRepository.getByAlbumId(albumId);
-            return AlbumResponse.toAlbumResponse(album, TEST_URL.value);
+            return AlbumResponse.toAlbumResponse(album, TEST_URL.value, artistNames);
         }
 
         throw new NotFoundException(ALBUM_NOT_FOUND_EXCEPTION.message);

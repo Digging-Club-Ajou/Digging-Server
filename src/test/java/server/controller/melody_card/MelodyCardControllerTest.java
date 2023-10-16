@@ -37,11 +37,11 @@ public class MelodyCardControllerTest extends ControllerTest {
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("멜로디 카드 가져오기",
+                .andDo(document("특정 멜로디 카드 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("멜로디 카드")
-                                .summary("멜로디 카드 가져오기")
+                                .summary("특정 멜로디 카드 가져오기")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
@@ -87,15 +87,15 @@ public class MelodyCardControllerTest extends ControllerTest {
         jwtFacade.setHeader(response, accessToken);
 
         // expected
-        mockMvc.perform(get("/api/melody-cards/member/{memberId}", member.getId())
+        mockMvc.perform(get("/api/melody-cards/members/{memberId}", member.getId())
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("멜로디 카드 리스트 가져오기 (회원 id)",
+                .andDo(document("특정 회원의 모든 멜로디 카드 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("멜로디 카드")
-                                .summary("회원 id로 회원의 모든 멜로디 카드 가져오기")
+                                .summary("특정 회원의 모든 멜로디 카드 가져오기")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
@@ -152,11 +152,11 @@ public class MelodyCardControllerTest extends ControllerTest {
         jwtFacade.setHeader(response, accessToken);
 
         // expected
-        mockMvc.perform(get("/api/melody-cards/member")
+        mockMvc.perform(get("/api/melody-cards")
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("멜로디 카드 리스트 가져오기 (로그인한 회원)",
+                .andDo(document("로그인한 회원의 모든 멜로디 카드 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("멜로디 카드")
