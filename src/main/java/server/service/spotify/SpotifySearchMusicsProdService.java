@@ -48,10 +48,7 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
         }
     }
 
-    @Override
-    public List<SpotifyArtistDto> searchArtists(String search) {
-        return null;
-    }
+
 
     private ResponseEntity<String> getStringResponseEntity(final String search) {
         String apiUrl = SPOTIFY_TRACKS_URL + search + BASIC_CONDITION;
