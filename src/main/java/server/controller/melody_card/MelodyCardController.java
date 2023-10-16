@@ -25,9 +25,9 @@ public class MelodyCardController {
         return melodyCardCreateService.getMelodyCard(melodyCardId);
     }
 
-    @GetMapping("/melody-cards/members/{memberId}")
-    public MelodyCardResponses getMelodyCards(@PathVariable final long memberId) {
-        List<MelodyCardResponse> melodyCards = melodyCardCreateService.getMelodyCards(memberId);
+    @GetMapping("/melody-cards/albums/{albumId}")
+    public MelodyCardResponses getMelodyCards(@PathVariable final long albumId) {
+        List<MelodyCardResponse> melodyCards = melodyCardCreateService.getMelodyCards(albumId);
         return new MelodyCardResponses(melodyCards);
     }
 

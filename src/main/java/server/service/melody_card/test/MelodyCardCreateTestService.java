@@ -40,7 +40,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .build();
     }
 
-    public List<MelodyCardResponse> getMelodyCards(final long memberId) {
+    public List<MelodyCardResponse> getMelodyCards(final long albumId) {
         MelodyCardResponse melodyCardResponse1 = MelodyCardResponse.builder()
                 .melodyCardId(1L)
                 .albumId(1L)
@@ -57,7 +57,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .build();
 
         MelodyCardResponse melodyCardResponse2 = MelodyCardResponse.builder()
-                .melodyCardId(1L)
+                .melodyCardId(2L)
                 .albumId(1L)
                 .memberId(1L)
                 .nickname("testnickname123")
@@ -72,7 +72,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .build();
 
         MelodyCardResponse melodyCardResponse3 = MelodyCardResponse.builder()
-                .melodyCardId(1L)
+                .melodyCardId(3L)
                 .albumId(1L)
                 .memberId(1L)
                 .nickname("testnickname123")
