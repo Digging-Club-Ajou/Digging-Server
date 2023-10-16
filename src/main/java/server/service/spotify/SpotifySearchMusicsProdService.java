@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import server.mapper.spotify.SpotifyArtistDto;
 import server.mapper.spotify.SpotifySearchDto;
 
 import java.util.ArrayList;
@@ -45,6 +46,11 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
         } catch (JsonProcessingException e) {
             throw new RuntimeException(MUSIC_JSON_PARSING.message);
         }
+    }
+
+    @Override
+    public List<SpotifyArtistDto> searchArtists(String search) {
+        return null;
     }
 
     private ResponseEntity<String> getStringResponseEntity(final String search) {
