@@ -3,6 +3,7 @@ package server.service.spotify;
 
 import org.springframework.stereotype.Service;
 import server.mapper.spotify.SpotifySearchDto;
+import server.mapper.spotify.SpotifyArtistDto;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ import java.util.List;
 public interface SpotifySearchMusicService {
 
     List<SpotifySearchDto> searchTracks(final String search);
+
+    List<SpotifyArtistDto> searchArtists(final String search);
 }
