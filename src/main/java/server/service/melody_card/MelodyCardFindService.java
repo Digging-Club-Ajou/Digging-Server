@@ -20,18 +20,14 @@ import static server.global.constant.ExceptionMessage.MELODY_CARD_LIMIT;
 public class MelodyCardFindService {
 
     private final MelodyCardRepository melodyCardRepository;
-    private final AlbumRepository albumRepository;
 
-    public MelodyCardFindService(final MelodyCardRepository melodyCardRepository,
-                                 final AlbumRepository albumRepository) {
+    public MelodyCardFindService(final MelodyCardRepository melodyCardRepository) {
         this.melodyCardRepository = melodyCardRepository;
-        this.albumRepository = albumRepository;
     }
 
     @Transactional(readOnly = true)
-    public List<MelodyCard> findMelodyCards(final long memberId) {
-        Album album = albumRepository.getByMemberId(memberId);
-        List<MelodyCard> melodyCards = melodyCardRepository.findAllByAlbumId(album.getId());
+    public List<MelodyCard> findMelodyCards(final long albumId) {
+        List<MelodyCard> melodyCards = melodyCardRepository.findAllByAlbumId(albumId);
 
         if(melodyCards.size() > 10){
             throw new BadRequestException(MELODY_CARD_LIMIT.message);

@@ -84,12 +84,12 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         return melodyCardResponse.updateUrl(url.toString());
     }
 
-    public List<MelodyCardResponse>  getMelodyCards(final long memberId) {
+    public List<MelodyCardResponse>  getMelodyCards(final long albumId) {
         Date expiration = new Date();
         long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
         expiration.setTime(expTimeMillis);
 
-        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
+        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(albumId);
 
         List<MelodyCardResponse> melodyCardResponses = new ArrayList<>();
         for (MelodyCard melodyCard : melodyCards) {

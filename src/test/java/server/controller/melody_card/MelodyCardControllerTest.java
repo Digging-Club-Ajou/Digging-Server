@@ -73,6 +73,13 @@ public class MelodyCardControllerTest extends ControllerTest {
         memberRepository.save(member);
 
         // given 2
+        Album album = Album.builder()
+                .memberId(member.getId())
+                .build();
+
+        albumRepository.save(album);
+
+        // given 3
         MemberSession memberSession = MemberSession.builder()
                 .id(member.getId())
                 .username(TEST_USERNAME.value)
@@ -87,7 +94,7 @@ public class MelodyCardControllerTest extends ControllerTest {
         jwtFacade.setHeader(response, accessToken);
 
         // expected
-        mockMvc.perform(get("/api/melody-cards/members/{memberId}", member.getId())
+        mockMvc.perform(get("/api/melody-cards/albums/{albumId}", album.getId())
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
