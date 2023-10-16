@@ -6,14 +6,17 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import server.domain.album.Album;
+import server.domain.melody_card.MelodyCard;
 import server.global.exception.NotFoundException;
 import server.mapper.album.dto.AlbumResponse;
 import server.repository.album.AlbumRepository;
 import server.service.album.AlbumFindService;
 import server.service.album.AlbumValidationService;
+import server.service.melody_card.MelodyCardFindService;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
 import static server.global.constant.ExceptionMessage.ALBUM_NOT_FOUND_EXCEPTION;
 import static server.global.constant.TextConstant.ALBUM_IMAGE;
@@ -28,12 +31,16 @@ public class AlbumFindProdService implements AlbumFindService {
     private final AmazonS3 amazonS3Client;
     private final AlbumValidationService albumValidationService;
     private final AlbumRepository albumRepository;
+    private final MelodyCardFindService melodyCardFindService;
 
-    public AlbumFindProdService(final AmazonS3 amazonS3Client, final AlbumValidationService albumValidationService,
-                                final AlbumRepository albumRepository) {
+    public AlbumFindProdService(final AmazonS3 amazonS3Client,
+                                final AlbumValidationService albumValidationService,
+                                final AlbumRepository albumRepository,
+                                final MelodyCardFindService melodyCardFindService) {
         this.amazonS3Client = amazonS3Client;
         this.albumValidationService = albumValidationService;
         this.albumRepository = albumRepository;
+        this.melodyCardFindService = melodyCardFindService;
     }
 
     public AlbumResponse getAlbumResponse(final long albumId) {
@@ -54,7 +61,8 @@ public class AlbumFindProdService implements AlbumFindService {
             String imageUrl = url.toString();
 
             Album album = albumRepository.getByAlbumId(albumId);
-            return toAlbumResponse(album, imageUrl);
+            List<String> artistNames = melodyCardFindService.findArtistNamesByAlbumId(albumId);
+            return toAlbumResponse(album, imageUrl, artistNames);
         }
 
         throw new NotFoundException(ALBUM_NOT_FOUND_EXCEPTION.message);

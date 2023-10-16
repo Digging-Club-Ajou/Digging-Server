@@ -21,14 +21,11 @@ public class MelodyCardFindService {
 
     private final MelodyCardRepository melodyCardRepository;
     private final AlbumRepository albumRepository;
-    private final MemberRepository memberRepository;
 
     public MelodyCardFindService(final MelodyCardRepository melodyCardRepository,
-                                 final AlbumRepository albumRepository,
-                                 final MemberRepository memberRepository) {
+                                 final AlbumRepository albumRepository) {
         this.melodyCardRepository = melodyCardRepository;
         this.albumRepository = albumRepository;
-        this.memberRepository = memberRepository;
     }
 
     @Transactional(readOnly = true)
@@ -41,6 +38,11 @@ public class MelodyCardFindService {
         }
 
         return melodyCards;
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> findArtistNamesByAlbumId(final long albumId) {
+        return melodyCardRepository.findAllArtistName(albumId);
     }
 
     @Transactional(readOnly = true)

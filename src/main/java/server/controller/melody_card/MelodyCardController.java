@@ -25,13 +25,13 @@ public class MelodyCardController {
         return melodyCardCreateService.getMelodyCard(melodyCardId);
     }
 
-    @GetMapping("/melody-cards/member/{memberId}")
+    @GetMapping("/melody-cards/members/{memberId}")
     public MelodyCardResponses getMelodyCards(@PathVariable final long memberId) {
         List<MelodyCardResponse> melodyCards = melodyCardCreateService.getMelodyCards(memberId);
         return new MelodyCardResponses(melodyCards);
     }
 
-    @GetMapping("/melody-cards/member")
+    @GetMapping("/melody-cards")
     public MelodyCardResponses getMelodyCardsByLogin(@Login final MemberSession memberSession) {
         List<MelodyCardResponse> melodyCards = melodyCardCreateService.getMelodyCards(memberSession.id());
         return new MelodyCardResponses(melodyCards);
