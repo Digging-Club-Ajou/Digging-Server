@@ -15,5 +15,5 @@ public interface MelodyCardCreateService {
 
     MelodyCardResponse getMelodyCardInfo(final MemberSession memberSession, final long melodyCardId);
 
-    List<MelodyCardResponse> getMelodyCardImageUrls(final MemberSession memberSession);
+    List<MelodyCardResponse> getMelodyCards(final long memberId);
 }

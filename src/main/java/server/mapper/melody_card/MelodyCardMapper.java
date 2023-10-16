@@ -1,6 +1,7 @@
 package server.mapper.melody_card;
 
 import server.domain.melody_card.MelodyCard;
+import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
 import server.mapper.melody_card.dto.MelodyCardImageUrlResponse;
 import server.mapper.melody_card.dto.MelodyCardImageUrlResponses;
@@ -28,11 +29,11 @@ public class MelodyCardMapper {
                 .build();
     }
 
-    public static MelodyCardResponse toMelodyCardResponse(final MemberSession memberSession,
+    public static MelodyCardResponse toMelodyCardResponse(final Member member,
                                                           final MelodyCard melodyCard) {
         return MelodyCardResponse.builder()
-                .memberId(memberSession.id())
-                .nickname(memberSession.nickname())
+                .memberId(member.getId())
+                .nickname(member.getNickname())
                 .artistName(melodyCard.getArtistName())
                 .songTitle(melodyCard.getSongTitle())
                 .previewUrl(melodyCard.getPreviewUrl())

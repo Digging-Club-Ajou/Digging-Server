@@ -80,17 +80,17 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
 
         URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
         MelodyCardResponse melodyCardResponse =
-                melodyCardFindService.findMelodyCardResponse(memberSession, melodyCardId);
+                melodyCardFindService.findMelodyCardResponse(memberSession.id(), melodyCardId);
 
         return melodyCardResponse.updateUrl(url.toString());
     }
 
-    public List<MelodyCardResponse> getMelodyCardImageUrls(final MemberSession memberSession) {
+    public List<MelodyCardResponse>  getMelodyCards(final long memberId) {
         Date expiration = new Date();
         long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
         expiration.setTime(expTimeMillis);
 
-        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberSession.id());
+        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
 
         List<MelodyCardResponse> melodyCardResponses = new ArrayList<>();
         for (MelodyCard melodyCard : melodyCards) {
@@ -102,7 +102,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
 
             URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
             MelodyCardResponse melodyCardResponse =
-                    melodyCardFindService.findMelodyCardResponse(memberSession, melodyCard.getId());
+                    melodyCardFindService.findMelodyCardResponse(memberId, melodyCard.getId());
 
             melodyCardResponses.add(melodyCardResponse.updateUrl(url.toString()));
         }

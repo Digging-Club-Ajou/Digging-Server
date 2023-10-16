@@ -3,6 +3,10 @@ package server.controller.melody_card;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletResponse;
+import server.domain.album.Album;
+import server.domain.member.persist.Member;
+import server.domain.member.vo.MemberSession;
 import server.util.ControllerTest;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
@@ -16,6 +20,9 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
+import static server.global.constant.TimeConstant.ONE_HOUR;
+import static server.global.constant.TimeConstant.ONE_MONTH;
+import static server.util.TestConstant.TEST_USERNAME;
 
 public class MelodyCardControllerTest extends ControllerTest {
 
@@ -54,13 +61,31 @@ public class MelodyCardControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("로그인한 회원의 멜로디 카드 정보를 가져옵니다")
-    void getMelodyCardImages() throws Exception {
-        // given
-        String accessToken = login();
+    @DisplayName("회원의 멜로디 카드 정보를 가져옵니다")
+    void getMelodyCard() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        // given 3
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+        String refreshToken = jwtFacade.createRefreshToken(memberSession.id(), ONE_MONTH.value);
+        jwtFacade.saveJwtRefreshToken(memberSession.id(), refreshToken);
+        jwtFacade.setHeader(response, accessToken);
 
         // expected
-        mockMvc.perform(get("/api/melody-cards")
+        mockMvc.perform(get("/api/melody-cards/member/{memberId}", member.getId())
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
@@ -68,7 +93,7 @@ public class MelodyCardControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("멜로디 카드")
-                                .summary("로그인한 회원의 모든 멜로디 카드 가져오기")
+                                .summary("회원의 모든 멜로디 카드 가져오기")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )

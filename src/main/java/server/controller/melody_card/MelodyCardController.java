@@ -7,7 +7,6 @@ import server.global.annotation.Login;
 import server.mapper.melody_card.dto.MelodyCardRequest;
 import server.mapper.melody_card.dto.MelodyCardResponse;
 import server.mapper.melody_card.dto.MelodyCardResponses;
-import server.service.melody_card.MelodyCardCreateProdService;
 import server.service.melody_card.MelodyCardCreateService;
 
 import java.util.List;
@@ -22,14 +21,14 @@ public class MelodyCardController {
     }
 
     @GetMapping("/melody-cards/{melodyCardId}")
-    public MelodyCardResponse getMelodyCardImage(@Login final MemberSession memberSession,
-                                                 @PathVariable final long melodyCardId) {
+    public MelodyCardResponse getMelodyCard(@Login final MemberSession memberSession,
+                                            @PathVariable final long melodyCardId) {
         return melodyCardCreateService.getMelodyCardInfo(memberSession, melodyCardId);
     }
 
-    @GetMapping("/melody-cards")
-    public MelodyCardResponses getMelodyCardImages(@Login final MemberSession memberSession) {
-        List<MelodyCardResponse> melodyCards = melodyCardCreateService.getMelodyCardImageUrls(memberSession);
+    @GetMapping("/melody-cards/member/{memberId}")
+    public MelodyCardResponses getMelodyCards(@PathVariable final long memberId) {
+        List<MelodyCardResponse> melodyCards = melodyCardCreateService.getMelodyCards(memberId);
         return new MelodyCardResponses(melodyCards);
     }
 

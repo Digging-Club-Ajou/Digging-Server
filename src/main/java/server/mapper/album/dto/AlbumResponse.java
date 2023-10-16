@@ -5,6 +5,7 @@ import server.domain.album.Album;
 
 @Builder
 public record AlbumResponse(
+        long memberId,
         long albumId,
         String nickname,
         String albumName,
@@ -13,6 +14,7 @@ public record AlbumResponse(
 
     public static AlbumResponse toAlbumResponse(final Album album, final String imageUrl) {
         return AlbumResponse.builder()
+                .memberId(album.getMemberId())
                 .albumId(album.getId())
                 .nickname(album.getNickname())
                 .albumName(album.getAlbumName())

@@ -38,8 +38,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .build();
     }
 
-    @Override
-    public List<MelodyCardResponse> getMelodyCardImageUrls(final MemberSession memberSession) {
+    public List<MelodyCardResponse> getMelodyCards(final long memberId) {
         MelodyCardResponse melodyCardResponse1 = MelodyCardResponse.builder()
                 .memberId(1L)
                 .nickname("testnickname123")

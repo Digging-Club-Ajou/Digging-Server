@@ -138,64 +138,10 @@ class AlbumControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("로그인한 회원의 앨범이 존재하지 않으면 앨범 이미지를 가져올 수 없습니다")
-    void getAlbumImageUrlFail() throws Exception {
-        // given
-        String accessToken = login();
-
-        // expected
-        mockMvc.perform(get("/api/albums-image")
-                        .header(ACCESS_TOKEN.value, accessToken)
-                )
-                .andExpect(status().isNotFound())
-                .andDo(document("앨범 이미지 URL 가져오기 - 실패",
-                        preprocessResponse(prettyPrint()),
-                        resource(ResourceSnippetParameters.builder()
-                                .tag("앨범")
-                                .summary("앨범 이미지 가져오기")
-                                .requestHeaders(
-                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
-                                )
-                                .responseFields(
-                                        fieldWithPath("statusCode").type(STRING).description("상태 코드"),
-                                        fieldWithPath("message").type(STRING).description("오류 메세지")
-                                )
-                                .build()
-                        )));
-    }
-
-    @Test
-    @DisplayName("로그인한 회원의 앨범이 존재하면 앨범 이미지 url을 가져옵니다")
-    void getAlbumImageUrlSuccess() throws Exception {
-        // given
-        String accessToken = loginAndCreateAlbum();
-
-        // expected
-        mockMvc.perform(get("/api/albums-image")
-                        .header(ACCESS_TOKEN.value, accessToken)
-                )
-                .andExpect(status().isOk())
-                .andDo(document("앨범 이미지 URL 가져오기 - 성공",
-                        preprocessResponse(prettyPrint()),
-                        resource(ResourceSnippetParameters.builder()
-                                .tag("앨범")
-                                .summary("앨범 이미지 가져오기")
-                                .requestHeaders(
-                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
-                                )
-                                .responseFields(
-                                        fieldWithPath("imageUrl").type(STRING).description("앨범 이미지 url")
-                                )
-                                .build()
-                        )));
-    }
-
-    @Test
     @DisplayName("앨범 id가 존재하지 않으면 앨범 정보를 가져올 수 없습니다")
     void getAlbumFail() throws Exception {
         // given
         String accessToken = login();
-
 
         // expected
         mockMvc.perform(get("/api/albums/{albumId}", 9999L)
@@ -225,6 +171,7 @@ class AlbumControllerTest extends ControllerTest {
         String accessToken = login();
 
         Album album = Album.builder()
+                .memberId(1L)
                 .nickname(TEST_NICKNAME.value)
                 .albumName("앨범 이름")
                 .build();
@@ -245,6 +192,7 @@ class AlbumControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .responseFields(
+                                        fieldWithPath("memberId").type(NUMBER).description("회원 id"),
                                         fieldWithPath("albumId").type(NUMBER).description("앨범 id"),
                                         fieldWithPath("nickname").type(STRING).description("회원 닉네임"),
                                         fieldWithPath("albumName").type(STRING).description("앨범명"),

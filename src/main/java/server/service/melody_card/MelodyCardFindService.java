@@ -4,12 +4,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.album.Album;
 import server.domain.melody_card.MelodyCard;
-import server.domain.member.vo.MemberSession;
+import server.domain.member.persist.Member;
 import server.global.exception.BadRequestException;
 import server.mapper.melody_card.MelodyCardMapper;
 import server.mapper.melody_card.dto.MelodyCardResponse;
 import server.repository.album.AlbumRepository;
 import server.repository.melody_card.MelodyCardRepository;
+import server.repository.member.MemberRepository;
 
 import java.util.List;
 
@@ -20,11 +21,14 @@ public class MelodyCardFindService {
 
     private final MelodyCardRepository melodyCardRepository;
     private final AlbumRepository albumRepository;
+    private final MemberRepository memberRepository;
 
     public MelodyCardFindService(final MelodyCardRepository melodyCardRepository,
-                                 final AlbumRepository albumRepository) {
+                                 final AlbumRepository albumRepository,
+                                 final MemberRepository memberRepository) {
         this.melodyCardRepository = melodyCardRepository;
         this.albumRepository = albumRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Transactional(readOnly = true)
@@ -40,8 +44,9 @@ public class MelodyCardFindService {
     }
 
     @Transactional(readOnly = true)
-    public MelodyCardResponse findMelodyCardResponse(final MemberSession memberSession, final long melodyCardId) {
+    public MelodyCardResponse findMelodyCardResponse(final long memberId, final long melodyCardId) {
         MelodyCard melodyCard = melodyCardRepository.getById(melodyCardId);
-        return MelodyCardMapper.toMelodyCardResponse(memberSession, melodyCard);
+        Member member = memberRepository.getById(memberId);
+        return MelodyCardMapper.toMelodyCardResponse(member, melodyCard);
     }
 }
