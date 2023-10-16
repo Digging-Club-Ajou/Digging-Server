@@ -23,8 +23,10 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
     }
 
     @Override
-    public MelodyCardResponse getMelodyCardInfo(final MemberSession memberSession, final long melodyCardId) {
+    public MelodyCardResponse getMelodyCard(final long melodyCardId) {
         return MelodyCardResponse.builder()
+                .melodyCardId(1L)
+                .albumId(1L)
                 .memberId(1L)
                 .nickname("testnickname123")
                 .artistName("NewJeans")
@@ -40,6 +42,8 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
 
     public List<MelodyCardResponse> getMelodyCards(final long memberId) {
         MelodyCardResponse melodyCardResponse1 = MelodyCardResponse.builder()
+                .melodyCardId(1L)
+                .albumId(1L)
                 .memberId(1L)
                 .nickname("testnickname123")
                 .artistName("NewJeans")
@@ -53,6 +57,8 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .build();
 
         MelodyCardResponse melodyCardResponse2 = MelodyCardResponse.builder()
+                .melodyCardId(1L)
+                .albumId(1L)
                 .memberId(1L)
                 .nickname("testnickname123")
                 .artistName("NewJeans")
@@ -66,6 +72,8 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .build();
 
         MelodyCardResponse melodyCardResponse3 = MelodyCardResponse.builder()
+                .melodyCardId(1L)
+                .albumId(1L)
                 .memberId(1L)
                 .nickname("testnickname123")
                 .artistName("NewJeans")

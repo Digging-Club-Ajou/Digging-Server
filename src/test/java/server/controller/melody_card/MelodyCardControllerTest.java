@@ -28,7 +28,7 @@ public class MelodyCardControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("멜로디 카드 id로 멜로디 카드 정보를 가져옵니다")
-    void getMelodyCardImage() throws Exception {
+    void getMelodyCard() throws Exception {
         // given
         String accessToken = login();
 
@@ -46,12 +46,14 @@ public class MelodyCardControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .responseFields(
+                                        fieldWithPath("melodyCardId").type(NUMBER).description("멜로디 카드 id"),
+                                        fieldWithPath("albumId").type(NUMBER).description("앨범 id"),
                                         fieldWithPath("memberId").type(NUMBER).description("회원 id"),
                                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                                         fieldWithPath("artistName").type(STRING).description("가수"),
                                         fieldWithPath("songTitle").type(STRING).description("노래 제목"),
-                                        fieldWithPath("imageUrl").type(STRING).description("이미지 url"),
                                         fieldWithPath("previewUrl").type(STRING).description("스트리밍 url"),
+                                        fieldWithPath("imageUrl").type(STRING).description("이미지 url"),
                                         fieldWithPath("address").type(STRING).description("주소"),
                                         fieldWithPath("cardDescription").type(STRING).description("카드 설명"),
                                         fieldWithPath("color").type(STRING).description("색상")
@@ -62,7 +64,7 @@ public class MelodyCardControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("회원의 멜로디 카드 정보를 가져옵니다")
-    void getMelodyCard() throws Exception {
+    void getMelodyCardSuccess() throws Exception {
         // given 1
         Member member = Member.builder()
                 .username(TEST_USERNAME.value)
@@ -98,6 +100,10 @@ public class MelodyCardControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .responseFields(
+                                        fieldWithPath("melodyCardResponses[0].melodyCardId").type(NUMBER)
+                                                .description("멜로디 카드 id"),
+                                        fieldWithPath("melodyCardResponses[0].albumId").type(NUMBER)
+                                                .description("앨범 id"),
                                         fieldWithPath("melodyCardResponses[0].memberId").type(NUMBER)
                                                 .description("회원 id"),
                                         fieldWithPath("melodyCardResponses[0].nickname").type(STRING)

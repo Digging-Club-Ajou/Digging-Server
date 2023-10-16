@@ -21,9 +21,8 @@ public class MelodyCardController {
     }
 
     @GetMapping("/melody-cards/{melodyCardId}")
-    public MelodyCardResponse getMelodyCard(@Login final MemberSession memberSession,
-                                            @PathVariable final long melodyCardId) {
-        return melodyCardCreateService.getMelodyCardInfo(memberSession, melodyCardId);
+    public MelodyCardResponse getMelodyCard(@PathVariable final long melodyCardId) {
+        return melodyCardCreateService.getMelodyCard(melodyCardId);
     }
 
     @GetMapping("/melody-cards/member/{memberId}")

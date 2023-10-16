@@ -44,9 +44,8 @@ public class MelodyCardFindService {
     }
 
     @Transactional(readOnly = true)
-    public MelodyCardResponse findMelodyCardResponse(final long memberId, final long melodyCardId) {
+    public MelodyCardResponse findMelodyCardResponse(final long melodyCardId) {
         MelodyCard melodyCard = melodyCardRepository.getById(melodyCardId);
-        Member member = memberRepository.getById(memberId);
-        return MelodyCardMapper.toMelodyCardResponse(member, melodyCard);
+        return MelodyCardMapper.toMelodyCardResponse(melodyCard);
     }
 }

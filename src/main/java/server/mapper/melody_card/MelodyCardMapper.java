@@ -1,5 +1,6 @@
 package server.mapper.melody_card;
 
+import server.domain.album.Album;
 import server.domain.melody_card.MelodyCard;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
@@ -15,10 +16,13 @@ public class MelodyCardMapper {
 
     private MelodyCardMapper() {
     }
-    public static MelodyCard toEntity(final long albumId, final MelodyCardRequest melodyCardRequest) {
+    public static MelodyCard toEntity(final Album album,
+                                      final MelodyCardRequest melodyCardRequest) {
 
         return MelodyCard.builder()
-                .albumId(albumId)
+                .albumId(album.getId())
+                .memberId(album.getMemberId())
+                .nickname(album.getNickname())
                 .artistName(melodyCardRequest.artistName())
                 .songTitle(melodyCardRequest.songTitle())
                 .genre(melodyCardRequest.genre())
@@ -29,11 +33,12 @@ public class MelodyCardMapper {
                 .build();
     }
 
-    public static MelodyCardResponse toMelodyCardResponse(final Member member,
-                                                          final MelodyCard melodyCard) {
+    public static MelodyCardResponse toMelodyCardResponse(final MelodyCard melodyCard) {
         return MelodyCardResponse.builder()
-                .memberId(member.getId())
-                .nickname(member.getNickname())
+                .melodyCardId(melodyCard.getId())
+                .albumId(melodyCard.getAlbumId())
+                .memberId(melodyCard.getMemberId())
+                .nickname(melodyCard.getNickname())
                 .artistName(melodyCard.getArtistName())
                 .songTitle(melodyCard.getSongTitle())
                 .previewUrl(melodyCard.getPreviewUrl())

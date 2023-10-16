@@ -13,7 +13,7 @@ public interface MelodyCardCreateService {
 
     void createMelodyCard(final long memberId, final MelodyCardRequest dto, final MultipartFile melodyCardImage);
 
-    MelodyCardResponse getMelodyCardInfo(final MemberSession memberSession, final long melodyCardId);
+    MelodyCardResponse getMelodyCard(final long melodyCardId);
 
     List<MelodyCardResponse> getMelodyCards(final long memberId);
 }

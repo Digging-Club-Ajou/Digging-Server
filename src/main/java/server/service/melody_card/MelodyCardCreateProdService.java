@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.album.Album;
 import server.domain.melody_card.MelodyCard;
-import server.domain.member.vo.MemberSession;
 import server.global.exception.BadRequestException;
 import server.mapper.melody_card.dto.MelodyCardRequest;
 import server.mapper.melody_card.dto.MelodyCardResponse;
@@ -50,7 +49,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
 
         List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
         Album album = albumRepository.getByMemberId(memberId);
-        MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album.getId(), dto);
+        MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album, dto);
 
         ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
         try {
@@ -68,7 +67,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         }
     }
 
-    public MelodyCardResponse getMelodyCardInfo(final MemberSession memberSession, final long melodyCardId) {
+    public MelodyCardResponse getMelodyCard(final long melodyCardId) {
         Date expiration = new Date();
         long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
         expiration.setTime(expTimeMillis);
@@ -80,7 +79,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
 
         URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
         MelodyCardResponse melodyCardResponse =
-                melodyCardFindService.findMelodyCardResponse(memberSession.id(), melodyCardId);
+                melodyCardFindService.findMelodyCardResponse(melodyCardId);
 
         return melodyCardResponse.updateUrl(url.toString());
     }
@@ -102,7 +101,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
 
             URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
             MelodyCardResponse melodyCardResponse =
-                    melodyCardFindService.findMelodyCardResponse(memberId, melodyCard.getId());
+                    melodyCardFindService.findMelodyCardResponse(melodyCard.getId());
 
             melodyCardResponses.add(melodyCardResponse.updateUrl(url.toString()));
         }

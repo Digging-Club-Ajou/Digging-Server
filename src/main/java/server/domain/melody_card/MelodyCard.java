@@ -22,6 +22,11 @@ public class MelodyCard extends BaseTimeEntity {
     @Association
     private Long albumId;
 
+    @Association
+    private Long memberId;
+
+    private String nickname;
+
     private String artistName;
 
     private String songTitle;
@@ -37,10 +42,13 @@ public class MelodyCard extends BaseTimeEntity {
     private String color;
 
     @Builder
-    private MelodyCard(final Long albumId, final String artistName, final String songTitle,
-                       final String genre, final String previewUrl, final String address,
-                       final String cardDescription, final String color) {
+    private MelodyCard(final Long albumId, final Long memberId, final String nickname,
+                      final String artistName, final String songTitle, final String genre,
+                      final String previewUrl, final String address,
+                      final String cardDescription, final String color) {
         this.albumId = albumId;
+        this.memberId = memberId;
+        this.nickname = nickname;
         this.artistName = artistName;
         this.songTitle = songTitle;
         this.genre = genre;
