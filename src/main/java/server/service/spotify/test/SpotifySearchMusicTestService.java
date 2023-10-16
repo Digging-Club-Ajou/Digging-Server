@@ -53,8 +53,5 @@ public class SpotifySearchMusicTestService implements SpotifySearchMusicService 
         return spotifySearchDtos;
     }
 
-    @Override
-    public List<SpotifyArtistDto> searchArtists(String search) {
-        return null;
-    }
+
 }

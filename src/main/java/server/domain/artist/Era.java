@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import server.domain.BaseTimeEntity;
+import server.global.annotation.Association;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,8 +19,12 @@ public class Era extends BaseTimeEntity {
 
     private String era;
 
+    @Association
+    private Long artistInfoId;
+
     @Builder
-    public Era(final String era){
+    public Era(final String era, final Long artistInfoId){
         this.era = era;
+        this.artistInfoId = artistInfoId;
     }
 }

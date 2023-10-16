@@ -49,8 +49,7 @@ public class CSVHelper {
                         .nation(csvRecord.get("nation"))
                         .gender(Gender.getGender(csvRecord.get("gender")))
                         .group(csvRecord.get("group"))
-                        .era(eras)
-                        .genre(genre)
+//                        .genre(genre)
                         .popularity(Integer.parseInt(csvRecord.get("popularity")))
                         .build();
 

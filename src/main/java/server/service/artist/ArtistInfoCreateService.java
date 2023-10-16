@@ -3,6 +3,7 @@ package server.service.artist;
 import com.amazonaws.services.s3.model.CSVInput;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.step.item.ChunkProvider;
 import org.springframework.batch.item.Chunk;
@@ -45,7 +46,7 @@ public class ArtistInfoCreateService {
     public ArtistInfoCreateService(final ArtistInfoRepository artistInfoRepository){
         this.artistInfoRepository = artistInfoRepository;
     }
-
+    @Transactional
     public void createArtistInfo(MultipartFile file) {
 
         try {

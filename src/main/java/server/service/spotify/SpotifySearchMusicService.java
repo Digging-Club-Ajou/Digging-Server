@@ -12,5 +12,4 @@ public interface SpotifySearchMusicService {
 
     List<SpotifySearchDto> searchTracks(final String search);
 
-    List<SpotifyArtistDto> searchArtists(final String search);
 }

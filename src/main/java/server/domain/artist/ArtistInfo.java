@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import server.domain.BaseTimeEntity;
 import server.domain.genre.Genre;
 import server.domain.member.vo.Gender;
+import server.global.annotation.Association;
 
 import java.util.List;
 
@@ -22,26 +23,24 @@ public class ArtistInfo extends BaseTimeEntity {
     private String name;
     private String imageURL;
     private String nation;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String group;
-    @OneToMany
-    private List<Era> era;
-    @OneToOne
-    private Genre genre;
-    private int popularity;
 
+    @Association
+    private Long genreId;
+    private int popularity;
 
     @Builder
     public ArtistInfo(final String name, final String imageURL, final String nation, final Gender gender,
-                      final String group, final List<Era> era, final Genre genre, final int popularity){
+                      final String group,  final Long genreId, final int popularity){
         this.name = name;
         this.imageURL = imageURL;
         this.nation = nation;
         this.gender = gender;
         this.group = group;
-        this.era = era;
-        this.genre = genre;
+        this.genreId = genreId;
         this.popularity = popularity;
     }
 }
