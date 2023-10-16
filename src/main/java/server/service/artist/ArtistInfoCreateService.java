@@ -26,6 +26,7 @@ import server.domain.artist.Era;
 import server.global.exception.BadRequestException;
 import server.mapper.artist.dto.ArtistInfoDto;
 import server.repository.artist.ArtistInfoRepository;
+import server.service.spotify.SpotifySearchArtistProdService;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -40,11 +41,14 @@ import static server.global.constant.TextConstant.DIGGING_CLUB;
 public class ArtistInfoCreateService {
 
     private ArtistInfoRepository artistInfoRepository;
+    private SpotifySearchArtistProdService spotifySearchArtistProdService;
 
 
 
-    public ArtistInfoCreateService(final ArtistInfoRepository artistInfoRepository){
+    public ArtistInfoCreateService(final ArtistInfoRepository artistInfoRepository, final SpotifySearchArtistProdService spotifySearchArtistProdService){
         this.artistInfoRepository = artistInfoRepository;
+        this.spotifySearchArtistProdService = spotifySearchArtistProdService;
+
     }
     @Transactional
     public void createArtistInfo(MultipartFile file) {
@@ -54,9 +58,11 @@ public class ArtistInfoCreateService {
             //todo
             //spotify api 추가
             artistInfoList.forEach(artistInfo -> {
-
+                String imageURL = spotifySearchArtistProdService.searchArtist(artistInfo.getName());
+                artistInfo.setImageURL(imageURL);
             });
-            artistInfoRepository.saveAll(artistInfoList);
+            System.out.println(artistInfoList.get(0).getImageURL());
+//            artistInfoRepository.saveAll(artistInfoList);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
