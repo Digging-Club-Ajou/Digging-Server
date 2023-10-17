@@ -98,11 +98,11 @@ public class MelodyCardControllerTest extends ControllerTest {
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("특정 회원의 모든 멜로디 카드 가져오기",
+                .andDo(document("특정 앨범의 모든 멜로디 카드 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("멜로디 카드")
-                                .summary("특정 회원의 모든 멜로디 카드 가져오기")
+                                .summary("특정 앨범의 모든 멜로디 카드 가져오기")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
