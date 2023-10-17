@@ -40,6 +40,7 @@ public class ArtistInfoCreateService {
             throw new RuntimeException(e);
         }
 
+
     }
 
 
