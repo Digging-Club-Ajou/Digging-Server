@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import server.mapper.spotify.SpotifyArtistDto;
 import server.mapper.spotify.SpotifySearchDto;
 import server.service.spotify.SpotifySearchMusicService;
 
@@ -51,4 +52,6 @@ public class SpotifySearchMusicTestService implements SpotifySearchMusicService 
 
         return spotifySearchDtos;
     }
+
+
 }

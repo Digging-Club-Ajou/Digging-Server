@@ -11,6 +11,7 @@ public enum SpotifyConstant {
     public static final String KAKAO_LOCATION_KEYWORD_URL = "https://dapi.kakao.com/v2/local/search/keyword";
 
     public static final String BASIC_CONDITION = "&type=track&limit=30";
+    public static final String ARTIST_CONDITION = "&type=artist&limit=30";
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
     public static final String KAKAO_AK = "KakaoAK ";
