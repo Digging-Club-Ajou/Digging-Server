@@ -13,7 +13,6 @@ public record ArtistInfoDto (
         String nation,
         String gender,
         String group,
-        List<Era> era,
         String genre,
         int popularity
 

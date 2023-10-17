@@ -16,4 +16,6 @@ public class ArtistInfoRepository {
 
     public void saveAll(final List<ArtistInfo> artistInfoList){artistInfoJpaRepository.saveAll(artistInfoList);}
     public void save(final ArtistInfo artistInfo){artistInfoJpaRepository.save(artistInfo);}
+
+    public List<ArtistInfo> findAllBy(){return artistInfoJpaRepository.findAllBy();}
 }

@@ -1,6 +1,7 @@
 package server.domain.melody_card;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -33,10 +34,13 @@ public class MelodyCard extends BaseTimeEntity {
 
     private String genre;
 
+    @Nullable
     private String previewUrl;
 
+    @Nullable
     private String address;
 
+    @Nullable
     private String cardDescription;
 
     private String color;
