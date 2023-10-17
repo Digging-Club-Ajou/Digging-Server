@@ -8,6 +8,7 @@ import server.global.exception.dto.ResultResponse;
 import server.mapper.member.MemberMapper;
 import server.mapper.member.dto.NicknameResponse;
 import server.mapper.member.dto.NicknameRequest;
+import server.mapper.member.dto.UsernameResponse;
 import server.service.member.NicknameCreateService;
 import server.service.member.NicknameFindService;
 import server.service.member.NicknameValidationService;
@@ -33,6 +34,11 @@ public class MemberController {
     public NicknameResponse getNickname(@Login final MemberSession memberSession) {
         String nickname = nicknameFindService.findNickname(memberSession.id());
         return MemberMapper.toNicknameResponse(nickname);
+    }
+
+    @GetMapping("/username")
+    public UsernameResponse getUsername(@Login final MemberSession memberSession) {
+        return MemberMapper.toUsernameResponse(memberSession.username());
     }
 
     @PostMapping("/nickname-validation")

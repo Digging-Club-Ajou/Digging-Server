@@ -88,7 +88,7 @@ public abstract class ControllerTest {
         return response.getHeader(ACCESS_TOKEN.value);
     }
 
-    protected String loginCreateNickname() {
+    protected String loginCreateName() {
         // given 1
         Member member = Member.builder()
                 .username(TEST_USERNAME.value)

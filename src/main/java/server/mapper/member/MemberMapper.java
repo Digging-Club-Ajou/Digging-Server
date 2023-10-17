@@ -4,10 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.LoginType;
 import server.domain.member.vo.MemberSession;
-import server.mapper.member.dto.KakaoSignupRequest;
-import server.mapper.member.dto.NicknameResponse;
-import server.mapper.member.dto.MemberSignupRequest;
-import server.mapper.member.dto.NicknameValidationResponse;
+import server.mapper.member.dto.*;
 
 public class MemberMapper {
 
@@ -45,6 +42,10 @@ public class MemberMapper {
 
     public static NicknameResponse toNicknameResponse(final String nickname) {
         return new NicknameResponse(nickname);
+    }
+
+    public static UsernameResponse toUsernameResponse(final String username) {
+        return new UsernameResponse(username);
     }
 
     public static NicknameValidationResponse toNicknameValidationResponse(final boolean alreadyExist) {
