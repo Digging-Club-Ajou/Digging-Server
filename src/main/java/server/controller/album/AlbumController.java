@@ -6,12 +6,8 @@ import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.global.exception.dto.ResultResponse;
 import server.mapper.album.AlbumMapper;
-import server.mapper.album.dto.AlbumNameRequest;
-import server.mapper.album.dto.AlbumResponse;
-import server.mapper.album.dto.AlbumValidateResponse;
-import server.mapper.album.dto.AlbumImageUrlResponse;
+import server.mapper.album.dto.*;
 import server.service.album.AlbumFindService;
-import server.service.album.prod.AlbumFindProdService;
 import server.service.album.AlbumImageReadService;
 import server.service.album.AlbumValidationService;
 import server.service.album.AlbumCreateService;
@@ -56,6 +52,24 @@ public class AlbumController {
     public AlbumResponse getAlbumResponse(@PathVariable final long albumId) {
         return albumFindService.getAlbumResponse(albumId);
     }
+
+    // todo 팔로잉한 앨범 반환하기
+//    @GetMapping("/albums/following/{memberId}")
+//    public AlbumResponses getFollowedAlbumResponses(@PathVariable final long memberId) {
+//
+//    }
+
+    // todo AI 추천 앨범 반환하기
+//    @GetMapping("/albums/recommendation/{memberId}")
+//    public AlbumResponses getRecommendationAlbumResponses(@PathVariable final long memberId) {
+//
+//    }
+
+    // todo 추천 장르 반환하기
+//    @GetMapping("/albums/genres/{memberId}")
+//    public AlbumResponses getGenresAlbumResponses(@PathVariable final long memberId) {
+//
+//    }
 
     @PostMapping("/albums")
     public void createAlbum(@Login final MemberSession memberSession,
