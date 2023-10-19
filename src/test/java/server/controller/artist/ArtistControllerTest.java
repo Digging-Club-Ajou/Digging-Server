@@ -16,9 +16,9 @@ import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
@@ -70,5 +70,20 @@ class ArtistControllerTest extends ControllerTest {
                                 )
                                 .build()
                         )));
+
+        mockMvc.perform(get("/api/artists-info")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(artistRequest))
+                )
+                .andExpect(status().isOk())
+                .andDo(document("아티스트 목록 가져오기 - 성공",
+                        preprocessRequest(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("아티스트")
+                                .summary("아티스트 목록 가져오기")
+                                .build()
+                        )));
+
     }
 }

@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import server.domain.BaseTimeEntity;
 import server.global.annotation.Association;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -27,4 +30,5 @@ public class Era extends BaseTimeEntity {
         this.era = era;
         this.artistInfoId = artistInfoId;
     }
+
 }

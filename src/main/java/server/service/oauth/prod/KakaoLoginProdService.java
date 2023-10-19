@@ -97,7 +97,7 @@ public class KakaoLoginProdService implements KakaoLoginService {
         ObjectMapper objectMapper = new ObjectMapper();
         KakaoProfile kakaoProfile = objectMapper.readValue(responseBody,KakaoProfile.class);
         Gender gender = Gender.getGender(kakaoProfile.kakao_account().gender());
-        KakaoSignupRequest kakaoSignupRequest = new KakaoSignupRequest(kakaoProfile.kakao_account().email(), kakaoProfile.kakao_account().phoneNumber(),gender);
+        KakaoSignupRequest kakaoSignupRequest = new KakaoSignupRequest(kakaoProfile.kakao_account().email(), kakaoProfile.kakao_account().phoneNumber(),kakaoProfile.kakao_account().name(),gender);
 
         return kakaoSignupRequest;
     }

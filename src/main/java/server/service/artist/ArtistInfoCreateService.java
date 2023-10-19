@@ -29,8 +29,6 @@ public class ArtistInfoCreateService {
 
         try {
             List<ArtistInfo> artistInfoList = CSVHelper.csvToArtistInfos(file.getInputStream());
-            //todo
-            //spotify api 추가
             artistInfoList.forEach(artistInfo -> {
                 String imageURL = spotifySearchArtistProdService.searchArtist(artistInfo.getName());
                 artistInfo.setImageURL(imageURL);
