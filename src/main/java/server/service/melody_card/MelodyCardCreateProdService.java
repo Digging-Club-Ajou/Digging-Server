@@ -51,20 +51,23 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         Album album = albumRepository.getByMemberId(memberId);
         MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album, dto);
 
-        ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
-        try {
-            PutObjectRequest putObjectRequest = new PutObjectRequest(
-                    DIGGING_CLUB.value,
-                    MELODY_CARD_IMAGE.value + melodyCard.getId(),
-                    melodyCardImage.getInputStream(),
-                    objectMetadata
-            );
+        if(melodyCardImage != null)
+        {
+            ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
+            try {
+                PutObjectRequest putObjectRequest = new PutObjectRequest(
+                        DIGGING_CLUB.value,
+                        MELODY_CARD_IMAGE.value + melodyCard.getId(),
+                        melodyCardImage.getInputStream(),
+                        objectMetadata
+                );
+                amazonS3Client.putObject(putObjectRequest);
 
-            amazonS3Client.putObject(putObjectRequest);
-
-        } catch (IOException e) {
-            throw new BadRequestException(PROFILES_SAVE_EXCEPTION.message);
+            } catch (IOException e) {
+                throw new BadRequestException(PROFILES_SAVE_EXCEPTION.message);
+            }
         }
+
     }
 
     public MelodyCardResponse getMelodyCard(final long melodyCardId) {
