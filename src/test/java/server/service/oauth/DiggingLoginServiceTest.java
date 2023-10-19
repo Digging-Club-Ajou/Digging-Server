@@ -33,7 +33,7 @@ class DiggingLoginServiceTest extends ServiceTest {
         // given 2
         KakaoSignupRequest dto = KakaoSignupRequest.builder()
                 .email(TEST_EMAIL.value)
-                .phoneNumber(TEST_PHONE_NUMBER.value)
+                .ageRange(TEST_AGE_RANGE.value)
                 .gender(Gender.UNKNOWN)
                 .build();
 
@@ -53,7 +53,7 @@ class DiggingLoginServiceTest extends ServiceTest {
         // given
         KakaoSignupRequest dto = KakaoSignupRequest.builder()
                 .email(TEST_EMAIL.value)
-                .phoneNumber(TEST_PHONE_NUMBER.value)
+                .ageRange(TEST_AGE_RANGE.value)
                 .gender(Gender.UNKNOWN)
                 .build();
 

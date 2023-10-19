@@ -8,6 +8,7 @@ public record KakaoSignupRequest(
         String email,
         String phoneNumber,
         String name,
+        String ageRange,
         Gender gender
 ) {
 }
