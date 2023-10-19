@@ -1,4 +1,4 @@
-package server.domain.artist;
+package server.domain.music_recommentdation;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,10 +11,10 @@ import server.global.annotation.Association;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Artist extends BaseTimeEntity {
+public class MusicRecommendation extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "artist_id")
+    @Column(name = "music_recommendation_id")
     private Long id;
 
     @Association
@@ -22,9 +22,12 @@ public class Artist extends BaseTimeEntity {
 
     private String artistName;
 
+    private String songTitle;
+
     @Builder
-    private Artist(final long memberId, final String artistName) {
+    private MusicRecommendation(final long memberId, final String artistName, final String songTitle) {
         this.memberId = memberId;
         this.artistName = artistName;
+        this.songTitle = songTitle;
     }
 }

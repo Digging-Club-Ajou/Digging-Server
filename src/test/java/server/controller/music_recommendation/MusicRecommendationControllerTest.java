@@ -1,11 +1,9 @@
-package server.controller.artist;
+package server.controller.music_recommendation;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.restdocs.payload.JsonFieldType;
-import server.mapper.artist.dto.ArtistRequest;
-import server.mapper.genre.dto.GenreRequest;
+import server.mapper.music_recommendation.dto.ArtistRequest;
 import server.util.ControllerTest;
 
 import java.util.ArrayList;
@@ -13,20 +11,16 @@ import java.util.List;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
-import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
-import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
 
-class ArtistControllerTest extends ControllerTest {
+class MusicRecommendationControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("좋아하는 아티스트를 저장합니다")
@@ -70,20 +64,5 @@ class ArtistControllerTest extends ControllerTest {
                                 )
                                 .build()
                         )));
-
-        mockMvc.perform(get("/api/artists-info")
-                        .header(ACCESS_TOKEN.value, accessToken)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(artistRequest))
-                )
-                .andExpect(status().isOk())
-                .andDo(document("아티스트 목록 가져오기 - 성공",
-                        preprocessRequest(prettyPrint()),
-                        resource(ResourceSnippetParameters.builder()
-                                .tag("아티스트")
-                                .summary("아티스트 목록 가져오기")
-                                .build()
-                        )));
-
     }
 }

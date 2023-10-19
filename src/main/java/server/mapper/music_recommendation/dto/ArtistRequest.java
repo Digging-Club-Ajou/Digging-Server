@@ -1,4 +1,4 @@
-package server.mapper.artist.dto;
+package server.mapper.music_recommendation.dto;
 
 import java.util.List;
 
