@@ -8,6 +8,7 @@ public enum TestConstant {
     TEST_PASSWORD("TestPassword123@"),
     TEST_PHONE_NUMBER("010-1234-5678"),
     TEST_EMAIL("test@gmail.com"),
+    TEST_AGE_RANGE("20-29"),
     TEST_AUTH_CODE("Test Auth Code");
 
     public final String value;

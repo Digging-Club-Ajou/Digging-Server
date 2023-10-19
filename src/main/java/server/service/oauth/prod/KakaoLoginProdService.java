@@ -1,6 +1,7 @@
 package server.service.oauth.prod;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,27 +13,31 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import server.domain.member.vo.Gender;
 import server.mapper.jwt.dto.JwtToken;
-import server.mapper.member.dto.KakaoProfile;
 import server.mapper.member.dto.KakaoSignupRequest;
 import server.mapper.member.dto.KakaoToken;
 import server.service.member.DiggingLoginService;
 import server.service.oauth.KakaoLoginService;
 
+import static server.global.constant.ExceptionMessage.MUSIC_JSON_PARSING;
 import static server.global.constant.KakaoConstant.*;
+import static server.global.constant.SpotifyConstant.ARTISTS;
+import static server.global.constant.SpotifyConstant.ITEMS;
 
 @Profile({"prod", "dev"})
 @Service
 public class KakaoLoginProdService implements KakaoLoginService {
 
     private final DiggingLoginService diggingLoginService;
+    private final ObjectMapper objectMapper;
 
     @Value("https://kapi.kakao.com/v2/user/me")
     private String getProfileURL;
 
     @Value("https://kauth.kakao.com/oauth/token")
     private String getAccessTokenURL;
-    public KakaoLoginProdService(final DiggingLoginService diggingLoginService) {
+    public KakaoLoginProdService(final DiggingLoginService diggingLoginService, final ObjectMapper objectMapper) {
         this.diggingLoginService = diggingLoginService;
+        this.objectMapper = objectMapper;
     }
 
     @SneakyThrows
@@ -92,13 +97,25 @@ public class KakaoLoginProdService implements KakaoLoginService {
                 String.class
         );
 
-        // HTTP 응답 (JSON) -> 액세스 토큰 파싱
-        String responseBody = response.getBody();
-        ObjectMapper objectMapper = new ObjectMapper();
-        KakaoProfile kakaoProfile = objectMapper.readValue(responseBody,KakaoProfile.class);
-        Gender gender = Gender.getGender(kakaoProfile.kakao_account().gender());
-        KakaoSignupRequest kakaoSignupRequest = new KakaoSignupRequest(kakaoProfile.kakao_account().email(), kakaoProfile.kakao_account().phoneNumber(),kakaoProfile.kakao_account().name(),gender);
+        JsonNode rootNode;
+        try {
+            rootNode = objectMapper.readTree(response.getBody());
+            JsonNode itemsNode = rootNode.path(KAKAO_ACCOUNT);
 
-        return kakaoSignupRequest;
+            String gender = itemsNode.get(GENDER).asText();
+            KakaoSignupRequest kakaoSignupRequest = KakaoSignupRequest.builder()
+                    .email(itemsNode.get(EMAIL).asText())
+                    .ageRange(itemsNode.get(AGE_RANGE).asText())
+                    .gender(Gender.getGender(gender)).build();
+
+            return kakaoSignupRequest;
+
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(MUSIC_JSON_PARSING.message);
+        }
+
+
+
     }
 }
