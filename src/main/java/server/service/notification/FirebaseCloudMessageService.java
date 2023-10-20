@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import server.domain.notification.FcmMessage;
 import server.domain.notification.Message;
 import server.domain.notification.Notification;
-import server.global.constant.NotificationConstant;
 import server.global.exception.BadRequestException;
 
 import java.io.IOException;
@@ -33,19 +32,15 @@ public class FirebaseCloudMessageService {
         String message = makeMessage(targetToken, title, body);
 
         OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
+        RequestBody requestBody = RequestBody.create(message, MediaType.get(MEDIA_TYPE_JSON_UTF_8));
 
         Request request = null;
-        try {
-            request = new Request.Builder()
-                    .url(NOTIFICATION_URL)
-                    .post(requestBody)
-                    .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
-                    .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
-                    .build();
-        } catch (IOException e) {
-            throw new BadRequestException(NOTIFICATION_BAD_REQUEST.message);
-        }
+        request = new Request.Builder()
+                .url(NOTIFICATION_URL)
+                .post(requestBody)
+                .addHeader(HttpHeaders.AUTHORIZATION, BEARER + getAccessToken())
+                .addHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_UTF_8)
+                .build();
 
         try {
             Response response = client.newCall(request)
@@ -68,12 +63,21 @@ public class FirebaseCloudMessageService {
         }
     }
 
-    public String getAccessToken() throws IOException {
-        GoogleCredentials googleCredentials = GoogleCredentials
-                .fromStream(new ClassPathResource(FIREBASE_CONFIG_PATH).getInputStream())
-                .createScoped(List.of(NOTIFICATION_SCOPE));
+    public String getAccessToken() {
+        GoogleCredentials googleCredentials = null;
+        try {
+            googleCredentials = GoogleCredentials
+                    .fromStream(new ClassPathResource(FIREBASE_CONFIG_PATH).getInputStream())
+                    .createScoped(List.of(NOTIFICATION_SCOPE));
+        } catch (IOException e) {
+            throw new BadRequestException(NOTIFICATION_BAD_REQUEST.message);
+        }
 
-        googleCredentials.refreshIfExpired();
+        try {
+            googleCredentials.refreshIfExpired();
+        } catch (IOException e) {
+            throw new BadRequestException(NOTIFICATION_BAD_REQUEST.message);
+        }
         return googleCredentials.getAccessToken().getTokenValue();
     }
 }
