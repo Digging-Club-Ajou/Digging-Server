@@ -24,6 +24,8 @@ public enum ExceptionMessage {
     REFRESH_TOKEN_NOT_EXIST("Refresh Token을 찾을 수 없습니다"),
     REFRESH_TOKEN_NOT_VALID("Refresh Token이 유효하지 않습니다"),
     PROFILES_SAVE_EXCEPTION("프로필 사진을 저장할 수 없습니다"),
+    NOTIFICATION_BAD_REQUEST("알림을 보낼 수 없습니다"),
+    NOTIFICATION_MESSAGE_BAD_REQUEST("알림 메세지를 생성할 수 없습니다"),
 
     MELODY_CARD_LIMIT("멜로디 카드의 최대 갯수 만큼 저장되어 있습니다"),
     MELODY_CARD_NOT_FOUND("멜로디 카드가 존재하지 않습니다"),

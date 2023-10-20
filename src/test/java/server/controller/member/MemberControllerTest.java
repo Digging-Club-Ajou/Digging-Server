@@ -283,49 +283,4 @@ class MemberControllerTest extends ControllerTest {
                                 .build()
                         )));
     }
-
-    @Test
-    @DisplayName("로그인한 회원의 이름을 가져옵니다")
-    void getUsernameSuccess() throws Exception {
-        // given
-        String accessToken = loginCreateName();
-
-        // expected
-        mockMvc.perform(get("/api/username")
-                        .header(ACCESS_TOKEN.value, accessToken)
-                )
-                .andExpect(status().isOk())
-                .andDo(document("회원 이름 가져오기 성공",
-                        preprocessResponse(prettyPrint()),
-                        resource(ResourceSnippetParameters.builder()
-                                .tag("회원")
-                                .summary("회원 이름 (실명)")
-                                .requestHeaders(
-                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
-                                )
-                                .responseFields(
-                                        fieldWithPath("username").type(STRING).description("회원 이름")
-                                )
-                                .build()
-                        )));
-    }
-
-    @Test
-    @DisplayName("로그인하지 않으면 회원의 이름을 가져올 수 없습니다")
-    void getUsernameFail() throws Exception {
-        // expected
-        mockMvc.perform(get("/api/username"))
-                .andExpect(status().isUnauthorized())
-                .andDo(document("회원 이름 가져오기 실패",
-                        preprocessResponse(prettyPrint()),
-                        resource(ResourceSnippetParameters.builder()
-                                .tag("회원")
-                                .summary("회원 이름 (실명)")
-                                .responseFields(
-                                        fieldWithPath("statusCode").type(STRING).description("상태 코드"),
-                                        fieldWithPath("message").type(STRING).description("오류 메세지")
-                                )
-                                .build()
-                        )));
-    }
 }

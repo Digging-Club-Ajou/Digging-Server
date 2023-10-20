@@ -20,8 +20,6 @@ import server.service.oauth.KakaoLoginService;
 
 import static server.global.constant.ExceptionMessage.MUSIC_JSON_PARSING;
 import static server.global.constant.KakaoConstant.*;
-import static server.global.constant.SpotifyConstant.ARTISTS;
-import static server.global.constant.SpotifyConstant.ITEMS;
 
 @Profile({"prod", "dev"})
 @Service
@@ -35,6 +33,7 @@ public class KakaoLoginProdService implements KakaoLoginService {
 
     @Value("https://kauth.kakao.com/oauth/token")
     private String getAccessTokenURL;
+
     public KakaoLoginProdService(final DiggingLoginService diggingLoginService, final ObjectMapper objectMapper) {
         this.diggingLoginService = diggingLoginService;
         this.objectMapper = objectMapper;
@@ -114,8 +113,5 @@ public class KakaoLoginProdService implements KakaoLoginService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(MUSIC_JSON_PARSING.message);
         }
-
-
-
     }
 }
