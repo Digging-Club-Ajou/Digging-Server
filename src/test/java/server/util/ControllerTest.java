@@ -17,6 +17,7 @@ import server.domain.member.vo.MemberSession;
 import server.domain.album.Album;
 import server.repository.album.AlbumRepository;
 import server.repository.member.MemberRepository;
+import server.repository.notification_info.NotificationRepository;
 import server.service.jwt.JwtFacade;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -44,6 +45,9 @@ public abstract class ControllerTest {
 
     @Autowired
     protected AlbumRepository albumRepository;
+
+    @Autowired
+    protected NotificationRepository notificationRepository;
 
     @Autowired
     protected JwtFacade jwtFacade;

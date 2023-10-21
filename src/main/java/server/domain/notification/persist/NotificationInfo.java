@@ -20,14 +20,11 @@ public class NotificationInfo extends BaseTimeEntity {
     @Association
     private Long memberId;
 
-    private String nickname;
-
     private String notificationMessage;
 
     @Builder
-    private NotificationInfo(final Long memberId, final String nickname, final String notificationMessage) {
+    private NotificationInfo(final long memberId, final String notificationMessage) {
         this.memberId = memberId;
-        this.nickname = nickname;
         this.notificationMessage = notificationMessage;
     }
 }

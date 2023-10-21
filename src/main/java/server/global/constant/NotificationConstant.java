@@ -14,4 +14,5 @@ public enum NotificationConstant {
     public static final String MEDIA_TYPE_JSON_UTF_8 = "application/json; charset=utf-8";
     public static final String CONTENT_TYPE_JSON_UTF_8 = "application/json; UTF-8";
     public static final String BEARER = "Bearer ";
+    public static final String MINUTES_UNIT = "분 전";
 }
