@@ -34,7 +34,6 @@ public class MelodyCard extends BaseTimeEntity {
 
     private String genre;
 
-    @Nullable
     private String previewUrl;
 
     @Nullable

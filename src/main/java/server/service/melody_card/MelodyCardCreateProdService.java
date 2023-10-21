@@ -44,16 +44,17 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         this.albumRepository = albumRepository;
     }
 
-    public void createMelodyCard(final long memberId, final MelodyCardRequest dto,
+    public void createMelodyCard(final long memberId, final MelodyCardRequest melodyCardRequest,
                                  final MultipartFile melodyCardImage) {
 
         List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
         Album album = albumRepository.getByMemberId(memberId);
-        MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album, dto);
+        MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album, melodyCardRequest);
 
         if(melodyCardImage != null)
         {
             ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
+
             try {
                 PutObjectRequest putObjectRequest = new PutObjectRequest(
                         DIGGING_CLUB.value,
@@ -64,7 +65,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
                 amazonS3Client.putObject(putObjectRequest);
 
             } catch (IOException e) {
-                throw new BadRequestException(PROFILES_SAVE_EXCEPTION.message);
+                throw new BadRequestException(MELODY_CARD_EXCEPTION.message);
             }
         }
 
