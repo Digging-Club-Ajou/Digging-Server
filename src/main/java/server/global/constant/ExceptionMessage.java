@@ -30,6 +30,9 @@ public enum ExceptionMessage {
     MELODY_CARD_LIMIT("멜로디 카드의 최대 갯수 만큼 저장되어 있습니다"),
     MELODY_CARD_NOT_FOUND("멜로디 카드가 존재하지 않습니다"),
 
+    MELODY_CARD_EXCEPTION("멜로디 카드를 저장할 수 없습니다"),
+
+
     ALBUM_NOT_EXIST("앨범이 존재하지 않습니다.");
 
     public final String message;

@@ -41,24 +41,21 @@ public class AlbumCreateService {
         validateExist(memberSession.id());
         Album album = albumInfoCreateService.createProfileInfo(memberSession, albumName);
 
-        if (albumImage!= null){
-            ObjectMetadata objectMetadata = getObjectMetadata(albumImage);
 
-            try {
-                PutObjectRequest putObjectRequest = new PutObjectRequest(
-                        DIGGING_CLUB.value,
-                        ALBUM_IMAGE.value + album.getId(),
-                        albumImage.getInputStream(),
-                        objectMetadata
-                );
+        ObjectMetadata objectMetadata = getObjectMetadata(albumImage);
 
-                amazonS3Client.putObject(putObjectRequest);
+        try {
+            PutObjectRequest putObjectRequest = new PutObjectRequest(
+                    DIGGING_CLUB.value,
+                    ALBUM_IMAGE.value + album.getId(),
+                    albumImage.getInputStream(),
+                    objectMetadata
+            );
 
-            } catch (IOException e) {
-                throw new BadRequestException(PROFILES_SAVE_EXCEPTION.message);
-            }
+            amazonS3Client.putObject(putObjectRequest);
+        }catch (IOException e) {
+            throw new BadRequestException(PROFILES_SAVE_EXCEPTION.message);
         }
-
 
     }
 
