@@ -60,7 +60,7 @@ class NotificationControllerTest extends ControllerTest {
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("로그인한 회원의 알림 목록 가져오기",
+                .andDo(document("로그인한 회원의 알림 목록 가져오기 (최신순)",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("알림")
