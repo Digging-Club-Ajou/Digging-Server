@@ -1,4 +1,4 @@
-package server.domain.notification;
+package server.domain.notification.vo;
 
 public class Notification {
 

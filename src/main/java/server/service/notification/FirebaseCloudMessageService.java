@@ -7,9 +7,9 @@ import okhttp3.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import server.domain.notification.FcmMessage;
-import server.domain.notification.Message;
-import server.domain.notification.Notification;
+import server.domain.notification.vo.FcmMessage;
+import server.domain.notification.vo.Message;
+import server.domain.notification.vo.Notification;
 import server.global.exception.BadRequestException;
 
 import java.io.IOException;
