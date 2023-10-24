@@ -24,9 +24,9 @@ public class CardFavoriteController {
         this.cardFavoriteFindService = cardFavoriteFindService;
     }
 
-    @PostMapping("/card-favorite")
+    @PostMapping("/card-favorites")
     public void changeLikesState(@Login final MemberSession memberSession,
-                          @RequestBody final CardFavoriteRequest cardFavoriteRequest) {
+                                 @RequestBody final CardFavoriteRequest cardFavoriteRequest) {
         cardFavoriteCreateService.changeLikesState(memberSession.id(), cardFavoriteRequest);
     }
 

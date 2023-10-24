@@ -15,7 +15,7 @@ public class CardFavoriteMapper {
         return CardFavorite.builder()
                 .memberId(memberId)
                 .melodyCardId(cardFavoriteRequest.melodyCardId())
-                .isLikes(cardFavoriteRequest.isLikes())
+                .isLike(cardFavoriteRequest.isLike())
                 .build();
     }
 

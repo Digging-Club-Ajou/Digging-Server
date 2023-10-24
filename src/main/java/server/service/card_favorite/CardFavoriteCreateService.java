@@ -25,7 +25,7 @@ public class CardFavoriteCreateService {
 
         if (optionalCardFavorite.isPresent()) {
             CardFavorite cardFavorite = optionalCardFavorite.get();
-            cardFavorite.updateState(dto.isLikes());
+            cardFavorite.updateState(dto.isLike());
         } else {
             CardFavorite cardFavorite = CardFavoriteMapper.toEntity(memberId, dto);
             cardFavoriteRepository.save(cardFavorite);
