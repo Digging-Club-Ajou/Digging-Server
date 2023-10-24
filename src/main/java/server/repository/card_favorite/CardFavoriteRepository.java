@@ -2,9 +2,12 @@ package server.repository.card_favorite;
 
 import org.springframework.stereotype.Repository;
 import server.domain.card_favorite.CardFavorite;
+import server.global.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+
+import static server.global.constant.ExceptionMessage.CARD_FAVORITE_NOT_FOUND_EXCEPTION;
 
 @Repository
 public class CardFavoriteRepository {
@@ -21,6 +24,11 @@ public class CardFavoriteRepository {
 
     public Optional<CardFavorite> findByMemberIdAndMelodyCardId(final long memberId, final long melodyCardId) {
         return cardFavoriteJpaRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId);
+    }
+
+    public CardFavorite getByMemberIdAndMelodyCardId(final long memberId, final long melodyCardId) {
+        return cardFavoriteJpaRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId)
+                .orElseThrow(() -> new NotFoundException(CARD_FAVORITE_NOT_FOUND_EXCEPTION.message));
     }
 
     public List<CardFavorite> findAllByMemberId(final long memberId) {
