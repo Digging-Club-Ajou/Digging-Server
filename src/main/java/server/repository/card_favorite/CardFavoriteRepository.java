@@ -3,6 +3,9 @@ package server.repository.card_favorite;
 import org.springframework.stereotype.Repository;
 import server.domain.card_favorite.CardFavorite;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class CardFavoriteRepository {
 
@@ -14,5 +17,13 @@ public class CardFavoriteRepository {
 
     public void save(final CardFavorite cardFavorite) {
         cardFavoriteJpaRepository.save(cardFavorite);
+    }
+
+    public Optional<CardFavorite> findByMemberIdAndMelodyCardId(final long memberId, final long melodyCardId) {
+        return cardFavoriteJpaRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId);
+    }
+
+    public List<CardFavorite> findAllByMemberId(final long memberId) {
+        return cardFavoriteJpaRepository.findAllByMemberId(memberId);
     }
 }

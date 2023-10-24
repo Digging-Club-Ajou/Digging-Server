@@ -1,26 +1,39 @@
 package server.controller.card_favorite;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
+import server.mapper.card_favorite.dto.CardFavoriteRequest;
+import server.mapper.card_favorite.dto.CardFavoriteResponse;
+import server.mapper.card_favorite.dto.CardFavoriteResult;
 import server.service.card_favorite.CardFavoriteCreateService;
+import server.service.card_favorite.CardFavoriteFindService;
+
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
 public class CardFavoriteController {
 
     private final CardFavoriteCreateService cardFavoriteCreateService;
+    private final CardFavoriteFindService cardFavoriteFindService;
 
-    public CardFavoriteController(final CardFavoriteCreateService cardFavoriteCreateService) {
+    public CardFavoriteController(final CardFavoriteCreateService cardFavoriteCreateService,
+                                  final CardFavoriteFindService cardFavoriteFindService) {
         this.cardFavoriteCreateService = cardFavoriteCreateService;
+        this.cardFavoriteFindService = cardFavoriteFindService;
     }
 
-    @PostMapping("/card-favorite/{melodyCardId}")
-    public void pushLikes(@Login final MemberSession memberSession,
-                          @PathVariable final long melodyCardId) {
-        cardFavoriteCreateService.pushLikes(memberSession.id(), melodyCardId);
+    @PostMapping("/card-favorite")
+    public void changeLikesState(@Login final MemberSession memberSession,
+                          @RequestBody final CardFavoriteRequest cardFavoriteRequest) {
+        cardFavoriteCreateService.changeLikesState(memberSession.id(), cardFavoriteRequest);
+    }
+
+    @GetMapping("/card-favorites")
+    public CardFavoriteResult findAll(@Login final MemberSession memberSession) {
+        List<CardFavoriteResponse> cardFavoriteResponses =
+                cardFavoriteFindService.findAllResponses(memberSession.id());
+        return new CardFavoriteResult(cardFavoriteResponses);
     }
 }

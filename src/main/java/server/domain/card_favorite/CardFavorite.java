@@ -23,9 +23,16 @@ public class CardFavorite extends BaseTimeEntity {
     @Association
     private Long melodyCardId;
 
+    private boolean isLikes;
+
     @Builder
-    private CardFavorite(final long memberId, final long melodyCardId) {
+    private CardFavorite(final Long memberId, final Long melodyCardId, final boolean isLikes) {
         this.memberId = memberId;
         this.melodyCardId = melodyCardId;
+        this.isLikes = isLikes;
+    }
+
+    public void updateState(final boolean isLikes) {
+        this.isLikes = isLikes;
     }
 }
