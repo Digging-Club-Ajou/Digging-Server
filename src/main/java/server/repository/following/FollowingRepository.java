@@ -23,4 +23,8 @@ public class FollowingRepository {
     public Optional<FollowingInfo> findAllByFollowedId(final Long followedId) {
         return followingJpaRepository.findAllByFollowedId(followedId);
     }
+
+    public Optional<FollowingInfo> findAllByFollowingId(final Long followedId) {
+        return followingJpaRepository.findAllByFollowingId(followedId);
+    }
 }

@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface FollowingJpaRepository extends JpaRepository<FollowingInfo, Long> {
 
     Optional<FollowingInfo> findAllByFollowedId(final Long followedId);
+
+    Optional<FollowingInfo> findAllByFollowingId(final Long followingId);
 }

@@ -22,4 +22,9 @@ public class FollowingController {
         followingService.saveFollowing(memberSession.id(),followingDto);
     }
 
+    @GetMapping("/following-number")
+    public void getFollowingNumber(@Login final MemberSession memberSession){
+
+        followingService.getFollowingNumber(memberSession.id());
+    }
 }
