@@ -26,6 +26,8 @@ public class MelodyCardRepository {
 
     public Optional<MelodyCard> findByAlbumId(Long albumId){return melodyCardJpaRepository.findByAlbumId(albumId);}
 
+    public Optional<MelodyCard> findByMemberId(Long albumId){return melodyCardJpaRepository.findByAlbumId(albumId);}
+
     public MelodyCard save(final MelodyCard melodyCard){
         return melodyCardJpaRepository.save(melodyCard);
     }
@@ -37,6 +39,10 @@ public class MelodyCardRepository {
 
     public List<MelodyCard> findAllByAlbumId(final long albumId) {
         return melodyCardJpaRepository.findAllByAlbumId(albumId);
+    }
+
+    public List<MelodyCard> findAllByMemberId(final long memberId) {
+        return melodyCardJpaRepository.findAllByMemberId(memberId);
     }
 
     public List<String> findAllArtistName(final long albumId) {

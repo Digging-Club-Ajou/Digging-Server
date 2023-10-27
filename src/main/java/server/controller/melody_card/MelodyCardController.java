@@ -1,5 +1,6 @@
 package server.controller.melody_card;
 
+import com.google.firebase.database.annotations.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.vo.MemberSession;
@@ -41,7 +42,7 @@ public class MelodyCardController {
     public void createMelodyCard(
             @Login final MemberSession memberSession,
             @RequestPart final MelodyCardRequest melodyCardRequest,
-            @RequestPart final MultipartFile melodyImage){
+            @RequestPart(required = false) final MultipartFile melodyImage){
         melodyCardCreateService.createMelodyCard(memberSession.id(), melodyCardRequest, melodyImage);
     }
 }
