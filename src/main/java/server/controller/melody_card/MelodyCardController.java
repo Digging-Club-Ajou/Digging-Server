@@ -42,7 +42,7 @@ public class MelodyCardController {
     public void createMelodyCard(
             @Login final MemberSession memberSession,
             @RequestPart final MelodyCardRequest melodyCardRequest,
-            @RequestPart(required = false) final MultipartFile melodyImage){
+            @RequestPart final MultipartFile melodyImage){
         melodyCardCreateService.createMelodyCard(memberSession.id(), melodyCardRequest, melodyImage);
     }
 }
