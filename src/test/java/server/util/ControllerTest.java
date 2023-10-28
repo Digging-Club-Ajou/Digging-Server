@@ -17,6 +17,7 @@ import server.domain.member.vo.MemberSession;
 import server.domain.album.Album;
 import server.repository.album.AlbumRepository;
 import server.repository.card_favorite.CardFavoriteRepository;
+import server.repository.following.FollowingRepository;
 import server.repository.melody_card.MelodyCardRepository;
 import server.repository.member.MemberRepository;
 import server.repository.notification_info.NotificationRepository;
@@ -56,6 +57,9 @@ public abstract class ControllerTest {
 
     @Autowired
     protected CardFavoriteRepository cardFavoriteRepository;
+
+    @Autowired
+    protected FollowingRepository followingRepository;
 
     @Autowired
     protected JwtFacade jwtFacade;

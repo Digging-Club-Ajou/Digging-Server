@@ -4,9 +4,11 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import server.domain.album.Album;
+import server.domain.following.FollowingInfo;
+import server.domain.member.persist.Member;
+import server.domain.member.vo.MemberSession;
 import server.mapper.album.dto.AlbumNameRequest;
 import server.util.ControllerTest;
-import server.util.TestConstant;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
@@ -18,7 +20,9 @@ import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
+import static server.global.constant.TimeConstant.ONE_HOUR;
 import static server.util.TestConstant.TEST_NICKNAME;
+import static server.util.TestConstant.TEST_USERNAME;
 
 
 class AlbumControllerTest extends ControllerTest {
@@ -201,5 +205,107 @@ class AlbumControllerTest extends ControllerTest {
                                 )
                                 .build()
                         )));
+    }
+
+    @Test
+    @DisplayName("로그인한 회원이 팔로잉한 앨범들의 정보를 가져옵니다")
+    void getFollowedAlbums() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+
+        // given 3
+        Member member1 = Member.builder().build();
+        Member member2 = Member.builder().build();
+        Member member3 = Member.builder().build();
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+
+        createAlbumInfo(member1, member2, member3);
+
+        // given 4
+        createFollowingInfo(member, member1, member2, member3);
+
+        // expected
+        mockMvc.perform(get("/api/albums/following")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("로그인한 회원의 팔로잉한 앨범 가져오기",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("앨범")
+                                .summary("팔로잉한 앨범 정보 가져오기")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .responseFields(
+                                        fieldWithPath("albumResponses[].memberId").description("회원 id"),
+                                        fieldWithPath("albumResponses[].albumId").description("앨범 id"),
+                                        fieldWithPath("albumResponses[].nickname").description("닉네임"),
+                                        fieldWithPath("albumResponses[].albumName").description("앨범 이름"),
+                                        fieldWithPath("albumResponses[].imageUrl").description("이미지 URL"),
+                                        fieldWithPath("albumResponses[].artistNames").description("아티스트 이름")
+                                )
+                                .build()
+                        )));
+    }
+
+    private void createFollowingInfo(final Member member, final Member member1, final Member member2, final Member member3) {
+        FollowingInfo followingInfo1 = FollowingInfo.builder()
+                .followedId(member.getId())
+                .followingId(member1.getId())
+                .build();
+
+        FollowingInfo followingInfo2 = FollowingInfo.builder()
+                .followedId(member.getId())
+                .followingId(member2.getId())
+                .build();
+
+        FollowingInfo followingInfo3 = FollowingInfo.builder()
+                .followedId(member.getId())
+                .followingId(member3.getId())
+                .build();
+
+        followingRepository.save(followingInfo1);
+        followingRepository.save(followingInfo2);
+        followingRepository.save(followingInfo3);
+    }
+
+    private void createAlbumInfo(final Member member1, final Member member2, final Member member3) {
+        Album album1 = Album.builder()
+                .memberId(member1.getId())
+                .nickname(TEST_NICKNAME.value)
+                .albumName("앨범 이름1")
+                .build();
+
+        Album album2 = Album.builder()
+                .memberId(member2.getId())
+                .nickname(TEST_NICKNAME.value)
+                .albumName("앨범 이름2")
+                .build();
+
+
+        Album album3 = Album.builder()
+                .memberId(member3.getId())
+                .nickname(TEST_NICKNAME.value)
+                .albumName("앨범 이름2")
+                .build();
+
+        albumRepository.save(album1);
+        albumRepository.save(album2);
+        albumRepository.save(album3);
     }
 }
