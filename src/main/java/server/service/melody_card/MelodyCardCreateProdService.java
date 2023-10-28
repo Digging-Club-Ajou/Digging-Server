@@ -46,12 +46,11 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
 
     public void createMelodyCard(final long memberId, final MelodyCardRequest melodyCardRequest,
                                  final MultipartFile melodyCardImage) {
-
         List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
         Album album = albumRepository.getByMemberId(memberId);
         MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album, melodyCardRequest);
 
-        if(melodyCardImage != null)
+        if(!melodyCardImage.isEmpty())
         {
             ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
 
