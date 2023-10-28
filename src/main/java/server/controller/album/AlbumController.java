@@ -7,10 +7,9 @@ import server.global.annotation.Login;
 import server.global.exception.dto.ResultResponse;
 import server.mapper.album.AlbumMapper;
 import server.mapper.album.dto.*;
-import server.service.album.AlbumFindService;
-import server.service.album.AlbumImageReadService;
-import server.service.album.AlbumValidationService;
-import server.service.album.AlbumCreateService;
+import server.service.album.*;
+
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
@@ -20,15 +19,18 @@ public class AlbumController {
     private final AlbumImageReadService albumImageReadService;
     private final AlbumValidationService albumValidationService;
     private final AlbumFindService albumFindService;
+    private final FollowingAlbumFindService followingAlbumFindService;
 
     public AlbumController(final AlbumCreateService albumCreateService,
                            final AlbumImageReadService albumImageReadService,
                            final AlbumValidationService albumValidationService,
-                           final AlbumFindService albumFindService) {
+                           final AlbumFindService albumFindService,
+                           final FollowingAlbumFindService followingAlbumFindService) {
         this.albumCreateService = albumCreateService;
         this.albumImageReadService = albumImageReadService;
         this.albumValidationService = albumValidationService;
         this.albumFindService = albumFindService;
+        this.followingAlbumFindService = followingAlbumFindService;
     }
 
     @PostMapping("/albums/name-validation")
@@ -53,11 +55,11 @@ public class AlbumController {
         return albumFindService.getAlbumResponse(albumId);
     }
 
-    // todo 팔로잉한 앨범 반환하기
-//    @GetMapping("/albums/following/{memberId}")
-//    public AlbumResponses getFollowedAlbumResponses(@PathVariable final long memberId) {
-//
-//    }
+    @GetMapping("/albums/following")
+    public AlbumResponses getFollowedAlbumResponses(@Login final MemberSession memberSession) {
+        List<AlbumResponse> albumResponses = followingAlbumFindService.findAll(memberSession.id());
+        return new AlbumResponses(albumResponses);
+    }
 
     // todo AI 추천 앨범 반환하기
 //    @GetMapping("/albums/recommendation/{memberId}")

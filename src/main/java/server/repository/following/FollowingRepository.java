@@ -5,6 +5,7 @@ import server.domain.following.FollowingInfo;
 import server.domain.genre.Genre;
 import server.domain.member.persist.Member;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,11 +21,11 @@ public class FollowingRepository {
         followingJpaRepository.save(followingInfo);
     }
 
-    public Optional<FollowingInfo> findAllByFollowedId(final Long followedId) {
+    public List<FollowingInfo> findAllByFollowedId(final Long followedId) {
         return followingJpaRepository.findAllByFollowedId(followedId);
     }
 
-    public Optional<FollowingInfo> findAllByFollowingId(final Long followedId) {
+    public List<FollowingInfo> findAllByFollowingId(final Long followedId) {
         return followingJpaRepository.findAllByFollowingId(followedId);
     }
 }
