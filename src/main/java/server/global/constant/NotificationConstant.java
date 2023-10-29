@@ -15,4 +15,5 @@ public enum NotificationConstant {
     public static final String CONTENT_TYPE_JSON_UTF_8 = "application/json; UTF-8";
     public static final String BEARER = "Bearer ";
     public static final String MINUTES_UNIT = "분 전";
+    public static final String MELODY_CARD_LIKES_NOTIFICATION = "님이 회원님의 멜로디 카드를 좋아합니다";
 }
