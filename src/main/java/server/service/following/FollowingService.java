@@ -53,7 +53,7 @@ public class FollowingService {
         List<FollowingInfo> followerList = followingRepository.findAllByFollowedId(memberId);
 
         List<FollowingResponse> followingResponses =  new ArrayList<>();
-        List<FollowingResponse> followedResponses =  new ArrayList<>();
+        List<FollowingResponse> followerResponses =  new ArrayList<>();
 
         followerList.forEach( followInfo -> {
                     String imageUrl = albumFindService.getAlbumUrl(memberId);
@@ -63,7 +63,7 @@ public class FollowingService {
                             .memberId(memberId)
                             .nickname(memberRepository.getById(followInfo.getFollowedId()).getNickname())
                             .build();
-                    followedResponses.add(follow);
+                    followerResponses.add(follow);
                 }
         );
 
@@ -80,7 +80,7 @@ public class FollowingService {
             followingResponses.add(follow);
         });
 
-        return Followings.builder().followings(followingResponses).followeds(followedResponses).build();
+        return Followings.builder().followings(followingResponses).followers(followerResponses).build();
     }
 
 
