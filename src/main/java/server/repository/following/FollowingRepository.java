@@ -21,11 +21,18 @@ public class FollowingRepository {
         followingJpaRepository.save(followingInfo);
     }
 
+    public void delete(final Long followingInfoId){
+        followingJpaRepository.deleteById(followingInfoId);
+    }
+
     public List<FollowingInfo> findAllByFollowedId(final Long followedId) {
         return followingJpaRepository.findAllByFollowedId(followedId);
     }
 
-    public List<FollowingInfo> findAllByFollowingId(final Long followedId) {
-        return followingJpaRepository.findAllByFollowingId(followedId);
+    public List<FollowingInfo> findAllByFollowingId(final Long followingId) {
+        return followingJpaRepository.findAllByFollowingId(followingId);
     }
+
+
+
 }
