@@ -67,4 +67,29 @@ public class AlbumFindProdService implements AlbumFindService {
 
         throw new NotFoundException(ALBUM_NOT_FOUND_EXCEPTION.message);
     }
+
+
+    public String getAlbumUrl(final long memberId) {
+        Album album = albumRepository.getByMemberId(memberId);
+        if (albumValidationService.validateExistByAlbumId(album.getId())) {
+            Date expiration = new Date();
+            long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
+            expiration.setTime(expTimeMillis);
+
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(
+                            DIGGING_CLUB.value,
+                            ALBUM_IMAGE.value + album.getId())
+                            .withMethod(HttpMethod.GET)
+                            .withExpiration(expiration);
+
+            URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
+
+            String imageUrl = url.toString();
+
+            return imageUrl;
+        }
+
+        throw new NotFoundException(ALBUM_NOT_FOUND_EXCEPTION.message);
+    }
 }

@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.mapper.following.dto.FollowingDto;
+import server.mapper.following.dto.FollowingInfoDto;
+import server.mapper.following.dto.Followings;
 import server.service.following.FollowingService;
 
 @RequestMapping("/api")
@@ -17,14 +19,21 @@ public class FollowingController {
     }
 
     @PostMapping("/following")
-    public void createGenre(@Login final MemberSession memberSession,
+    public void createFollowing(@Login final MemberSession memberSession,
                             @RequestBody final FollowingDto followingDto) {
         followingService.saveFollowing(memberSession.id(),followingDto);
     }
 
-    @GetMapping("/following-number")
-    public void getFollowingNumber(@Login final MemberSession memberSession){
-
-        followingService.getFollowingNumber(memberSession.id());
+    @DeleteMapping("/following")
+    public void deleteFollowing(@Login final MemberSession memberSession,
+                                @RequestBody final FollowingInfoDto followingInfoDto){
+        followingService.deleteFollowing(followingInfoDto.followingInfoId());
     }
+
+    @GetMapping("/followings")
+    public Followings getFollowingList(@Login final MemberSession memberSession){
+       return followingService.getFollowingList(memberSession.id());
+    }
+
+
 }
