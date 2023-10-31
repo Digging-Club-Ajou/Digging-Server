@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import server.domain.member.persist.Member;
 import server.global.exception.NotFoundException;
 
+import java.util.List;
 import java.util.Optional;
 
 import static server.global.constant.ExceptionMessage.*;
@@ -36,5 +37,9 @@ public class MemberRepository {
 
     public long count() {
         return memberJpaRepository.count();
+    }
+
+    public List<Member> findByNicknameContaining(final String keyword){
+        return memberJpaRepository.findByNicknameContaining(keyword);
     }
 }

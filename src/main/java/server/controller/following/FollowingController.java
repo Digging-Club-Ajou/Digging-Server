@@ -25,8 +25,7 @@ public class FollowingController {
     }
 
     @DeleteMapping("/following")
-    public void deleteFollowing(@Login final MemberSession memberSession,
-                                @RequestBody final FollowingInfoDto followingInfoDto){
+    public void deleteFollowing(@RequestBody final FollowingInfoDto followingInfoDto){
         followingService.deleteFollowing(followingInfoDto.followingInfoId());
     }
 
