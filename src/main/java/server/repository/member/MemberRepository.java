@@ -39,7 +39,17 @@ public class MemberRepository {
         return memberJpaRepository.count();
     }
 
-    public List<Member> findByNicknameContaining(final String keyword){
-        return memberJpaRepository.findByNicknameContaining(keyword);
+
+
+    public List<Member> findByNicknameStartingWith(final String keyword){
+        return memberJpaRepository.findByNicknameStartingWith(keyword);
+    }
+
+    public List<Member> findByNicknameLike(final String keyword){
+        return memberJpaRepository.findByNicknameLike(keyword);
+    }
+
+    public List<Member> findAllByNickName(final String nickname){
+        return memberJpaRepository.findAllByNickname(nickname);
     }
 }
