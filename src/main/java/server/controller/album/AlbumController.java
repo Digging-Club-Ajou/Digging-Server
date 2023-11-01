@@ -20,17 +20,20 @@ public class AlbumController {
     private final AlbumValidationService albumValidationService;
     private final AlbumFindService albumFindService;
     private final FollowingAlbumFindService followingAlbumFindService;
+    private final RecommendationAlbumFindService recommendationAlbumFindService;
 
     public AlbumController(final AlbumCreateService albumCreateService,
                            final AlbumImageReadService albumImageReadService,
                            final AlbumValidationService albumValidationService,
                            final AlbumFindService albumFindService,
-                           final FollowingAlbumFindService followingAlbumFindService) {
+                           final FollowingAlbumFindService followingAlbumFindService,
+                           final RecommendationAlbumFindService recommendationAlbumFindService) {
         this.albumCreateService = albumCreateService;
         this.albumImageReadService = albumImageReadService;
         this.albumValidationService = albumValidationService;
         this.albumFindService = albumFindService;
         this.followingAlbumFindService = followingAlbumFindService;
+        this.recommendationAlbumFindService = recommendationAlbumFindService;
     }
 
     @PostMapping("/albums/name-validation")
@@ -61,11 +64,12 @@ public class AlbumController {
         return new AlbumResponses(albumResponses);
     }
 
-    // todo AI 추천 앨범 반환하기
-//    @GetMapping("/albums/recommendation/{memberId}")
-//    public AlbumResponses getRecommendationAlbumResponses(@PathVariable final long memberId) {
-//
-//    }
+    // todo ML 로직 확정되면 변경 (임시 코드)
+    @GetMapping("/albums/recommendation")
+    public AlbumResponses getRecommendationAlbumResponses() {
+        List<AlbumResponse> albumResponses = recommendationAlbumFindService.findAll();
+        return new AlbumResponses(albumResponses);
+    }
 
     // todo 추천 장르 반환하기
 //    @GetMapping("/albums/genres/{memberId}")

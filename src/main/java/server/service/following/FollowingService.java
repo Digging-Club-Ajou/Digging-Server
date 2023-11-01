@@ -12,11 +12,11 @@ import server.mapper.following.dto.Followings;
 import server.repository.album.AlbumRepository;
 import server.repository.following.FollowingRepository;
 import server.repository.member.MemberRepository;
+import server.service.album.AlbumFindService;
 import server.service.album.prod.AlbumFindProdService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class FollowingService {
@@ -24,16 +24,15 @@ public class FollowingService {
     private FollowingRepository followingRepository;
     private MemberRepository memberRepository;
     private AlbumRepository albumRepository;
-    private AlbumFindProdService albumFindService;
+    private AlbumFindService albumFindService;
 
     public FollowingService(final FollowingRepository followingRepository, final MemberRepository memberRepository,
-                            final AlbumRepository albumRepository, final AlbumFindProdService albumFindService){
+                            final AlbumRepository albumRepository, final AlbumFindService albumFindService) {
         this.followingRepository = followingRepository;
         this.memberRepository = memberRepository;
         this.albumRepository = albumRepository;
         this.albumFindService = albumFindService;
     }
-
 
     @Transactional
     public void saveFollowing(Long memberId, FollowingDto followingDto){
@@ -54,21 +53,23 @@ public class FollowingService {
 
         List<FollowingResponse> followingResponses =  new ArrayList<>();
         List<FollowingResponse> followerResponses =  new ArrayList<>();
+        Album album = albumRepository.getByMemberId(memberId);
+        AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
 
         followerList.forEach( followInfo -> {
-                    String imageUrl = albumFindService.getAlbumUrl(memberId);
-                    FollowingResponse follow = FollowingResponse.builder()
-                            .followingInfoId(followInfo.getId())
-                            .imageUrl(imageUrl)
-                            .memberId(memberId)
-                            .nickname(memberRepository.getById(followInfo.getFollowedId()).getNickname())
-                            .build();
+            String imageUrl = albumResponse.imageUrl();
+            FollowingResponse follow = FollowingResponse.builder()
+                    .followingInfoId(followInfo.getId())
+                    .imageUrl(imageUrl)
+                    .memberId(memberId)
+                    .nickname(memberRepository.getById(followInfo.getFollowedId()).getNickname())
+                    .build();
                     followerResponses.add(follow);
                 }
         );
 
         followingList.forEach( followInfo -> {
-            String imageUrl = albumFindService.getAlbumUrl(memberId);
+            String imageUrl = albumResponse.imageUrl();
             Boolean check = followerList.contains(followInfo);
             FollowingResponse follow = FollowingResponse.builder()
                     .followingInfoId(followInfo.getId())

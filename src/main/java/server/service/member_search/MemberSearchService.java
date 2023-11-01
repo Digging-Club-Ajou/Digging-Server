@@ -1,11 +1,14 @@
 package server.service.member_search;
 
 import org.springframework.stereotype.Service;
+import server.domain.album.Album;
 import server.domain.member.persist.Member;
+import server.mapper.album.dto.AlbumResponse;
 import server.mapper.memeber_search.dto.MemberSearchResponse;
 import server.mapper.memeber_search.dto.MemberSearchResponses;
+import server.repository.album.AlbumRepository;
 import server.repository.member.MemberRepository;
-import server.service.album.prod.AlbumFindProdService;
+import server.service.album.AlbumFindService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +19,24 @@ import java.util.stream.Stream;
 public class MemberSearchService {
 
     private MemberRepository memberRepository;
-    private AlbumFindProdService albumFindProdService;
-    public MemberSearchService(final MemberRepository memberRepository, final AlbumFindProdService albumFindProdService){
-        this.memberRepository = memberRepository;
-        this.albumFindProdService = albumFindProdService;
-    }
+    private AlbumFindService albumFindService;
+    private AlbumRepository albumRepository;
 
+    public MemberSearchService(final MemberRepository memberRepository, final AlbumFindService albumFindService,
+                               final AlbumRepository albumRepository) {
+        this.memberRepository = memberRepository;
+        this.albumFindService = albumFindService;
+        this.albumRepository = albumRepository;
+    }
 
     public MemberSearchResponses getMemberSearchList(final String keyword){
         List<Member> members = getMembers(keyword);
         List<MemberSearchResponse> memberSearchResponses = new ArrayList<>();
 
         members.forEach(member -> {
-            String imageUrl = albumFindProdService.getAlbumUrl(member.getId());
+                    Album album = albumRepository.getByMemberId(member.getId());
+                    AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
+                    String imageUrl = albumResponse.imageUrl();
             MemberSearchResponse memberSearchResponse = MemberSearchResponse.builder().imageUrl(imageUrl).nickname(member.getNickname()).build();
             memberSearchResponses.add(memberSearchResponse);
         }

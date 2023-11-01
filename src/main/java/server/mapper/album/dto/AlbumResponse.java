@@ -26,4 +26,16 @@ public record AlbumResponse(
                 .artistNames(artistNames)
                 .build();
     }
+
+    public static AlbumResponse toAlbumResponseTest(final Album album, final String imageUrl,
+                                                final List<String> artistNames) {
+        return AlbumResponse.builder()
+                .memberId(album.getMemberId())
+                .albumId(album.getMemberId())
+                .nickname(album.getNickname())
+                .albumName(album.getAlbumName())
+                .imageUrl(imageUrl)
+                .artistNames(artistNames)
+                .build();
+    }
 }

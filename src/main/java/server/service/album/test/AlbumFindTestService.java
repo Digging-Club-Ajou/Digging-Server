@@ -15,6 +15,7 @@ import server.service.album.AlbumValidationService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static server.global.constant.ExceptionMessage.ALBUM_NOT_FOUND_EXCEPTION;
 import static server.global.constant.TestConstant.TEST_URL;
@@ -40,11 +41,16 @@ public class AlbumFindTestService implements AlbumFindService {
         artistNames.add("artist2");
         artistNames.add("artist3");
 
-        if (albumValidationService.validateExistByAlbumId(albumId)) {
-            Album album = albumRepository.getByAlbumId(albumId);
-            return AlbumResponse.toAlbumResponse(album, TEST_URL.value, artistNames);
+        Album album = Album.builder()
+                .memberId(albumId)
+                .nickname("닉네임")
+                .albumName("앨범 이름" + albumId)
+                .build();
+
+        if (albumId == 9999L) {
+            throw new NotFoundException(ALBUM_NOT_FOUND_EXCEPTION.message);
         }
 
-        throw new NotFoundException(ALBUM_NOT_FOUND_EXCEPTION.message);
+        return AlbumResponse.toAlbumResponseTest(album, TEST_URL.value, artistNames);
     }
 }

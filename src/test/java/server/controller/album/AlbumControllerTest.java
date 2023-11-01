@@ -263,6 +263,59 @@ class AlbumControllerTest extends ControllerTest {
                         )));
     }
 
+    @Test
+    @DisplayName("로그인한 회원이 AI 추천 앨범들의 정보를 가져옵니다")
+    void getRecommendationAlbums() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+
+        // given 3
+        Member member1 = Member.builder().build();
+        Member member2 = Member.builder().build();
+        Member member3 = Member.builder().build();
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+
+        createAlbumInfo(member1, member2, member3);
+
+        // expected
+        mockMvc.perform(get("/api/albums/recommendation")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("로그인한 회원의 AI 추천 앨범 가져오기",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("앨범")
+                                .summary("AI 추천 앨범 정보 가져오기")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .responseFields(
+                                        fieldWithPath("albumResponses[].memberId").description("회원 id"),
+                                        fieldWithPath("albumResponses[].albumId").description("앨범 id"),
+                                        fieldWithPath("albumResponses[].nickname").description("닉네임"),
+                                        fieldWithPath("albumResponses[].albumName").description("앨범 이름"),
+                                        fieldWithPath("albumResponses[].imageUrl").description("이미지 URL"),
+                                        fieldWithPath("albumResponses[].artistNames").description("아티스트 이름")
+                                )
+                                .build()
+                        )));
+    }
+
     private void createFollowingInfo(final Member member, final Member member1, final Member member2, final Member member3) {
         FollowingInfo followingInfo1 = FollowingInfo.builder()
                 .followedId(member.getId())
