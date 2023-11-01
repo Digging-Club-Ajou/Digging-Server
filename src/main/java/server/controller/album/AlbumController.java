@@ -21,19 +21,22 @@ public class AlbumController {
     private final AlbumFindService albumFindService;
     private final FollowingAlbumFindService followingAlbumFindService;
     private final RecommendationAlbumFindService recommendationAlbumFindService;
+    private final GenreAlbumFindService genreAlbumFindService;
 
     public AlbumController(final AlbumCreateService albumCreateService,
                            final AlbumImageReadService albumImageReadService,
                            final AlbumValidationService albumValidationService,
                            final AlbumFindService albumFindService,
                            final FollowingAlbumFindService followingAlbumFindService,
-                           final RecommendationAlbumFindService recommendationAlbumFindService) {
+                           final RecommendationAlbumFindService recommendationAlbumFindService,
+                           final GenreAlbumFindService genreAlbumFindService) {
         this.albumCreateService = albumCreateService;
         this.albumImageReadService = albumImageReadService;
         this.albumValidationService = albumValidationService;
         this.albumFindService = albumFindService;
         this.followingAlbumFindService = followingAlbumFindService;
         this.recommendationAlbumFindService = recommendationAlbumFindService;
+        this.genreAlbumFindService = genreAlbumFindService;
     }
 
     @PostMapping("/albums/name-validation")
@@ -65,17 +68,18 @@ public class AlbumController {
     }
 
     // todo ML 로직 확정되면 변경 (임시 코드)
-    @GetMapping("/albums/recommendation")
+    @GetMapping("/albums/recommendation-ai")
     public AlbumResponses getRecommendationAlbumResponses() {
         List<AlbumResponse> albumResponses = recommendationAlbumFindService.findAll();
         return new AlbumResponses(albumResponses);
     }
 
     // todo 추천 장르 반환하기
-//    @GetMapping("/albums/genres/{memberId}")
-//    public AlbumResponses getGenresAlbumResponses(@PathVariable final long memberId) {
-//
-//    }
+    @GetMapping("/albums/recommendation-genres")
+    public AlbumResponses getGenresAlbumResponses() {
+        List<AlbumResponse> albumResponses = genreAlbumFindService.findAll();
+        return new AlbumResponses(albumResponses);
+    }
 
     @PostMapping("/albums")
     public void createAlbum(@Login final MemberSession memberSession,
