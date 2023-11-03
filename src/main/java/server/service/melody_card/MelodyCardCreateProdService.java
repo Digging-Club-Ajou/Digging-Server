@@ -50,7 +50,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         Album album = albumRepository.getByMemberId(memberId);
         MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album, melodyCardRequest);
 
-        if(!melodyCardImage.isEmpty())
+        if(melodyCardImage.getSize() != 0)
         {
             ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
 
@@ -80,9 +80,10 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
                         .withMethod(HttpMethod.GET)
                         .withExpiration(expiration);
 
-        URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
+
         MelodyCardResponse melodyCardResponse =
-                melodyCardFindService.findMelodyCardResponse(melodyCardId);
+                    melodyCardFindService.findMelodyCardResponse(melodyCardId);
+        URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
 
         return melodyCardResponse.updateUrl(url.toString());
     }
@@ -96,11 +97,13 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
 
         List<MelodyCardResponse> melodyCardResponses = new ArrayList<>();
         for (MelodyCard melodyCard : melodyCards) {
+
             GeneratePresignedUrlRequest generatePresignedUrlRequest =
                     new GeneratePresignedUrlRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value
                             + melodyCard.getId())
                             .withMethod(HttpMethod.GET)
                             .withExpiration(expiration);
+
 
             URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
             MelodyCardResponse melodyCardResponse =
