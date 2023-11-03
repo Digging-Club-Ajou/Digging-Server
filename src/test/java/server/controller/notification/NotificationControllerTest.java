@@ -12,6 +12,7 @@ import server.util.ControllerTest;
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -72,6 +73,47 @@ class NotificationControllerTest extends ControllerTest {
                                         fieldWithPath("notificationResponses[].notificationId").description("알림 메시지 id"),
                                         fieldWithPath("notificationResponses[].message").description("알림 메시지"),
                                         fieldWithPath("notificationResponses[].minutes").description("알림 시간 (분)")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("로그인한 회원의 특정 알림 메시지를 삭제합니다")
+    void deleteNotification() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+
+        // given 3
+        NotificationInfo notificationInfo =
+                NotificationInfoMapper.toEntity(member.getId(), "알림 메세지");
+
+        notificationRepository.save(notificationInfo);
+
+        // expected
+        mockMvc.perform(delete("/api/notifications/{notificationId}", notificationInfo.getId())
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("알림 목록 삭제",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("알림")
+                                .summary("알림 목록 삭제")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .build()
                         )));

@@ -25,7 +25,7 @@ public class NotificationController {
         return notificationFindService.findNotifications(memberSession.id());
     }
 
-    @DeleteMapping("/notification/{notificationId}")
+    @DeleteMapping("/notifications/{notificationId}")
     public void deleteNotification(@Login final MemberSession memberSession,
                                    @PathVariable final long notificationId) {
         notificationDeleteService.deleteNotification(notificationId);
