@@ -1,11 +1,10 @@
 package server.controller.notification;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.mapper.notification.dto.NotificationResult;
+import server.service.notification.NotificationDeleteService;
 import server.service.notification.NotificationFindService;
 
 @RequestMapping("/api")
@@ -13,13 +12,22 @@ import server.service.notification.NotificationFindService;
 public class NotificationController {
 
     private final NotificationFindService notificationFindService;
+    private final NotificationDeleteService notificationDeleteService;
 
-    public NotificationController(final NotificationFindService notificationFindService) {
+    public NotificationController(final NotificationFindService notificationFindService,
+                                  final NotificationDeleteService notificationDeleteService) {
         this.notificationFindService = notificationFindService;
+        this.notificationDeleteService = notificationDeleteService;
     }
 
     @GetMapping("/notifications")
     public NotificationResult findAllNotificationResponses(@Login final MemberSession memberSession) {
         return notificationFindService.findNotifications(memberSession.id());
+    }
+
+    @DeleteMapping("/notification/{notificationId}")
+    public void deleteNotification(@Login final MemberSession memberSession,
+                                   @PathVariable final long notificationId) {
+        notificationDeleteService.deleteNotification(notificationId);
     }
 }

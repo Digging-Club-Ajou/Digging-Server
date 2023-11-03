@@ -5,6 +5,7 @@ public enum ExceptionMessage {
     MEMBER_NOT_FOUND_EXCEPTION("회원을 찾을 수 없습니다"),
     CARD_FAVORITE_NOT_FOUND_EXCEPTION("좋아요 정보를 찾을 수 없습니다"),
     FOLLOWING_INFO_NOT_FOUND_EXCEPTION("팔로잉 정보를 찾을 수 없습니다"),
+    NOTIFICATION_INFO_NOT_FOUND_EXCEPTION("알림 정보를 찾을 수 없습니다"),
     NICKNAME_DUPLICATE_EXCEPTION("다른 유저와 중복되는 닉네임입니다"),
     NICKNAME_CAN_USE("사용 가능한 닉네임입니다"),
     NICKNAME_REGEX_EXCEPTION("영문, 숫자, 밑줄(_), 마침표(.)중 최소 2가지 이상의 조합으로 2-20자를 지원합니다"),
