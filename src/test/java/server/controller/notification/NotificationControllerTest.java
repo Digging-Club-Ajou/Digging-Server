@@ -69,6 +69,7 @@ class NotificationControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .responseFields(
+                                        fieldWithPath("notificationResponses[].notificationId").description("알림 메시지 id"),
                                         fieldWithPath("notificationResponses[].message").description("알림 메시지"),
                                         fieldWithPath("notificationResponses[].minutes").description("알림 시간 (분)")
                                 )

@@ -25,6 +25,8 @@ public class NotificationInfoMapper {
         LocalDateTime createdAt = notificationInfo.getCreatedAt();
         long minutes = ChronoUnit.MINUTES.between(createdAt, now);
 
-        return new NotificationResponse(notificationInfo.getNotificationMessage(), minutes + MINUTES_UNIT);
+        return new NotificationResponse(notificationInfo.getId(),
+                notificationInfo.getNotificationMessage(),
+                minutes + MINUTES_UNIT);
     }
 }

@@ -8,7 +8,6 @@ import server.global.annotation.Login;
 import server.mapper.notification.dto.NotificationResult;
 import server.service.notification.NotificationFindService;
 
-
 @RequestMapping("/api")
 @RestController
 public class NotificationController {
