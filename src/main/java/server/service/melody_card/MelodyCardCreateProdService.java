@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import server.domain.album.Album;
 import server.domain.melody_card.MelodyCard;
 import server.global.exception.BadRequestException;
+import server.global.exception.NotFoundException;
 import server.mapper.melody_card.dto.MelodyCardRequest;
 import server.mapper.melody_card.dto.MelodyCardResponse;
 import server.repository.album.AlbumRepository;
@@ -48,9 +49,13 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
                                  final MultipartFile melodyCardImage) {
         List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
         Album album = albumRepository.getByMemberId(memberId);
-        MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album, melodyCardRequest);
 
-        if(melodyCardImage.getSize() != 0)
+        System.out.println("create");
+        Boolean isImageUrl = melodyCardImage.getSize() == 0 ? Boolean.FALSE : Boolean.TRUE;
+        System.out.println("HERE"+melodyCardImage.getSize());
+        MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album, melodyCardRequest,isImageUrl);
+
+        if(isImageUrl)
         {
             ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
 
@@ -75,17 +80,21 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
         expiration.setTime(expTimeMillis);
 
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value + melodyCardId)
-                        .withMethod(HttpMethod.GET)
-                        .withExpiration(expiration);
-
-
         MelodyCardResponse melodyCardResponse =
-                    melodyCardFindService.findMelodyCardResponse(melodyCardId);
-        URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
+                melodyCardFindService.findMelodyCardResponse(melodyCardId);
 
-        return melodyCardResponse.updateUrl(url.toString());
+        if(melodyCardResponse.getIsImageUrl()){
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value + melodyCardId)
+                            .withMethod(HttpMethod.GET)
+                            .withExpiration(expiration);
+
+            URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
+            melodyCardResponse.updateUrl(url.toString());
+        }
+
+
+        return melodyCardResponse;
     }
 
     public List<MelodyCardResponse>  getMelodyCards(final long albumId) {
@@ -98,18 +107,21 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         List<MelodyCardResponse> melodyCardResponses = new ArrayList<>();
         for (MelodyCard melodyCard : melodyCards) {
 
-            GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                    new GeneratePresignedUrlRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value
-                            + melodyCard.getId())
-                            .withMethod(HttpMethod.GET)
-                            .withExpiration(expiration);
-
-
-            URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
             MelodyCardResponse melodyCardResponse =
                     melodyCardFindService.findMelodyCardResponse(melodyCard.getId());
 
-            melodyCardResponses.add(melodyCardResponse.updateUrl(url.toString()));
+            if(melodyCardResponse.getIsImageUrl()){
+                GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                        new GeneratePresignedUrlRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value
+                                + melodyCard.getId())
+                                .withMethod(HttpMethod.GET)
+                                .withExpiration(expiration);
+                URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
+                melodyCardResponse.updateUrl(url.toString());
+            }
+
+            melodyCardResponses.add(melodyCardResponse);
+
         }
 
         return melodyCardResponses;

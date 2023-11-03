@@ -16,8 +16,8 @@ public class MelodyCardInfoCreateService {
     }
 
     @Transactional
-    public MelodyCard createMelodyCardInfo(final Album album, final MelodyCardRequest dto) {
-        MelodyCard melodyCard = MelodyCardMapper.toEntity(album, dto);
+    public MelodyCard createMelodyCardInfo(final Album album, final MelodyCardRequest dto, final Boolean isImageUrl) {
+        MelodyCard melodyCard = MelodyCardMapper.toEntity(album, dto, isImageUrl);
         return melodyCardRepository.save(melodyCard);
     }
 }
