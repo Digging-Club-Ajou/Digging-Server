@@ -21,6 +21,7 @@ import server.repository.following.FollowingRepository;
 import server.repository.melody_card.MelodyCardRepository;
 import server.repository.member.MemberRepository;
 import server.repository.notification_info.NotificationRepository;
+import server.service.album.AlbumFindService;
 import server.service.jwt.JwtFacade;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;

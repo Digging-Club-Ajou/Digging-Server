@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import server.domain.album.Album;
 import server.domain.following.FollowingInfo;
 import server.domain.member.persist.Member;
+import server.global.exception.BadRequestException;
 import server.mapper.album.dto.AlbumResponse;
 import server.mapper.following.dto.FollowingDto;
 import server.mapper.following.dto.FollowingResponse;
@@ -36,7 +37,7 @@ public class FollowingService {
 
     @Transactional
     public void saveFollowing(Long memberId, FollowingDto followingDto){
-        FollowingInfo followingInfo = FollowingInfo.builder().followingId(followingDto.followingId()).followedId(memberId).build();
+        FollowingInfo followingInfo = FollowingInfo.builder().followedId(followingDto.followingId()).followingId(memberId).build();
         followingRepository.save(followingInfo);
     }
 
@@ -53,32 +54,48 @@ public class FollowingService {
 
         List<FollowingResponse> followingResponses =  new ArrayList<>();
         List<FollowingResponse> followerResponses =  new ArrayList<>();
-        Album album = albumRepository.getByMemberId(memberId);
-        AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
 
         followerList.forEach( followInfo -> {
-            String imageUrl = albumResponse.imageUrl();
-            FollowingResponse follow = FollowingResponse.builder()
-                    .followingInfoId(followInfo.getId())
-                    .imageUrl(imageUrl)
-                    .memberId(memberId)
-                    .nickname(memberRepository.getById(followInfo.getFollowedId()).getNickname())
-                    .build();
-                    followerResponses.add(follow);
-                }
+            String imageUrl = "";
+            try{
+                Album album = albumRepository.getByMemberId(followInfo.getFollowingId());
+                AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
+                imageUrl = albumResponse.imageUrl();
+            }catch (BadRequestException e){
+                imageUrl = null;
+            }finally {
+                FollowingResponse follow = FollowingResponse.builder()
+                        .followingInfoId(followInfo.getId())
+                        .imageUrl(imageUrl)
+                        .memberId(followInfo.getFollowingId())
+                        .nickname(memberRepository.getById(followInfo.getFollowingId()).getNickname())
+                        .build();
+                followerResponses.add(follow);
+            }
+            }
         );
 
         followingList.forEach( followInfo -> {
-            String imageUrl = albumResponse.imageUrl();
-            Boolean check = followerList.contains(followInfo);
-            FollowingResponse follow = FollowingResponse.builder()
-                    .followingInfoId(followInfo.getId())
-                    .imageUrl(imageUrl)
-                    .memberId(memberId)
-                    .nickname(memberRepository.getById(followInfo.getFollowingId()).getNickname())
-                    .isFollowForFollow(check)
-                    .build();
-            followingResponses.add(follow);
+            String imageUrl="";
+            try{
+                Album album = albumRepository.getByMemberId(followInfo.getFollowedId());
+                AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
+                imageUrl = albumResponse.imageUrl();
+            }catch (BadRequestException e){
+                imageUrl = null;
+            }finally {
+                Boolean check = followerList.contains(followInfo);
+                FollowingResponse follow = FollowingResponse.builder()
+                        .followingInfoId(followInfo.getId())
+                        .imageUrl(imageUrl)
+                        .memberId(followInfo.getFollowedId())
+                        .nickname(memberRepository.getById(followInfo.getFollowedId()).getNickname())
+                        .isFollowForFollow(check)
+                        .build();
+                followingResponses.add(follow);
+
+            }
+
         });
 
         return Followings.builder().followings(followingResponses).followers(followerResponses).build();
