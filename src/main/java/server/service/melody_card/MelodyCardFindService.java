@@ -27,7 +27,6 @@ public class MelodyCardFindService {
 
     @Transactional(readOnly = true)
     public List<MelodyCard> findMelodyCards(final long memberId) {
-        System.out.println(memberId);
         List<MelodyCard> melodyCards = melodyCardRepository.findAllByMemberId(memberId);
 
         if(melodyCards.size() > 10){

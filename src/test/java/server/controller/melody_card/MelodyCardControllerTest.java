@@ -11,6 +11,7 @@ import server.util.ControllerTest;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static java.sql.JDBCType.BOOLEAN;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -56,8 +57,9 @@ public class MelodyCardControllerTest extends ControllerTest {
                                         fieldWithPath("imageUrl").type(STRING).description("이미지 url"),
                                         fieldWithPath("address").type(STRING).description("주소"),
                                         fieldWithPath("cardDescription").type(STRING).description("카드 설명"),
-                                        fieldWithPath("color").type(STRING).description("색상")
-                                )
+                                        fieldWithPath("color").type(STRING).description("색상"),
+                                        fieldWithPath("isImageUrl").type(BOOLEAN).description("imageUrl 유무")
+                                        )
                                 .build()
                         )));
     }
@@ -128,7 +130,9 @@ public class MelodyCardControllerTest extends ControllerTest {
                                         fieldWithPath("melodyCardResponses[0].cardDescription").type(STRING)
                                                 .description("카드 설명"),
                                         fieldWithPath("melodyCardResponses[0].color").type(STRING)
-                                                .description("색상")
+                                                .description("색상"),
+                                        fieldWithPath("melodyCardResponses[0].isImageUrl").type(BOOLEAN)
+                                                .description("이미지 URL 유무")
                                 )
                                 .build()
                         )));
@@ -193,7 +197,9 @@ public class MelodyCardControllerTest extends ControllerTest {
                                         fieldWithPath("melodyCardResponses[0].cardDescription").type(STRING)
                                                 .description("카드 설명"),
                                         fieldWithPath("melodyCardResponses[0].color").type(STRING)
-                                                .description("색상")
+                                                .description("색상"),
+                                        fieldWithPath("melodyCardResponses[0].isImageUrl").type(BOOLEAN)
+                                                .description("imageUrl 유무")
                                 )
                                 .build()
                         )));
