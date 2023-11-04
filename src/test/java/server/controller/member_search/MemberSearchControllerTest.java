@@ -19,6 +19,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
 import static server.global.constant.TimeConstant.ONE_HOUR;
@@ -64,14 +65,12 @@ public class MemberSearchControllerTest extends ControllerTest {
         albumRepository.save(album2);
 
 
-        MemberSearchRequest memberSearchRequest = new MemberSearchRequest("test");
 
 
         // expected
         mockMvc.perform(get("/api/member/search")
                         .header(ACCESS_TOKEN.value, accessToken)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(memberSearchRequest))
+                        .param("keyword", "test")
                 )
                 .andExpect(status().isOk())
                 .andDo(document("nickname 검색 결과 리스트 가져오기",
@@ -82,8 +81,8 @@ public class MemberSearchControllerTest extends ControllerTest {
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
-                                .requestFields(
-                                        fieldWithPath("keyword").description("키워드")
+                                .queryParameters(
+                                        parameterWithName("keyword").description("검색 keyword")
                                 )
                                 .responseFields(
                                         fieldWithPath("memberSearchResponses[].imageUrl").description("imageUrl"),
