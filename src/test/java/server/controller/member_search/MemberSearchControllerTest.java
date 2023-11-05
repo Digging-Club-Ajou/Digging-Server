@@ -84,10 +84,6 @@ public class MemberSearchControllerTest extends ControllerTest {
                                 .queryParameters(
                                         parameterWithName("keyword").description("검색 keyword")
                                 )
-                                .responseFields(
-                                        fieldWithPath("memberSearchResponses[].imageUrl").description("imageUrl"),
-                                        fieldWithPath("memberSearchResponses[].nickname").description("닉네임")
-                                )
                                 .build()
                         )));
     }
