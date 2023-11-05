@@ -208,6 +208,45 @@ class AlbumControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("로그인한 회원의 앨범 정보를 가져올 수 있습니다")
+    void getLoginMemberAlbumSuccess() throws Exception {
+        // given
+        String accessToken = login();
+
+        Album album = Album.builder()
+                .memberId(1L)
+                .nickname(TEST_NICKNAME.value)
+                .albumName("앨범 이름")
+                .build();
+
+        albumRepository.save(album);
+
+        // expected
+        mockMvc.perform(get("/api/albums")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("로그인한 회원의 앨범 정보 가져오기 - 성공",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("앨범")
+                                .summary("로그인한 회원의 앨범 정보 가져오기")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .responseFields(
+                                        fieldWithPath("memberId").type(NUMBER).description("회원 id"),
+                                        fieldWithPath("albumId").type(NUMBER).description("앨범 id"),
+                                        fieldWithPath("nickname").type(STRING).description("회원 닉네임"),
+                                        fieldWithPath("albumName").type(STRING).description("앨범명"),
+                                        fieldWithPath("imageUrl").type(STRING).description("이미지 url"),
+                                        fieldWithPath("artistNames[]").type(ARRAY).description("아티스트 이름 리스트")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
     @DisplayName("로그인한 회원이 팔로잉한 앨범들의 정보를 가져옵니다")
     void getFollowedAlbums() throws Exception {
         // given 1
