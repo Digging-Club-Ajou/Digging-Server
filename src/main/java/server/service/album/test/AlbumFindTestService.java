@@ -53,4 +53,24 @@ public class AlbumFindTestService implements AlbumFindService {
 
         return AlbumResponse.toAlbumResponseTest(album, TEST_URL.value, artistNames);
     }
+
+    @Override
+    public AlbumResponse getLoginMemberAlbumResponse(final long memberId) {
+        List<String> artistNames = new ArrayList<>();
+        artistNames.add("artist1");
+        artistNames.add("artist2");
+        artistNames.add("artist3");
+
+        Album album = Album.builder()
+                .memberId(memberId)
+                .nickname("닉네임")
+                .albumName("앨범 이름" + memberId)
+                .build();
+
+        if (memberId == 9999L) {
+            throw new NotFoundException(ALBUM_NOT_FOUND_EXCEPTION.message);
+        }
+
+        return AlbumResponse.toAlbumResponseTest(album, TEST_URL.value, artistNames);
+    }
 }

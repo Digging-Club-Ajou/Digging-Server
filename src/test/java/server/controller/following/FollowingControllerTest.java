@@ -83,7 +83,7 @@ public class FollowingControllerTest extends ControllerTest {
                 .andDo(document("following 삭제 ",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
-                                .tag("필로잉")
+                                .tag("팔로잉")
                                 .summary("팔로잉 삭제")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")

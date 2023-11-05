@@ -7,4 +7,6 @@ import server.mapper.album.dto.AlbumResponse;
 public interface AlbumFindService {
 
     AlbumResponse getAlbumResponse(final long albumId);
+
+    AlbumResponse getLoginMemberAlbumResponse(final long memberId);
 }

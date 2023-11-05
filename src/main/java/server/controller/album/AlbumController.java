@@ -62,6 +62,11 @@ public class AlbumController {
         return albumFindService.getAlbumResponse(albumId);
     }
 
+    @GetMapping("/albums")
+    public AlbumResponse getLoginMemberAlbumResponse(@Login final MemberSession memberSession) {
+        return albumFindService.getLoginMemberAlbumResponse(memberSession.id());
+    }
+
     @GetMapping("/albums/following")
     public AlbumResponses getFollowedAlbumResponses(@Login final MemberSession memberSession) {
         List<AlbumResponse> albumResponses = followingAlbumFindService.findAll(memberSession.id());

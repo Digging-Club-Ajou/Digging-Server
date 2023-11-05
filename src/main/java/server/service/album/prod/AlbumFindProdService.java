@@ -6,7 +6,6 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import server.domain.album.Album;
-import server.domain.melody_card.MelodyCard;
 import server.global.exception.NotFoundException;
 import server.mapper.album.dto.AlbumResponse;
 import server.repository.album.AlbumRepository;
@@ -68,6 +67,10 @@ public class AlbumFindProdService implements AlbumFindService {
         throw new NotFoundException(ALBUM_NOT_FOUND_EXCEPTION.message);
     }
 
+    public AlbumResponse getLoginMemberAlbumResponse(final long memberId) {
+        Album album = albumRepository.getByMemberId(memberId);
+        return getAlbumResponse(album.getId());
+    }
 
     public String getAlbumUrl(final long memberId) {
         Album album = albumRepository.getByMemberId(memberId);
