@@ -32,7 +32,7 @@ public class FollowingControllerTest extends ControllerTest {
         // given
         String accessToken = login();
 
-        Long followingId = Long.parseLong("1");
+        Long followingId = Long.parseLong("2");
         FollowingDto dto = new FollowingDto(followingId);
 
         // expected
@@ -51,7 +51,7 @@ public class FollowingControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .requestFields(
-                                        fieldWithPath("followingId").description("followingId")
+                                        fieldWithPath("memberId").description("팔로잉 하려는 memberId")
                                 )
                                 .build()
                         )));
@@ -70,8 +70,12 @@ public class FollowingControllerTest extends ControllerTest {
         // given 2
         String accessToken = login();
 
-        Long followingId = Long.parseLong("1");
-        FollowingInfoDto dto = new FollowingInfoDto(followingId);
+        //given 3
+
+        Long followedId = Long.parseLong("1");
+        FollowingInfoDto dto = new FollowingInfoDto(member.getId(),followedId);
+        FollowingInfo followingInfo = FollowingInfo.builder().followingId(member.getId()).followedId(followedId).build();
+        followingRepository.save(followingInfo);
 
         // expected
         mockMvc.perform(delete("/api/following")
@@ -89,14 +93,15 @@ public class FollowingControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .requestFields(
-                                        fieldWithPath("followingInfoId").description("followingInfoId")
+                                        fieldWithPath("followingId").description("memberId"),
+                                        fieldWithPath("followedId").description("팔로잉 삭제 하려는 memberId")
                                 )
                                 .build()
                         )));
     }
 
     @Test
-    @DisplayName("팔로잉 리스트 가져오")
+    @DisplayName("로그인한 회원의 팔로잉/팔로우 리스트 가져오기")
     void getFollowingList() throws Exception {
 
         String accessToken = login();
@@ -156,7 +161,7 @@ public class FollowingControllerTest extends ControllerTest {
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("팔로잉/팔로워 리스트 가져오기",
+                .andDo(document("로그인한 회원의 팔로잉/팔로우 리스트 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("팔로잉")
@@ -165,20 +170,14 @@ public class FollowingControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .responseFields(
-                                        fieldWithPath("followings[]").type(ARRAY).description("팔로잉 리스트"),
-                                        fieldWithPath("followers[]").type(ARRAY).description("팔로워 리스트")
-//                                        fieldWithPath("followings[].followingInfoId").description("회원 id"),
-//                                        fieldWithPath("followings[].memberId").description("앨범 id"),
-//                                        fieldWithPath("followings[].imageUrl").description("닉네임"),
-//                                        fieldWithPath("followings[].nickname").description("앨범 이름"),
-//                                        fieldWithPath("followings[].imageUrl").description("이미지 URL"),
-//                                        fieldWithPath("followings[].isFollowForFollow").description("아티스트 이름"),
-//                                        fieldWithPath("followers[].followingInfoId").description("회원 id"),
-//                                        fieldWithPath("followers[].memberId").description("앨범 id"),
-//                                        fieldWithPath("followers[].imageUrl").description("닉네임"),
-//                                        fieldWithPath("followers[].nickname").description("앨범 이름"),
-//                                        fieldWithPath("followers[].imageUrl").description("이미지 URL"),
-//                                        fieldWithPath("followers[].isFollowForFollow").description("아티스트 이름")
+                                        fieldWithPath("followings[].memberId").description("멤버 id"),
+                                        fieldWithPath("followings[].albumId").description("앨범 id"),
+                                        fieldWithPath("followings[].nickname").description("멤버 닉네임"),
+                                        fieldWithPath("followings[].isFollowForFollow").description("맞팔 여부"),
+                                        fieldWithPath("followers[].memberId").description("멤버 id"),
+                                        fieldWithPath("followers[].albumId").description("앨범 id"),
+                                        fieldWithPath("followers[].nickname").description("멤버 닉네임"),
+                                        fieldWithPath("followers[].isFollowForFollow").description("맞팔 여부")
                                 )
                                 .build()
                         )));
