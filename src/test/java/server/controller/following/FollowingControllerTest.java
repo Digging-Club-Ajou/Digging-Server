@@ -3,9 +3,11 @@ package server.controller.following;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletResponse;
 import server.domain.album.Album;
 import server.domain.following.FollowingInfo;
 import server.domain.member.persist.Member;
+import server.domain.member.vo.MemberSession;
 import server.mapper.following.dto.FollowingDto;
 import server.mapper.following.dto.FollowingInfoDto;
 import server.mapper.member.dto.NicknameRequest;
@@ -24,6 +26,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
+import static server.global.constant.TimeConstant.ONE_HOUR;
 import static server.util.TestConstant.*;
 public class FollowingControllerTest extends ControllerTest {
     @Test
@@ -103,14 +106,18 @@ public class FollowingControllerTest extends ControllerTest {
     @Test
     @DisplayName("로그인한 회원의 팔로잉/팔로우 리스트 가져오기")
     void getFollowingList() throws Exception {
-
-        String accessToken = login();
-
-        //given members
         Member member = Member.builder()
-                .nickname(TEST_NICKNAME.value)
+                .username(TEST_USERNAME.value)
                 .build();
+
         memberRepository.save(member);
+
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
 
         Member member1 = Member.builder()
                 .nickname(TEST_NICKNAME1.value)
