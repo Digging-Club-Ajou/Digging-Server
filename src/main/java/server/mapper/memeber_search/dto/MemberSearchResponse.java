@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record MemberSearchResponse(
-        String imageUrl,
-        String nickname
+        String nickname,
+        Long albumId
 ) {
 }

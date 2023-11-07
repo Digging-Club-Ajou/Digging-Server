@@ -3,6 +3,7 @@ package server.service.member_search;
 import org.springframework.stereotype.Service;
 import server.domain.album.Album;
 import server.domain.member.persist.Member;
+import server.global.exception.BadRequestException;
 import server.mapper.album.dto.AlbumResponse;
 import server.mapper.memeber_search.dto.MemberSearchResponse;
 import server.mapper.memeber_search.dto.MemberSearchResponses;
@@ -34,11 +35,14 @@ public class MemberSearchService {
         List<MemberSearchResponse> memberSearchResponses = new ArrayList<>();
 
         members.forEach(member -> {
-                    Album album = albumRepository.getByMemberId(member.getId());
-                    AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
-                    String imageUrl = albumResponse.imageUrl();
-            MemberSearchResponse memberSearchResponse = MemberSearchResponse.builder().imageUrl(imageUrl).nickname(member.getNickname()).build();
-            memberSearchResponses.add(memberSearchResponse);
+            try {
+                Album album = albumRepository.getByMemberId(member.getId());
+                MemberSearchResponse memberSearchResponse = MemberSearchResponse.builder().nickname(member.getNickname()).albumId(album.getId()).build();
+                memberSearchResponses.add(memberSearchResponse);
+            }catch (BadRequestException e){
+
+            }
+
         }
         );
 
