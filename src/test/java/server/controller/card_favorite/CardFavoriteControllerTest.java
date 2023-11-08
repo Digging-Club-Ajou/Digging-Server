@@ -121,7 +121,65 @@ class CardFavoriteControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("좋아요")
-                                .summary("좋아요 목록 가져오기")
+                                .summary("로그인한 회원의 좋아요 목록 가져오기")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .responseFields(
+                                        fieldWithPath("cardFavoriteResponses[].melodyCardId").description("멜로디 카드 id"),
+                                        fieldWithPath("cardFavoriteResponses[].songTitle").description("노래 제목"),
+                                        fieldWithPath("cardFavoriteResponses[].artistName").description("가수 이름"),
+                                        fieldWithPath("cardFavoriteResponses[].imageUrl").description("이미지 사진")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("회원 id로 좋아요 목록을 가져옵니다")
+    void findAllByMemberId() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+
+        // given 3
+        CardFavorite cardFavorite1 = CardFavorite.builder()
+                .memberId(member.getId())
+                .build();
+
+        CardFavorite cardFavorite2 = CardFavorite.builder()
+                .memberId(member.getId())
+                .build();
+
+        CardFavorite cardFavorite3 = CardFavorite.builder()
+                .memberId(member.getId())
+                .build();
+
+        cardFavoriteRepository.save(cardFavorite1);
+        cardFavoriteRepository.save(cardFavorite2);
+        cardFavoriteRepository.save(cardFavorite3);
+
+        // expected
+        mockMvc.perform(get("/api/card-favorites/members/{memberId}", member.getId())
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("로그인한 회원의 좋아요 목록 가져오기",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("좋아요")
+                                .summary("특정 회원의 좋아요 목록 가져오기")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
