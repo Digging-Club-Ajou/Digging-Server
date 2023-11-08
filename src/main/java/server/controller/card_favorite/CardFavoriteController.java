@@ -42,6 +42,13 @@ public class CardFavoriteController {
         return new CardFavoriteResult(cardFavoriteResponses);
     }
 
+    @GetMapping("/card-favorites/members/{memberId}")
+    public CardFavoriteResult findAllByMemberId(@PathVariable final long memberId) {
+        List<CardFavoriteResponse> cardFavoriteResponses =
+                cardFavoriteFindService.findAllResponses(memberId);
+        return new CardFavoriteResult(cardFavoriteResponses);
+    }
+
     @GetMapping("/card-favorites/{melodyCardId}")
     public LikeInfoResponse findLikeInfo(@Login final MemberSession memberSession,
                                          @PathVariable final long melodyCardId) {
