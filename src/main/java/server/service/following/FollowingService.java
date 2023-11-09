@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.album.Album;
 import server.domain.following.FollowingInfo;
+import server.domain.melody_card.MelodyCard;
+import server.domain.member.persist.Member;
 import server.global.exception.BadRequestException;
-import server.mapper.album.dto.AlbumResponse;
+import server.mapper.card_favorite.dto.CardFavoriteRequest;
 import server.mapper.following.dto.FollowingDto;
 import server.mapper.following.dto.FollowingInfoDto;
 import server.mapper.following.dto.FollowingResponse;
@@ -14,9 +16,12 @@ import server.repository.album.AlbumRepository;
 import server.repository.following.FollowingRepository;
 import server.repository.member.MemberRepository;
 import server.service.album.AlbumFindService;
+import server.service.notification.NotificationCreateService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static server.global.constant.NotificationConstant.FOLLOWING_NOTIFICATION;
 
 @Service
 public class FollowingService {
@@ -25,19 +30,29 @@ public class FollowingService {
     private MemberRepository memberRepository;
     private AlbumRepository albumRepository;
     private AlbumFindService albumFindService;
+    private final NotificationCreateService notificationCreateService;
 
     public FollowingService(final FollowingRepository followingRepository, final MemberRepository memberRepository,
-                            final AlbumRepository albumRepository, final AlbumFindService albumFindService) {
+                            final AlbumRepository albumRepository, final AlbumFindService albumFindService,
+                            final NotificationCreateService notificationCreateService) {
         this.followingRepository = followingRepository;
         this.memberRepository = memberRepository;
         this.albumRepository = albumRepository;
         this.albumFindService = albumFindService;
+        this.notificationCreateService = notificationCreateService;
     }
 
     @Transactional
     public void saveFollowing(Long memberId, FollowingDto followingDto){
         FollowingInfo followingInfo = FollowingInfo.builder().followedId(followingDto.memberId()).followingId(memberId).build();
         followingRepository.save(followingInfo);
+        notification(memberId, followingDto);
+    }
+
+    private void notification(final long memberId, final FollowingDto followingDto) {
+        Member member = memberRepository.getById(memberId);
+        String notificationMessage = member.getNickname() + FOLLOWING_NOTIFICATION;
+        notificationCreateService.saveNotificationMessage(followingDto.memberId(), notificationMessage);
     }
 
     @Transactional
