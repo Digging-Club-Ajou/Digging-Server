@@ -175,7 +175,7 @@ class CardFavoriteControllerTest extends ControllerTest {
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("로그인한 회원의 좋아요 목록 가져오기",
+                .andDo(document("특정 회원의 좋아요 목록 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("좋아요")
@@ -228,11 +228,11 @@ class CardFavoriteControllerTest extends ControllerTest {
         cardFavoriteRepository.save(cardFavorite);
 
         // expected
-        mockMvc.perform(get("/api/card-favorites/{melodyCardId}", melodyCard.getId())
+        mockMvc.perform(get("/api/card-favorites/likes/{melodyCardId}", melodyCard.getId())
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("로그인한 회원의 특정 멜로디 카드에 대한 좋아요 상태 가져오기",
+                .andDo(document("특정 멜로디 카드에 대한 좋아요 상태 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("좋아요")

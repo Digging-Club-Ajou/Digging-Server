@@ -49,7 +49,7 @@ public class CardFavoriteController {
         return new CardFavoriteResult(cardFavoriteResponses);
     }
 
-    @GetMapping("/card-favorites/{melodyCardId}")
+    @GetMapping("/card-favorites/likes/{melodyCardId}")
     public LikeInfoResponse findLikeInfo(@Login final MemberSession memberSession,
                                          @PathVariable final long melodyCardId) {
         Boolean likeInfo = likeInfoFindService.findLikeInfo(memberSession.id(), melodyCardId);
