@@ -1,6 +1,7 @@
 package server.mapper.album;
 
 import server.domain.album.Album;
+import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
 import server.mapper.album.dto.AlbumValidateResponse;
 import server.mapper.album.dto.AlbumImageUrlResponse;
@@ -10,10 +11,10 @@ public class AlbumMapper {
     private AlbumMapper() {
     }
 
-    public static Album toEntity(final MemberSession memberSession, final String albumName) {
+    public static Album toEntity(final Member member, final String albumName) {
         return Album.builder()
-                .memberId(memberSession.id())
-                .nickname(memberSession.nickname())
+                .memberId(member.getId())
+                .nickname(member.getNickname())
                 .albumName(albumName)
                 .build();
     }
