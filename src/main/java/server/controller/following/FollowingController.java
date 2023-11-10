@@ -30,8 +30,8 @@ public class FollowingController {
     }
 
     @GetMapping("/followings")
-    public Followings getFollowingList(@Login final MemberSession memberSession){
-       return followingService.getFollowingList(memberSession.id());
+    public Followings getFollowingList(@RequestBody final FollowingDto followingDto){
+       return followingService.getFollowingList(followingDto.memberId());
     }
 
 

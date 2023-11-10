@@ -163,9 +163,14 @@ public class FollowingControllerTest extends ControllerTest {
         FollowingInfo followingInfo2 = FollowingInfo.builder().followedId(member1.getId()).followingId(member.getId()).build();
         followingRepository.save(followingInfo2);
 
+        Long followingId = Long.parseLong("2");
+        FollowingDto dto = new FollowingDto(followingId);
+
         // expected
         mockMvc.perform(get("/api/followings")
                         .header(ACCESS_TOKEN.value, accessToken)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
                 )
                 .andExpect(status().isOk())
                 .andDo(document("로그인한 회원의 팔로잉/팔로우 리스트 가져오기",
@@ -175,6 +180,9 @@ public class FollowingControllerTest extends ControllerTest {
                                 .summary("팔로잉/팔로워 리스트 가져오기")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .requestFields(
+                                        fieldWithPath("memberId").description("팔로잉 리스트를 가져오려는 memberId")
                                 )
                                 .responseFields(
                                         fieldWithPath("followings[].memberId").description("멤버 id"),
