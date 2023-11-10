@@ -33,7 +33,7 @@ public class KakaoLoginTestService implements KakaoLoginService {
             throw new RuntimeException(e);
         }
 
-        return new JwtToken("accessToken", "refreshToken");
+        return new JwtToken("accessToken", "refreshToken", true);
     }
 
     private synchronized String getAccessToken(String authCode) throws JsonProcessingException {

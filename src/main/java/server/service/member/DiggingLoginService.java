@@ -31,17 +31,24 @@ public class DiggingLoginService {
 
     public JwtToken kakaoLogin(final KakaoSignupRequest dto) {
         Optional<Member> optionalMember = memberFindByEmailService.findByEmail(dto.email());
-        Member member = optionalMember
-                .orElseGet(() -> kakaoSignupService.kakaoSignup(dto));
+        Member member;
+        Boolean isNew;
+        if (optionalMember.isEmpty()) {
+            member = kakaoSignupService.kakaoSignup(dto);
+            isNew = true;
+        } else {
+            member = optionalMember.get();
+            isNew = false;
+        }
 
         MemberSession memberSession = MemberMapper.toMemberSession(member);
-        return createToken(memberSession);
+        return createToken(memberSession, isNew);
     }
 
-    private JwtToken createToken(final MemberSession memberSession) {
+    private JwtToken createToken(final MemberSession memberSession, final Boolean isNew) {
         String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
         String refreshToken = jwtFacade.createRefreshToken(memberSession.id(), ONE_MONTH.value);
         jwtFacade.saveJwtRefreshToken(memberSession.id(), refreshToken);
-        return new JwtToken(accessToken, refreshToken);
+        return new JwtToken(accessToken, refreshToken, isNew);
     }
 }

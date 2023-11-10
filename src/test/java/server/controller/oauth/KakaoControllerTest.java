@@ -13,6 +13,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,6 +41,11 @@ class KakaoControllerTest extends ControllerTest {
                                 .summary("카카오 로그인")
                                 .requestFields(
                                         fieldWithPath("authCode").type(STRING).description("인가 코드")
+                                )
+                                .responseFields(
+                                        fieldWithPath("accessToken").type(STRING).description("AccessToken"),
+                                        fieldWithPath("refreshToken").type(STRING).description("RefreshToken"),
+                                        fieldWithPath("isNew").type(BOOLEAN).description("신규가입 회원 여부")
                                 )
                                 .build()
                         )));
