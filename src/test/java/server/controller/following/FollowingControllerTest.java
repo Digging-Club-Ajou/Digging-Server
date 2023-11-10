@@ -104,7 +104,7 @@ public class FollowingControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("로그인한 회원의 팔로잉/팔로우 리스트 가져오기")
+    @DisplayName("memberId의 회원의 팔로잉/팔로우 리스트 가져오기")
     void getFollowingList() throws Exception {
         Member member = Member.builder()
                 .username(TEST_USERNAME.value)
@@ -164,7 +164,7 @@ public class FollowingControllerTest extends ControllerTest {
         followingRepository.save(followingInfo2);
 
         Long followingId = Long.parseLong("2");
-        FollowingDto dto = new FollowingDto(followingId);
+        FollowingDto dto = new FollowingDto(member.getId());
 
         // expected
         mockMvc.perform(get("/api/followings")
