@@ -6,9 +6,11 @@ import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.global.exception.dto.ResultResponse;
 import server.mapper.member.MemberMapper;
+import server.mapper.member.dto.MemberResponse;
 import server.mapper.member.dto.NicknameResponse;
 import server.mapper.member.dto.NicknameRequest;
 import server.mapper.member.dto.UsernameResponse;
+import server.service.member.MemberFindService;
 import server.service.member.NicknameCreateService;
 import server.service.member.NicknameFindService;
 import server.service.member.NicknameValidationService;
@@ -18,16 +20,24 @@ import server.service.member.NicknameValidationService;
 @RestController
 public class MemberController {
 
+    private final MemberFindService memberFindService;
     private final NicknameFindService nicknameFindService;
     private final NicknameCreateService nicknameCreateService;
     private final NicknameValidationService nicknameValidationService;
 
-    public MemberController(final NicknameFindService nicknameFindService,
+    public MemberController(final MemberFindService memberFindService,
+                            final NicknameFindService nicknameFindService,
                             final NicknameCreateService nicknameCreateService,
                             final NicknameValidationService nicknameValidationService) {
+        this.memberFindService = memberFindService;
         this.nicknameFindService = nicknameFindService;
         this.nicknameCreateService = nicknameCreateService;
         this.nicknameValidationService = nicknameValidationService;
+    }
+
+    @GetMapping("/members")
+    public MemberResponse getMember(@Login final MemberSession memberSession) {
+        return memberFindService.getMember(memberSession);
     }
 
     @GetMapping("/nickname")

@@ -3,7 +3,10 @@ package server.controller.member;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletResponse;
+import server.domain.album.Album;
 import server.domain.member.persist.Member;
+import server.domain.member.vo.MemberSession;
 import server.mapper.member.dto.NicknameRequest;
 import server.util.ControllerTest;
 
@@ -14,10 +17,12 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
+import static server.global.constant.TimeConstant.ONE_HOUR;
 import static server.util.TestConstant.*;
 
 class MemberControllerTest extends ControllerTest {
@@ -234,6 +239,52 @@ class MemberControllerTest extends ControllerTest {
                                 )
                                 .requestFields(
                                         fieldWithPath("nickname").type(STRING).description("닉네임")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("로그인한 사용자의 회원 정보를 가져옵니다")
+    void getMemberResponse() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        Album album = Album.builder()
+                .memberId(member.getId())
+                .build();
+
+        albumRepository.save(album);
+
+        // given 3
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+
+        // expected
+        mockMvc.perform(get("/api/members")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("회원정보 가져오기 성공",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("회원")
+                                .summary("회원 정보 가져오기")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .responseFields(
+                                        fieldWithPath("memberId").type(NUMBER).description("회원 ID"),
+                                        fieldWithPath("albumId").type(NUMBER).description("앨범 ID")
                                 )
                                 .build()
                         )));
