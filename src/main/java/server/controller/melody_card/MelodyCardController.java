@@ -9,6 +9,7 @@ import server.mapper.melody_card.dto.MelodyCardRequest;
 import server.mapper.melody_card.dto.MelodyCardResponse;
 import server.mapper.melody_card.dto.MelodyCardResponses;
 import server.service.melody_card.MelodyCardCreateService;
+import server.service.melody_card.MelodyCardProdService;
 
 import java.util.List;
 
@@ -16,9 +17,11 @@ import java.util.List;
 @RestController
 public class MelodyCardController {
     private final MelodyCardCreateService melodyCardCreateService;
+    private final MelodyCardProdService melodyCardProdService;
 
-    public MelodyCardController(final MelodyCardCreateService melodyCardCreateService) {
+    public MelodyCardController(final MelodyCardCreateService melodyCardCreateService, final MelodyCardProdService melodyCardProdService) {
         this.melodyCardCreateService = melodyCardCreateService;
+        this.melodyCardProdService = melodyCardProdService;
     }
 
     @GetMapping("/melody-cards/{melodyCardId}")
@@ -44,5 +47,10 @@ public class MelodyCardController {
             @RequestPart final MelodyCardRequest melodyCardRequest,
             @RequestPart final MultipartFile melodyImage){
         melodyCardCreateService.createMelodyCard(memberSession.id(), melodyCardRequest, melodyImage);
+    }
+
+    @DeleteMapping("/melody-cards/{melodyCardId}")
+    public void deleteMelodyCard(@PathVariable final long melodyCardId){
+        melodyCardProdService.deleteMelodyCardInfo(melodyCardId);
     }
 }

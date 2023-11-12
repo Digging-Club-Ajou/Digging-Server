@@ -16,4 +16,5 @@ public interface MelodyCardCreateService {
     MelodyCardResponse getMelodyCard(final long melodyCardId);
 
     List<MelodyCardResponse> getMelodyCards(final long albumId);
+
 }
