@@ -15,8 +15,7 @@ import server.util.ControllerTest;
 
 import java.lang.reflect.Array;
 
-import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
-import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static com.epages.restdocs.apispec.ResourceDocumentation.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -163,17 +162,14 @@ public class FollowingControllerTest extends ControllerTest {
         FollowingInfo followingInfo2 = FollowingInfo.builder().followedId(member1.getId()).followingId(member.getId()).build();
         followingRepository.save(followingInfo2);
 
-        Long followingId = Long.parseLong("2");
-        FollowingDto dto = new FollowingDto(member.getId());
 
         // expected
         mockMvc.perform(get("/api/followings")
                         .header(ACCESS_TOKEN.value, accessToken)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
+                        .param("memberId", member.getId().toString())
                 )
                 .andExpect(status().isOk())
-                .andDo(document("로그인한 회원의 팔로잉/팔로우 리스트 가져오기",
+                .andDo(document("memberId별 회원의 팔로잉/팔로우 리스트 가져오기",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("팔로잉")
@@ -181,8 +177,8 @@ public class FollowingControllerTest extends ControllerTest {
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
-                                .requestFields(
-                                        fieldWithPath("memberId").description("팔로잉 리스트를 가져오려는 memberId")
+                                .queryParameters(
+                                        parameterWithName("memberId").description("팔로잉/팔로워 리스트 가져오려는 memberId")
                                 )
                                 .responseFields(
                                         fieldWithPath("followings[].memberId").description("멤버 id"),
