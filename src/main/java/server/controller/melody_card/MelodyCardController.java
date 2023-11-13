@@ -1,6 +1,5 @@
 package server.controller.melody_card;
 
-import com.google.firebase.database.annotations.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.vo.MemberSession;
@@ -9,6 +8,7 @@ import server.mapper.melody_card.dto.MelodyCardRequest;
 import server.mapper.melody_card.dto.MelodyCardResponse;
 import server.mapper.melody_card.dto.MelodyCardResponses;
 import server.service.melody_card.MelodyCardCreateService;
+import server.service.melody_card.MelodyCardService;
 
 import java.util.List;
 
@@ -16,9 +16,11 @@ import java.util.List;
 @RestController
 public class MelodyCardController {
     private final MelodyCardCreateService melodyCardCreateService;
+    private final MelodyCardService melodyCardService;
 
-    public MelodyCardController(final MelodyCardCreateService melodyCardCreateService) {
+    public MelodyCardController(final MelodyCardCreateService melodyCardCreateService, final MelodyCardService melodyCardService) {
         this.melodyCardCreateService = melodyCardCreateService;
+        this.melodyCardService = melodyCardService;
     }
 
     @GetMapping("/melody-cards/{melodyCardId}")
@@ -44,5 +46,10 @@ public class MelodyCardController {
             @RequestPart final MelodyCardRequest melodyCardRequest,
             @RequestPart final MultipartFile melodyImage){
         melodyCardCreateService.createMelodyCard(memberSession.id(), melodyCardRequest, melodyImage);
+    }
+
+    @DeleteMapping("/melody-cards/{melodyCardId}")
+    public void deleteMelodyCard(@PathVariable final long melodyCardId){
+        melodyCardService.deleteMelodyCardInfo(melodyCardId);
     }
 }

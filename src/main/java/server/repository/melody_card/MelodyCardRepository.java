@@ -4,7 +4,6 @@ package server.repository.melody_card;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 import server.domain.melody_card.MelodyCard;
-import server.domain.melody_card.QMelodyCard;
 import server.global.exception.NotFoundException;
 
 import java.util.List;
@@ -50,5 +49,9 @@ public class MelodyCardRepository {
                 .from(melodyCard)
                 .where(melodyCard.albumId.eq(albumId))
                 .fetch();
+    }
+
+    public void deleteById(final long melodyCardId){
+        melodyCardJpaRepository.deleteById(melodyCardId);
     }
 }
