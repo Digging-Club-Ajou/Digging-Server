@@ -50,9 +50,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
         Album album = albumRepository.getByMemberId(memberId);
 
-        System.out.println("create");
         Boolean isImageUrl = melodyCardImage.getSize() == 0 ? Boolean.FALSE : Boolean.TRUE;
-        System.out.println("HERE"+melodyCardImage.getSize());
         MelodyCard melodyCard = melodyCardInfoCreateService.createMelodyCardInfo(album, melodyCardRequest,isImageUrl);
 
         if(isImageUrl)
