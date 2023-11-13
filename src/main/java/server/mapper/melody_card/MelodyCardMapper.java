@@ -31,6 +31,7 @@ public class MelodyCardMapper {
                 .cardDescription(melodyCardRequest.cardDescription())
                 .color(melodyCardRequest.color())
                 .isImageUrl(isImageUrl)
+                .albumCoverImageUrl(melodyCardRequest.albumCoverImageUrl())
                 .build();
     }
 

@@ -44,12 +44,13 @@ public class MelodyCard extends BaseTimeEntity {
 
     private String color;
     private Boolean isImageUrl;
+    private String albumCoverImageUrl;
 
     @Builder
     private MelodyCard(final Long albumId, final Long memberId, final String nickname,
                       final String artistName, final String songTitle, final String genre,
                       final String previewUrl, final String address,
-                      final String cardDescription, final String color, final Boolean isImageUrl) {
+                      final String cardDescription, final String color, final Boolean isImageUrl, final String albumCoverImageUrl) {
         this.albumId = albumId;
         this.memberId = memberId;
         this.nickname = nickname;
@@ -61,5 +62,6 @@ public class MelodyCard extends BaseTimeEntity {
         this.cardDescription = cardDescription;
         this.color = color;
         this.isImageUrl = isImageUrl;
+        this.albumCoverImageUrl = albumCoverImageUrl;
     }
 }

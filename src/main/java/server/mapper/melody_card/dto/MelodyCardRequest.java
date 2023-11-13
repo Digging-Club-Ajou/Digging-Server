@@ -11,6 +11,7 @@ public record MelodyCardRequest (
         String address,
         @Nullable
         String cardDescription,
-        String color
+        String color,
+        String albumCoverImageUrl
 ){
 }
