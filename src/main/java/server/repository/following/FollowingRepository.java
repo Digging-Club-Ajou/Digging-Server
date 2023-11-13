@@ -2,11 +2,8 @@ package server.repository.following;
 
 import org.springframework.stereotype.Repository;
 import server.domain.following.FollowingInfo;
-import server.domain.genre.Genre;
-import server.domain.member.persist.Member;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class FollowingRepository {
@@ -33,9 +30,8 @@ public class FollowingRepository {
         return followingJpaRepository.findAllByFollowingId(followingId);
     }
 
-
     public FollowingInfo findByFollowingIdAndFollowedId(final Long followingId, final Long followedId){
-        return followingJpaRepository.findByFollowingIdAndAndFollowedId(followingId,followedId);
+         return followingJpaRepository.findByFollowingIdAndAndFollowedId(followingId,followedId);
     }
 
 }

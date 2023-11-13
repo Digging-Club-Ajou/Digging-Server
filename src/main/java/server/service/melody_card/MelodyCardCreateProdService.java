@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.album.Album;
 import server.domain.melody_card.MelodyCard;
@@ -45,6 +46,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         this.albumRepository = albumRepository;
     }
 
+    @Transactional
     public void createMelodyCard(final long memberId, final MelodyCardRequest melodyCardRequest,
                                  final MultipartFile melodyCardImage) {
         List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
@@ -72,6 +74,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         }
 
     }
+
 
     public MelodyCardResponse getMelodyCard(final long melodyCardId) {
         Date expiration = new Date();
@@ -124,6 +127,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
 
         return melodyCardResponses;
     }
+
 
     private ObjectMetadata getObjectMetadata(final MultipartFile multipartFile) {
         ObjectMetadata objectMetadata = new ObjectMetadata();

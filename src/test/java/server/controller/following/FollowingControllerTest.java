@@ -13,15 +13,12 @@ import server.mapper.following.dto.FollowingInfoDto;
 import server.mapper.member.dto.NicknameRequest;
 import server.util.ControllerTest;
 
-import java.lang.reflect.Array;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
-import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
@@ -194,4 +191,38 @@ public class FollowingControllerTest extends ControllerTest {
                         )));
     }
 
+    @Test
+    @DisplayName("팔로우가 되어있으면 True, 아니면 False를 반환합니다.")
+    void getFollowing() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .nickname(TEST_NICKNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        String accessToken = login();
+
+
+        // expected
+        mockMvc.perform(get("/api/following-validation")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                        .param("memberId", member.getId().toString())
+                )
+                .andExpect(status().isOk())
+                .andDo(document("following 여부 확인하기 ",
+                        preprocessRequest(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("팔로잉")
+                                .summary("팔로잉 여부 확인하기")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .queryParameters(
+                                        parameterWithName("memberId").description("로그인한 유저와 팔로잉 여부 확인하고자하는 memberId")
+                                )
+                                .build()
+                        )));
+    }
 }

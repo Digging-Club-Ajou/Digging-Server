@@ -34,5 +34,9 @@ public class FollowingController {
        return followingService.getFollowingList(memberId);
     }
 
+    @GetMapping("/following-validation")
+    public boolean getFollowing(@Login MemberSession memberSession, @RequestParam final Long memberId){
+        return followingService.getFollowing(memberSession, memberId);
+    }
 
 }
