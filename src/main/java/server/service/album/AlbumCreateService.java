@@ -59,6 +59,30 @@ public class AlbumCreateService {
 
     }
 
+    public void updateAlbum(final MemberSession memberSession, final AlbumNameRequest dto,
+                            final MultipartFile albumImage) {
+
+        Album album = albumInfoCreateService.updateProfileInfo(memberSession,dto.albumName());
+
+        if(albumImage.getSize() != 0){
+            ObjectMetadata objectMetadata = getObjectMetadata(albumImage);
+
+            try {
+                PutObjectRequest putObjectRequest = new PutObjectRequest(
+                        DIGGING_CLUB.value,
+                        ALBUM_IMAGE.value + album.getId(),
+                        albumImage.getInputStream(),
+                        objectMetadata
+                );
+
+                amazonS3Client.putObject(putObjectRequest);
+            }catch (IOException e) {
+                throw new BadRequestException(PROFILES_SAVE_EXCEPTION.message);
+            }
+        }
+
+    }
+
     private void validateExist(final long memberId) {
         if (albumValidationService.validateExistByMemberId(memberId)) {
             throw new BadRequestException(ALBUM_ALREADY_EXIST_EXCEPTION.message);

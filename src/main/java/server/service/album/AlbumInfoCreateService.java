@@ -27,4 +27,16 @@ public class AlbumInfoCreateService {
         Album album = AlbumMapper.toEntity(member, albumName);
         return albumRepository.save(album);
     }
+
+    @Transactional
+    public Album updateProfileInfo(final MemberSession memberSession, final String albumName){
+        Member member = memberRepository.getById(memberSession.id());
+        Album album = albumRepository.getByMemberId(member.getId());
+
+        if(albumName!= null){
+            album.updateAlbumName(albumName);
+        }
+
+        return album;
+    }
 }
