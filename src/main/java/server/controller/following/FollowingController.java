@@ -21,8 +21,8 @@ public class FollowingController {
 
     @PostMapping("/following")
     public void createFollowing(@Login final MemberSession memberSession,
-                            @RequestBody final FollowingDto followingDto) {
-        followingService.saveFollowing(memberSession.id(),followingDto);
+                                @RequestBody final FollowingDto followingDto) {
+        followingService.saveFollowing(memberSession.id(), followingDto);
     }
 
     @DeleteMapping("/following")
@@ -31,12 +31,18 @@ public class FollowingController {
     }
 
     @GetMapping("/followings")
-    public Followings getFollowingList(@RequestParam final Long memberId){
+    public Followings getMemberFollowings(@Login final MemberSession memberSession){
+        return followingService.getFollowingList(memberSession.id());
+    }
+
+    @GetMapping("/followings/{memberId}")
+    public Followings getFollowings(@PathVariable final long memberId){
        return followingService.getFollowingList(memberId);
     }
 
     @GetMapping("/following-validation")
-    public FollowingValidationResponse getFollowing(@Login MemberSession memberSession, @RequestParam final long memberId){
+    public FollowingValidationResponse getFollowingValidation(@Login MemberSession memberSession,
+                                                    @RequestParam final long memberId){
         boolean isFollowing = followingService.getFollowing(memberSession, memberId);
         return new FollowingValidationResponse(isFollowing);
     }
