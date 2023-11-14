@@ -34,4 +34,8 @@ public class CardFavoriteRepository {
     public List<CardFavorite> findAllByMemberId(final long memberId) {
         return cardFavoriteJpaRepository.findAllByMemberId(memberId);
     }
+
+    public void deleteByCardFavorite(CardFavorite cardFavorite){
+        cardFavoriteJpaRepository.delete(cardFavorite);
+    }
 }
