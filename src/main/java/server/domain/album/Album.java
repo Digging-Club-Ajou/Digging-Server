@@ -1,10 +1,7 @@
 package server.domain.album;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import server.domain.BaseTimeEntity;
 import server.global.annotation.Association;
 
@@ -29,6 +26,10 @@ public class Album extends BaseTimeEntity {
     private Album(final Long memberId, final String nickname, final String albumName) {
         this.memberId = memberId;
         this.nickname = nickname;
+        this.albumName = albumName;
+    }
+
+    public void updateAlbumName(final String albumName) {
         this.albumName = albumName;
     }
 }
