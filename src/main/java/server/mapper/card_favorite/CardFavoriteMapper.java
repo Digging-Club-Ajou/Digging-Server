@@ -24,7 +24,7 @@ public class CardFavoriteMapper {
                 .melodyCardId(melodyCardResponse.getMelodyCardId())
                 .songTitle(melodyCardResponse.getSongTitle())
                 .artistName(melodyCardResponse.getArtistName())
-                .imageUrl(melodyCardResponse.getImageUrl())
+                .albumCoverImageUrl(melodyCardResponse.getAlbumCoverImageUrl())
                 .build();
     }
 }

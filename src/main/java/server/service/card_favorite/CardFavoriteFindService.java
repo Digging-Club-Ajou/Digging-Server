@@ -5,22 +5,24 @@ import org.springframework.transaction.annotation.Transactional;
 import server.domain.card_favorite.CardFavorite;
 import server.mapper.card_favorite.CardFavoriteMapper;
 import server.mapper.card_favorite.dto.CardFavoriteResponse;
+import server.mapper.melody_card.MelodyCardMapper;
 import server.repository.card_favorite.CardFavoriteRepository;
-import server.service.melody_card.MelodyCardCreateService;
+import server.repository.melody_card.MelodyCardRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @Service
 public class CardFavoriteFindService {
 
     private final CardFavoriteRepository cardFavoriteRepository;
-    private final MelodyCardCreateService melodyCardCreateService;
+    private final MelodyCardRepository melodyCardRepository;
 
     public CardFavoriteFindService(final CardFavoriteRepository cardFavoriteRepository,
-                                   final MelodyCardCreateService melodyCardCreateService) {
+                                   final MelodyCardRepository melodyCardRepository) {
         this.cardFavoriteRepository = cardFavoriteRepository;
-        this.melodyCardCreateService = melodyCardCreateService;
+        this.melodyCardRepository = melodyCardRepository;
     }
 
     @Transactional(readOnly = true)
@@ -28,8 +30,9 @@ public class CardFavoriteFindService {
         List<CardFavorite> cardFavorites = cardFavoriteRepository.findAllByMemberId(memberId);
 
         return cardFavorites.stream()
-                .map(cardFavorite -> melodyCardCreateService.getMelodyCard(cardFavorite.getMelodyCardId()))
+                .map(cardFavorite -> melodyCardRepository.getById(cardFavorite.getMelodyCardId()))
+                .map(MelodyCardMapper::toMelodyCardResponse)
                 .map(CardFavoriteMapper::toCardFavoriteResponse)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }

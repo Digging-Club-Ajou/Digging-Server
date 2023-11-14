@@ -60,6 +60,7 @@ public class MelodyCardControllerTest extends ControllerTest {
                                         fieldWithPath("songTitle").type(STRING).description("노래 제목"),
                                         fieldWithPath("previewUrl").type(STRING).description("스트리밍 url"),
                                         fieldWithPath("imageUrl").type(STRING).description("이미지 url"),
+                                        fieldWithPath("albumCoverImageUrl").type(STRING).description("앨범 커버 이미지 url"),
                                         fieldWithPath("address").type(STRING).description("주소"),
                                         fieldWithPath("cardDescription").type(STRING).description("카드 설명"),
                                         fieldWithPath("color").type(STRING).description("색상"),
@@ -130,6 +131,8 @@ public class MelodyCardControllerTest extends ControllerTest {
                                                 .description("이미지 url"),
                                         fieldWithPath("melodyCardResponses[0].previewUrl").type(STRING)
                                                 .description("스트리밍 url"),
+                                        fieldWithPath("melodyCardResponses[0].albumCoverImageUrl").type(STRING)
+                                                .description("앨범 커버 이미지 url"),
                                         fieldWithPath("melodyCardResponses[0].address").type(STRING)
                                                 .description("주소"),
                                         fieldWithPath("melodyCardResponses[0].cardDescription").type(STRING)
@@ -197,6 +200,8 @@ public class MelodyCardControllerTest extends ControllerTest {
                                                 .description("이미지 url"),
                                         fieldWithPath("melodyCardResponses[0].previewUrl").type(STRING)
                                                 .description("스트리밍 url"),
+                                        fieldWithPath("melodyCardResponses[0].albumCoverImageUrl").type(STRING)
+                                                .description("앨범 커버 이미지 url"),
                                         fieldWithPath("melodyCardResponses[0].address").type(STRING)
                                                 .description("주소"),
                                         fieldWithPath("melodyCardResponses[0].cardDescription").type(STRING)

@@ -34,6 +34,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .imageUrl("https://i.scdn.co/image/ab67616d0000b2733d98a0ae7c78a3a9babaf8af")
                 .previewUrl("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
                         "cid=eb9c2bc88c014e5e9a78cdb743d7a6df")
+                .albumCoverImageUrl("http://test-album-cover-image-url")
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명")
                 .color("#FFFFFF")
@@ -51,6 +52,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .imageUrl("https://i.scdn.co/image/ab67616d0000b2733d98a0ae7c78a3a9babaf8af")
                 .previewUrl("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
         "cid=eb9c2bc88c014e5e9a78cdb743d7a6df")
+                .albumCoverImageUrl("http://test-album-cover-image-url")
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명1")
                 .color("#FFFFFF")
@@ -66,6 +68,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .imageUrl("https://i.scdn.co/image/ab67616d0000b2733d98a0ae7c78a3a9babaf8af")
                 .previewUrl("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
                         "cid=eb9c2bc88c014e5e9a78cdb743d7a6df")
+                .albumCoverImageUrl("http://test-album-cover-image-url")
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명2")
                 .color("#FFFFFF")
@@ -81,6 +84,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .imageUrl("https://i.scdn.co/image/ab67616d0000b2733d98a0ae7c78a3a9babaf8af")
                 .previewUrl("https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?" +
                         "cid=eb9c2bc88c014e5e9a78cdb743d7a6df")
+                .albumCoverImageUrl("http://test-album-cover-image-url")
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명3")
                 .color("#FFFFFF")

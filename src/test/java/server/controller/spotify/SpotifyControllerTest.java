@@ -49,9 +49,9 @@ class SpotifyControllerTest extends ControllerTest {
                                         fieldWithPath("spotifySearchDtos[0].songTitle").type(STRING)
                                                 .description("노래 제목"),
                                         fieldWithPath("spotifySearchDtos[0].imageUrl").type(STRING)
-                                                .description("노래 이미지 URL"),
+                                                .description("앨범 커버 이미지 url"),
                                         fieldWithPath("spotifySearchDtos[0].previewUrl").type(STRING)
-                                                .description("노래 스트리밍 URL")
+                                                .description("스트리밍 URL")
                                 )
                                 .build()
                         )));

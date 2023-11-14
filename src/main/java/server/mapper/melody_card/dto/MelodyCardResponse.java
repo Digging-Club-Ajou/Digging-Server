@@ -14,6 +14,7 @@ public class MelodyCardResponse {
     private String songTitle;
     private String previewUrl;
     private String imageUrl;
+    private String albumCoverImageUrl;
     private String address;
     private String cardDescription;
     private String color;
@@ -25,8 +26,9 @@ public class MelodyCardResponse {
     @Builder
     private MelodyCardResponse(final long melodyCardId, final long albumId, final long memberId,
                               final String nickname, final String artistName, final String songTitle,
-                              final String previewUrl, final String imageUrl,
-                              final String address, final String cardDescription, final String color, final Boolean isImageUrl) {
+                              final String previewUrl, final String imageUrl, final String albumCoverImageUrl,
+                              final String address, final String cardDescription, final String color,
+                               final Boolean isImageUrl) {
         this.melodyCardId = melodyCardId;
         this.albumId = albumId;
         this.memberId = memberId;
@@ -35,14 +37,14 @@ public class MelodyCardResponse {
         this.songTitle = songTitle;
         this.previewUrl = previewUrl;
         this.imageUrl = imageUrl;
+        this.albumCoverImageUrl = albumCoverImageUrl;
         this.address = address;
         this.cardDescription = cardDescription;
         this.color = color;
         this.isImageUrl = isImageUrl;
     }
 
-    public MelodyCardResponse updateUrl(final String imageUrl) {
+    public void updateUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
-        return this;
     }
 }

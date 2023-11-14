@@ -3,6 +3,7 @@ package server.controller.card_favorite;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import server.domain.album.Album;
 import server.domain.card_favorite.CardFavorite;
 import server.domain.melody_card.MelodyCard;
 import server.domain.member.persist.Member;
@@ -87,6 +88,12 @@ class CardFavoriteControllerTest extends ControllerTest {
 
         memberRepository.save(member);
 
+        Album album = Album.builder()
+                .memberId(member.getId())
+                .build();
+
+        albumRepository.save(album);
+
         // given 2
         MemberSession memberSession = MemberSession.builder()
                 .id(member.getId())
@@ -96,21 +103,54 @@ class CardFavoriteControllerTest extends ControllerTest {
         String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
 
         // given 3
+        MelodyCard melodyCard1 = MelodyCard.builder()
+                .memberId(member.getId())
+                .albumId(album.getId())
+                .artistName("아티스트 이름 1")
+                .songTitle("노래 제목 1")
+                .albumCoverImageUrl("https://test-album-cover-image-url1")
+                .build();
+
+        MelodyCard melodyCard2 = MelodyCard.builder()
+                .memberId(member.getId())
+                .albumId(album.getId())
+                .artistName("아티스트 이름 2")
+                .songTitle("노래 제목 2")
+                .albumCoverImageUrl("https://test-album-cover-image-url2")
+                .build();
+
+        MelodyCard melodyCard3 = MelodyCard.builder()
+                .memberId(member.getId())
+                .albumId(album.getId())
+                .artistName("아티스트 이름 3")
+                .songTitle("노래 제목 3")
+                .albumCoverImageUrl("https://test-album-cover-image-url3")
+                .build();
+
+        melodyCardRepository.save(melodyCard1);
+        melodyCardRepository.save(melodyCard2);
+        melodyCardRepository.save(melodyCard3);
+
+        // given 4
         CardFavorite cardFavorite1 = CardFavorite.builder()
                 .memberId(member.getId())
+                .melodyCardId(melodyCard1.getId())
                 .build();
 
         CardFavorite cardFavorite2 = CardFavorite.builder()
                 .memberId(member.getId())
+                .melodyCardId(melodyCard2.getId())
                 .build();
 
         CardFavorite cardFavorite3 = CardFavorite.builder()
                 .memberId(member.getId())
+                .melodyCardId(melodyCard3.getId())
                 .build();
 
         cardFavoriteRepository.save(cardFavorite1);
         cardFavoriteRepository.save(cardFavorite2);
         cardFavoriteRepository.save(cardFavorite3);
+
 
         // expected
         mockMvc.perform(get("/api/card-favorites")
@@ -129,7 +169,8 @@ class CardFavoriteControllerTest extends ControllerTest {
                                         fieldWithPath("cardFavoriteResponses[].melodyCardId").description("멜로디 카드 id"),
                                         fieldWithPath("cardFavoriteResponses[].songTitle").description("노래 제목"),
                                         fieldWithPath("cardFavoriteResponses[].artistName").description("가수 이름"),
-                                        fieldWithPath("cardFavoriteResponses[].imageUrl").description("이미지 사진")
+                                        fieldWithPath("cardFavoriteResponses[].albumCoverImageUrl")
+                                                .description("앨범 커버 이미지 url")
                                 )
                                 .build()
                         )));
@@ -145,6 +186,12 @@ class CardFavoriteControllerTest extends ControllerTest {
 
         memberRepository.save(member);
 
+        Album album = Album.builder()
+                .memberId(member.getId())
+                .build();
+
+        albumRepository.save(album);
+
         // given 2
         MemberSession memberSession = MemberSession.builder()
                 .id(member.getId())
@@ -154,16 +201,48 @@ class CardFavoriteControllerTest extends ControllerTest {
         String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
 
         // given 3
+        MelodyCard melodyCard1 = MelodyCard.builder()
+                .memberId(member.getId())
+                .albumId(album.getId())
+                .artistName("아티스트 이름 1")
+                .songTitle("노래 제목 1")
+                .albumCoverImageUrl("https://test-album-cover-image-url1")
+                .build();
+
+        MelodyCard melodyCard2 = MelodyCard.builder()
+                .memberId(member.getId())
+                .albumId(album.getId())
+                .artistName("아티스트 이름 2")
+                .songTitle("노래 제목 2")
+                .albumCoverImageUrl("https://test-album-cover-image-url2")
+                .build();
+
+        MelodyCard melodyCard3 = MelodyCard.builder()
+                .memberId(member.getId())
+                .albumId(album.getId())
+                .artistName("아티스트 이름 3")
+                .songTitle("노래 제목 3")
+                .albumCoverImageUrl("https://test-album-cover-image-url3")
+                .build();
+
+        melodyCardRepository.save(melodyCard1);
+        melodyCardRepository.save(melodyCard2);
+        melodyCardRepository.save(melodyCard3);
+
+        // given 4
         CardFavorite cardFavorite1 = CardFavorite.builder()
                 .memberId(member.getId())
+                .melodyCardId(melodyCard1.getId())
                 .build();
 
         CardFavorite cardFavorite2 = CardFavorite.builder()
                 .memberId(member.getId())
+                .melodyCardId(melodyCard2.getId())
                 .build();
 
         CardFavorite cardFavorite3 = CardFavorite.builder()
                 .memberId(member.getId())
+                .melodyCardId(melodyCard3.getId())
                 .build();
 
         cardFavoriteRepository.save(cardFavorite1);
@@ -187,7 +266,8 @@ class CardFavoriteControllerTest extends ControllerTest {
                                         fieldWithPath("cardFavoriteResponses[].melodyCardId").description("멜로디 카드 id"),
                                         fieldWithPath("cardFavoriteResponses[].songTitle").description("노래 제목"),
                                         fieldWithPath("cardFavoriteResponses[].artistName").description("가수 이름"),
-                                        fieldWithPath("cardFavoriteResponses[].imageUrl").description("이미지 사진")
+                                        fieldWithPath("cardFavoriteResponses[].albumCoverImageUrl")
+                                                .description("앨범 커버 이미지 url")
                                 )
                                 .build()
                         )));

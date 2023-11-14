@@ -200,7 +200,7 @@ class AlbumControllerTest extends ControllerTest {
                                         fieldWithPath("albumId").type(NUMBER).description("앨범 id"),
                                         fieldWithPath("nickname").type(STRING).description("회원 닉네임"),
                                         fieldWithPath("albumName").type(STRING).description("앨범명"),
-                                        fieldWithPath("imageUrl").type(STRING).description("이미지 url"),
+                                        fieldWithPath("imageUrl").type(STRING).description("앨범 이미지 url"),
                                         fieldWithPath("artistNames[]").type(ARRAY).description("아티스트 이름 리스트")
                                 )
                                 .build()
@@ -239,7 +239,7 @@ class AlbumControllerTest extends ControllerTest {
                                         fieldWithPath("albumId").type(NUMBER).description("앨범 id"),
                                         fieldWithPath("nickname").type(STRING).description("회원 닉네임"),
                                         fieldWithPath("albumName").type(STRING).description("앨범명"),
-                                        fieldWithPath("imageUrl").type(STRING).description("이미지 url"),
+                                        fieldWithPath("imageUrl").type(STRING).description("앨범 이미지 url"),
                                         fieldWithPath("artistNames[]").type(ARRAY).description("아티스트 이름 리스트")
                                 )
                                 .build()
@@ -295,7 +295,7 @@ class AlbumControllerTest extends ControllerTest {
                                         fieldWithPath("albumResponses[].albumId").description("앨범 id"),
                                         fieldWithPath("albumResponses[].nickname").description("닉네임"),
                                         fieldWithPath("albumResponses[].albumName").description("앨범 이름"),
-                                        fieldWithPath("albumResponses[].imageUrl").description("이미지 URL"),
+                                        fieldWithPath("albumResponses[].imageUrl").description("앨범 이미지 url"),
                                         fieldWithPath("albumResponses[].artistNames").description("아티스트 이름")
                                 )
                                 .build()
@@ -348,7 +348,7 @@ class AlbumControllerTest extends ControllerTest {
                                         fieldWithPath("albumResponses[].albumId").description("앨범 id"),
                                         fieldWithPath("albumResponses[].nickname").description("닉네임"),
                                         fieldWithPath("albumResponses[].albumName").description("앨범 이름"),
-                                        fieldWithPath("albumResponses[].imageUrl").description("이미지 URL"),
+                                        fieldWithPath("albumResponses[].imageUrl").description("앨범 이미지 url"),
                                         fieldWithPath("albumResponses[].artistNames").description("아티스트 이름")
                                 )
                                 .build()
@@ -401,7 +401,7 @@ class AlbumControllerTest extends ControllerTest {
                                         fieldWithPath("albumResponses[].albumId").description("앨범 id"),
                                         fieldWithPath("albumResponses[].nickname").description("닉네임"),
                                         fieldWithPath("albumResponses[].albumName").description("앨범 이름"),
-                                        fieldWithPath("albumResponses[].imageUrl").description("이미지 URL"),
+                                        fieldWithPath("albumResponses[].imageUrl").description("앨범 이미지 URL"),
                                         fieldWithPath("albumResponses[].artistNames").description("아티스트 이름")
                                 )
                                 .build()

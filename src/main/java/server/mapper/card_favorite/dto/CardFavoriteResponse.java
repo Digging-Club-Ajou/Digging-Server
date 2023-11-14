@@ -7,6 +7,6 @@ public record CardFavoriteResponse(
         long melodyCardId,
         String songTitle,
         String artistName,
-        String imageUrl
+        String albumCoverImageUrl
 ) {
 }
