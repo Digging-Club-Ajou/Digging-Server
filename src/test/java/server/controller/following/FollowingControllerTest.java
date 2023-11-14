@@ -4,6 +4,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.restdocs.payload.JsonFieldType;
 import server.domain.album.Album;
 import server.domain.following.FollowingInfo;
 import server.domain.member.persist.Member;
@@ -19,6 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
@@ -211,8 +213,9 @@ public class FollowingControllerTest extends ControllerTest {
                         .param("memberId", member.getId().toString())
                 )
                 .andExpect(status().isOk())
-                .andDo(document("following 여부 확인하기 ",
+                .andDo(document("팔로잉 여부 확인하기 ",
                         preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("팔로잉")
                                 .summary("팔로잉 여부 확인하기")
@@ -220,7 +223,11 @@ public class FollowingControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .queryParameters(
-                                        parameterWithName("memberId").description("로그인한 유저와 팔로잉 여부 확인하고자하는 memberId")
+                                        parameterWithName("memberId")
+                                                .description("팔로잉 여부 확인할 memberId")
+                                )
+                                .responseFields(
+                                        fieldWithPath("isFollowing").type(BOOLEAN).description("팔로잉 여부")
                                 )
                                 .build()
                         )));

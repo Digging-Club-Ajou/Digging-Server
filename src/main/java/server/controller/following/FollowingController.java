@@ -5,6 +5,7 @@ import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.mapper.following.dto.FollowingDto;
 import server.mapper.following.dto.FollowingInfoDto;
+import server.mapper.following.dto.FollowingValidationResponse;
 import server.mapper.following.dto.Followings;
 import server.service.following.FollowingService;
 
@@ -35,8 +36,8 @@ public class FollowingController {
     }
 
     @GetMapping("/following-validation")
-    public boolean getFollowing(@Login MemberSession memberSession, @RequestParam final Long memberId){
-        return followingService.getFollowing(memberSession, memberId);
+    public FollowingValidationResponse getFollowing(@Login MemberSession memberSession, @RequestParam final long memberId){
+        boolean isFollowing = followingService.getFollowing(memberSession, memberId);
+        return new FollowingValidationResponse(isFollowing);
     }
-
 }
