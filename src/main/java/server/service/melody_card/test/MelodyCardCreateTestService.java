@@ -38,6 +38,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명")
                 .color("#FFFFFF")
+                .isImageUrl(true)
                 .build();
     }
 
@@ -56,6 +57,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명1")
                 .color("#FFFFFF")
+                .isImageUrl(true)
                 .build();
 
         MelodyCardResponse melodyCardResponse2 = MelodyCardResponse.builder()
@@ -72,6 +74,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명2")
                 .color("#FFFFFF")
+                .isImageUrl(true)
                 .build();
 
         MelodyCardResponse melodyCardResponse3 = MelodyCardResponse.builder()
@@ -88,6 +91,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .address("도로명 주소")
                 .cardDescription("카드에 대한 설명3")
                 .color("#FFFFFF")
+                .isImageUrl(true)
                 .build();
 
         List<MelodyCardResponse> melodyCardResponses = new ArrayList<>();
