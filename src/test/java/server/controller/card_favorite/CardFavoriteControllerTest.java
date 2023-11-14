@@ -246,4 +246,56 @@ class CardFavoriteControllerTest extends ControllerTest {
                                 .build()
                         )));
     }
+
+
+    @Test
+    @DisplayName("멜로디카드 Id를 이용하여 로그인한 회원의 좋아요 멜로디 카드를 삭제함 ")
+    void deleteFavorite() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+
+        // given 3
+        MelodyCard melodyCard = MelodyCard.builder()
+                .memberId(member.getId())
+                .build();
+
+        melodyCardRepository.save(melodyCard);
+
+        CardFavorite cardFavorite = CardFavorite.builder()
+                .memberId(member.getId())
+                .melodyCardId(melodyCard.getId())
+                .build();
+
+        cardFavorite.updateState(true);
+
+        cardFavoriteRepository.save(cardFavorite);
+
+        // expected
+        mockMvc.perform(get("/api/melody-cards/{melodyCardId}", melodyCard.getId())
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("로그인한 회원의 특정 좋아요 멜로디 카드 삭제",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("좋아요")
+                                .summary("좋아요 삭제하기")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .build()
+                        )));
+    }
 }

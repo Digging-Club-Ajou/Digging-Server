@@ -55,4 +55,10 @@ public class CardFavoriteController {
         Boolean likeInfo = likeInfoFindService.findLikeInfo(memberSession.id(), melodyCardId);
         return new LikeInfoResponse(likeInfo);
     }
+
+
+    @DeleteMapping("/card-favorites/likes/{melodyCardId}")
+    public void deleteByMelodyCardIdAndMemberId(@Login final MemberSession memberSession,@PathVariable final long melodyCardId) {
+        cardFavoriteCreateService.deleteFavorite(memberSession,melodyCardId);
+    }
 }
