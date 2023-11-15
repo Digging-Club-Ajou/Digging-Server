@@ -10,5 +10,5 @@ public interface CardFavoriteJpaRepository extends JpaRepository<CardFavorite, L
 
     Optional<CardFavorite> findByMemberIdAndMelodyCardId(final long memberId, final long melodyCardId);
 
-    List<CardFavorite> findAllByMemberId(final long memberId);
+    List<CardFavorite> findAllByMemberIdOrderByLastModifiedAtDesc(final long memberId);
 }

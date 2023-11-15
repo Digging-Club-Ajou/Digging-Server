@@ -41,7 +41,7 @@ public class MelodyCardRepository {
     }
 
     public List<MelodyCard> findAllByMemberId(final long memberId) {
-        return melodyCardJpaRepository.findAllByMemberId(memberId);
+        return melodyCardJpaRepository.findAllByMemberIdOrderByIdDesc(memberId);
     }
 
     public List<String> findAllArtistName(final long albumId) {

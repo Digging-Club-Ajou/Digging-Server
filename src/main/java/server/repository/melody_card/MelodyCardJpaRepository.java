@@ -15,6 +15,6 @@ public interface MelodyCardJpaRepository extends JpaRepository<MelodyCard, Long>
 
     List<MelodyCard> findAllByAlbumId(final long albumId);
 
-    List<MelodyCard> findAllByMemberId(final long memberId);
+    List<MelodyCard> findAllByMemberIdOrderByIdDesc(final long memberId);
 
 }
