@@ -103,7 +103,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
         expiration.setTime(expTimeMillis);
 
-        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(albumId);
+        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCardsByAlbumId(albumId);
 
         List<MelodyCardResponse> melodyCardResponses = new ArrayList<>();
         for (MelodyCard melodyCard : melodyCards) {
