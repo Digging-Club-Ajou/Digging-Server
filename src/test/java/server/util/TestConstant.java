@@ -1,5 +1,7 @@
 package server.util;
 
+import java.util.Date;
+
 public enum TestConstant {
 
     TEST_USERNAME("테스트 이름"),
