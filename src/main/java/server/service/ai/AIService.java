@@ -11,6 +11,7 @@ import server.repository.music_recommendation.MusicRecommendationRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AIService {
@@ -34,8 +35,12 @@ public class AIService {
         List<Member> members = memberRepository.findAll();
         for (Member member : members) {
             List<String> artistNames = musicRecommendationRepository.findByArtistsByMemberId(member.getId());
-            Genre genre = genreRepository.getByMemberId(member.getId());
-            List<String> genreText = genre.getGenreText();
+            Optional<Genre> optionalGenre = genreRepository.findByMemberId(member.getId());
+            List<String> genreText = new ArrayList<>();
+            if (optionalGenre.isPresent()) {
+                Genre genre = optionalGenre.get();
+                genreText = genre.getGenreText();
+            }
             AIResponse aiResponse = new AIResponse(member.getId(), artistNames, genreText, member.getGender());
             aiResponses.add(aiResponse);
         }

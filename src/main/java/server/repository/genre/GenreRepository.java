@@ -2,9 +2,8 @@ package server.repository.genre;
 
 import org.springframework.stereotype.Repository;
 import server.domain.genre.Genre;
-import server.global.exception.NotFoundException;
 
-import static server.global.constant.ExceptionMessage.*;
+import java.util.Optional;
 
 @Repository
 public class GenreRepository {
@@ -19,8 +18,7 @@ public class GenreRepository {
         genreJpaRepository.save(genre);
     }
 
-    public Genre getByMemberId(final long memberId) {
-        return genreJpaRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new NotFoundException(GENRE_NOT_FOUND_EXCEPTION.message));
+    public Optional<Genre> findByMemberId(final long memberId) {
+        return genreJpaRepository.findByMemberId(memberId);
     }
 }
