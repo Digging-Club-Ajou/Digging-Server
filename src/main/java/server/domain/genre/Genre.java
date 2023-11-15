@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import server.domain.BaseTimeEntity;
 import server.global.annotation.Association;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -53,5 +56,74 @@ public class Genre extends BaseTimeEntity {
         this.indie = indie;
         this.pop = pop;
         this.ostAndMusical = ostAndMusical;
+    }
+
+    public List<String> getGenreText() {
+        List<String> genreText = new ArrayList<>();
+        addBallade(genreText);
+        addDance(genreText);
+        addRockMetal(genreText);
+        addRbAndSoul(genreText);
+        addRapHiphop(genreText);
+        addFolkBlues(genreText);
+        addIndie(genreText);
+        addPop(genreText);
+        addOstAndMusical(genreText);
+
+        return genreText;
+    }
+
+    private void addOstAndMusical(final List<String> genreText) {
+        if (ostAndMusical) {
+            genreText.add("ostAndMusical");
+        }
+    }
+
+    private void addPop(final List<String> genreText) {
+        if (pop) {
+            genreText.add("pop");
+        }
+    }
+
+    private void addIndie(final List<String> genreText) {
+        if (indie) {
+            genreText.add("indie");
+        }
+    }
+
+    private void addFolkBlues(final List<String> genreText) {
+        if (folkBlues) {
+            genreText.add("folkBlues");
+        }
+    }
+
+    private void addRapHiphop(final List<String> genreText) {
+        if (rapHiphop) {
+            genreText.add("rapHiphop");
+        }
+    }
+
+    private void addRbAndSoul(final List<String> genreText) {
+        if (rbAndSoul) {
+            genreText.add("rbAndSoul");
+        }
+    }
+
+    private void addRockMetal(final List<String> genreText) {
+        if (rockMetal) {
+            genreText.add("rockMetal");
+        }
+    }
+
+    private void addDance(final List<String> genreText) {
+        if (dance) {
+            genreText.add("dance");
+        }
+    }
+
+    private void addBallade(final List<String> genreText) {
+        if (ballade) {
+            genreText.add("ballade");
+        }
     }
 }

@@ -27,6 +27,10 @@ public class MemberRepository {
                 .orElseThrow(() -> new NotFoundException(MEMBER_NOT_FOUND_EXCEPTION.message));
     }
 
+    public List<Member> findAll() {
+        return memberJpaRepository.findAll();
+    }
+
     public Optional<Member> findByEmail(final String email) {
         return memberJpaRepository.findByEmail(email);
     }

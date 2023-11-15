@@ -38,7 +38,8 @@ public class InterceptorWebConfig implements WebMvcConfigurer {
                 ))
                 .order(1)
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/signup", "/api/kakao", "/api/artists-info","api/member/search");
+                .excludePathPatterns("/api/signup", "/api/kakao", "/api/artists-info","api/member/search",
+                        "/api/ai");
     }
 
     @Override
