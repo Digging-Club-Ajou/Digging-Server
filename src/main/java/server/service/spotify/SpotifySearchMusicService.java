@@ -11,5 +11,4 @@ import java.util.List;
 public interface SpotifySearchMusicService {
 
     List<SpotifySearchDto> searchTracks(final String search);
-
 }

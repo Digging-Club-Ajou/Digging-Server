@@ -11,7 +11,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import server.mapper.spotify.SpotifyArtistDto;
 import server.mapper.spotify.SpotifySearchDto;
 
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
         this.objectMapper = objectMapper;
     }
 
+    // search Musics
     public List<SpotifySearchDto> searchTracks(final String search) {
         ResponseEntity<String> response = getStringResponseEntity(search);
 
@@ -47,8 +47,6 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
             throw new RuntimeException(MUSIC_JSON_PARSING.message);
         }
     }
-
-
 
     private ResponseEntity<String> getStringResponseEntity(final String search) {
         String apiUrl = SPOTIFY_TRACKS_URL + search + BASIC_CONDITION;
@@ -70,9 +68,67 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
             String imageUrl = item.path(ALBUM).path(IMAGES).get(ZERO).path(URL).asText();
             String previewUrl = item.path(PREVIEW_URL).asText();
 
+            String artistId = item.path(ARTISTS).get(ZERO).path(ID).asText();
+            List<String> trackGenre = getTrackGenre(artistId);
+            System.out.println(trackGenre);
             SpotifySearchDto dto = new SpotifySearchDto(artistName, name, imageUrl, previewUrl);
             spotifySearchDtos.add(dto);
         }
         return spotifySearchDtos;
+    }
+
+
+    // search Genre
+    public List<String> findGenre(final String search) {
+        ResponseEntity<String> response = getStringResponseEntity(search);
+
+        JsonNode rootNode;
+        try {
+            rootNode = objectMapper.readTree(response.getBody());
+            JsonNode itemsNode = rootNode.path(TRACKS).path(ITEMS);
+            return getGenreDtos(itemsNode);
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(MUSIC_JSON_PARSING.message);
+        }
+    }
+
+    private List<String> getGenreDtos(final JsonNode itemsNode) {
+        for (JsonNode item : itemsNode) {
+            String artistId = item.path(ARTISTS).get(ZERO).path(ID).asText();
+            return getTrackGenre(artistId);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<String> getTrackGenre(final String artistId) {
+        String apiUrl = SPOTIFY_ARTIST_URL + artistId;
+        String spotifyAccessToken = getSpotifyToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, BEARER + spotifyAccessToken);
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.GET, entity, String.class);
+
+        try {
+            JsonNode artistNode = objectMapper.readTree(response.getBody());
+            return extractGenres(artistNode);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error parsing Spotify API response for artist details.");
+        }
+    }
+
+    private List<String> extractGenres(JsonNode artistNode) {
+        List<String> genres = new ArrayList<>();
+        JsonNode genresNode = artistNode.path(GENRES);
+
+        if (genresNode.isArray()) {
+            for (JsonNode genreNode : genresNode) {
+                genres.add(genreNode.asText());
+            }
+        }
+
+        return genres;
     }
 }

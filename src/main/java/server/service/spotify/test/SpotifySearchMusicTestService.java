@@ -52,6 +52,4 @@ public class SpotifySearchMusicTestService implements SpotifySearchMusicService 
 
         return spotifySearchDtos;
     }
-
-
 }
