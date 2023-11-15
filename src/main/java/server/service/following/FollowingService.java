@@ -19,6 +19,7 @@ import server.service.notification.NotificationCreateService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static server.global.constant.ExceptionMessage.FOLLOWING_ALREADY_EXISTS;
 import static server.global.constant.ExceptionMessage.FOLLOWING_NOT_FOUND;
@@ -96,10 +97,13 @@ public class FollowingService {
                 albumId =null;
             }
 
+            Boolean check = !followingList.stream().filter(info -> info.getFollowedId().equals(followInfo.getFollowingId())).collect(Collectors.toList()).isEmpty();
+
             FollowingResponse follow = FollowingResponse.builder()
                     .memberId(followInfo.getFollowingId())
                     .albumId(albumId)
                     .nickname(memberRepository.getById(followInfo.getFollowingId()).getNickname())
+                    .isFollowForFollow(check)
                     .build();
             followerResponses.add(follow);
 
@@ -117,7 +121,7 @@ public class FollowingService {
                 albumId =null;
             }
 
-            Boolean check = followerList.contains(followInfo);
+            Boolean check = !followerList.stream().filter(info -> info.getFollowingId().equals(followInfo.getFollowedId())).collect(Collectors.toList()).isEmpty();
 
             FollowingResponse follow = FollowingResponse.builder()
                     .memberId(followInfo.getFollowedId())
