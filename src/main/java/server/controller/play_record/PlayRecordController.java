@@ -19,7 +19,7 @@ public class PlayRecordController {
         this.playRecordSaveService = playRecordSaveService;
     }
 
-    @PostMapping("/play-record")
+    @PostMapping("/musics/play-record")
     public void savePlayRecord(@Login final MemberSession memberSession,
                                @RequestBody final PlayRecordRequest dto) {
         playRecordSaveService.savePlayRecord(memberSession.id(), dto);
