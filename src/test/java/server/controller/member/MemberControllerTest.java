@@ -6,9 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 import server.domain.album.Album;
 import server.domain.member.persist.Member;
+import server.domain.member.vo.Gender;
 import server.domain.member.vo.MemberSession;
 import server.mapper.member.dto.NicknameRequest;
+import server.mapper.member.dto.UserInfoRequest;
 import server.util.ControllerTest;
+
+import java.sql.Date;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
@@ -330,6 +334,45 @@ class MemberControllerTest extends ControllerTest {
                                 .responseFields(
                                         fieldWithPath("statusCode").type(STRING).description("상태 코드"),
                                         fieldWithPath("message").type(STRING).description("오류 메세지")
+                                )
+                                .build()
+                        )));
+    }
+
+
+    @Test
+    @DisplayName("로그인한 유저 정보를 저장합니다.")
+    void createMemberInfo() throws Exception {
+
+        // given 1
+        Member member = Member.builder()
+                .nickname(TEST_NICKNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        String accessToken = login();
+
+        UserInfoRequest dto = new UserInfoRequest(Gender.MALE, new Date(2000-01-01));
+
+        // expected
+        mockMvc.perform(post("/api/memberInfo")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk())
+                .andDo(document("로그인한 유저 정보(성별과 생일) 저장",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("회원")
+                                .summary("유저 정보")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .requestFields(
+                                        fieldWithPath("gender").description("성별, 형식(FEMALE,MALE)"),
+                                        fieldWithPath("birthDate").description("생일")
                                 )
                                 .build()
                         )));

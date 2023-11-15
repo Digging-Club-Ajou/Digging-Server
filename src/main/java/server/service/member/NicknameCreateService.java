@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import server.domain.member.persist.Member;
 import server.global.exception.BadRequestException;
 import server.mapper.member.dto.NicknameRequest;
+import server.mapper.member.dto.UserInfoRequest;
 import server.repository.member.MemberRepository;
 
 import java.util.Optional;
@@ -31,4 +32,7 @@ public class NicknameCreateService {
         Member member = memberRepository.getById(memberId);
         member.createNickname(dto.nickname());
     }
+
+
+
 }

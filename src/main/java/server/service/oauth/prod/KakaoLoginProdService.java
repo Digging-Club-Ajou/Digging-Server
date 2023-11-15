@@ -101,11 +101,9 @@ public class KakaoLoginProdService implements KakaoLoginService {
             rootNode = objectMapper.readTree(response.getBody());
             JsonNode itemsNode = rootNode.path(KAKAO_ACCOUNT);
 
-            String gender = itemsNode.get(GENDER).asText();
             KakaoSignupRequest kakaoSignupRequest = KakaoSignupRequest.builder()
                     .email(itemsNode.get(EMAIL).asText())
-                    .ageRange(itemsNode.get(AGE_RANGE).asText())
-                    .gender(Gender.getGender(gender)).build();
+                    .ageRange(itemsNode.get(AGE_RANGE).asText()).build();
 
             return kakaoSignupRequest;
 
