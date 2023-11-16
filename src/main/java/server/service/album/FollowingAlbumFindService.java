@@ -29,7 +29,7 @@ public class FollowingAlbumFindService {
 
     @Transactional(readOnly = true)
     public List<AlbumResponse> findAll(final long memberId) {
-        List<FollowingInfo> followingInfos = followingRepository.findAllByFollowedId(memberId);
+        List<FollowingInfo> followingInfos = followingRepository.findAllByFollowingId(memberId);
         List<AlbumResponse> albumResponses = new ArrayList<>();
 
         for (FollowingInfo followingInfo : followingInfos) {
