@@ -1,22 +1,29 @@
 package server.controller.genre;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.mapper.genre.dto.GenreRequest;
+import server.service.genre.GenreFindService;
 import server.service.genre.GenreService;
+
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
 public class GenreController {
 
     private final GenreService genreService;
+    private final GenreFindService genreFindService;
 
-    public GenreController(final GenreService genreService) {
+    public GenreController(final GenreService genreService, final GenreFindService genreFindService) {
         this.genreService = genreService;
+        this.genreFindService = genreFindService;
+    }
+
+    @GetMapping("/genres/members")
+    public List<String> findFavoriteGenre(@Login final MemberSession memberSession) {
+        return genreFindService.findFavoriteGenre(memberSession.id());
     }
 
     @PostMapping("/genres")

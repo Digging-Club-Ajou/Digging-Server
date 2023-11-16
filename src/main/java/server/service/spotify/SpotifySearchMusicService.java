@@ -11,4 +11,6 @@ import java.util.List;
 public interface SpotifySearchMusicService {
 
     List<SpotifySearchDto> searchTracks(final String search);
+
+    List<String> findGenre(final String search);
 }

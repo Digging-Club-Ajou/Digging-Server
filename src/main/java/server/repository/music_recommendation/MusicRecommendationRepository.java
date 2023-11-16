@@ -31,4 +31,13 @@ public class MusicRecommendationRepository {
                 .where(musicRecommendation.memberId.eq(memberId))
                 .fetch();
     }
+
+    public String findFavoriteArtistName(final long memberId) {
+        return queryFactory.select(musicRecommendation.artistName)
+                .from(musicRecommendation)
+                .where(musicRecommendation.memberId.eq(memberId))
+                .groupBy(musicRecommendation.artistName)
+                .orderBy(musicRecommendation.artistName.count().desc())
+                .fetchFirst();
+    }
 }
