@@ -41,7 +41,12 @@ public class AIService {
                 Genre genre = optionalGenre.get();
                 genreText = genre.getGenreText();
             }
-            AIResponse aiResponse = new AIResponse(member.getId(), artistNames, genreText, member.getGender());
+            AIResponse aiResponse = new AIResponse(member.getId(),
+                    artistNames,
+                    genreText,
+                    member.getGender(),
+                    member.getBirthDate()
+            );
             aiResponses.add(aiResponse);
         }
 
