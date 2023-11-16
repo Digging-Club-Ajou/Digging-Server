@@ -48,8 +48,8 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
         }
     }
 
-    private ResponseEntity<String> getStringResponseEntity(final String search) {
-        String apiUrl = SPOTIFY_TRACKS_URL + search + BASIC_CONDITION;
+    private ResponseEntity<String> getStringResponseEntity(final String favoriteArtistName) {
+        String apiUrl = SPOTIFY_TRACKS_URL + favoriteArtistName + BASIC_CONDITION;
         String spotifyAccessToken = getSpotifyToken();
 
         HttpHeaders headers = new HttpHeaders();
@@ -68,9 +68,6 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
             String imageUrl = item.path(ALBUM).path(IMAGES).get(ZERO).path(URL).asText();
             String previewUrl = item.path(PREVIEW_URL).asText();
 
-            String artistId = item.path(ARTISTS).get(ZERO).path(ID).asText();
-            List<String> trackGenre = getTrackGenre(artistId);
-            System.out.println(trackGenre);
             SpotifySearchDto dto = new SpotifySearchDto(artistName, name, imageUrl, previewUrl);
             spotifySearchDtos.add(dto);
         }
@@ -79,14 +76,14 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
 
 
     // search Genre
-    public List<String> findGenre(final String search) {
-        ResponseEntity<String> response = getStringResponseEntity(search);
+    public String findGenre(final String favoriteArtistName) {
+        ResponseEntity<String> response = getStringResponseEntity(favoriteArtistName);
 
         JsonNode rootNode;
         try {
             rootNode = objectMapper.readTree(response.getBody());
             JsonNode itemsNode = rootNode.path(TRACKS).path(ITEMS);
-            return getGenreDtos(itemsNode);
+            return getGenreDtos(itemsNode).get(0);
 
         } catch (JsonProcessingException e) {
             throw new RuntimeException(MUSIC_JSON_PARSING.message);

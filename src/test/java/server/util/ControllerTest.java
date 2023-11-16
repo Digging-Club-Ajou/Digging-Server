@@ -20,6 +20,7 @@ import server.repository.card_favorite.CardFavoriteRepository;
 import server.repository.following.FollowingRepository;
 import server.repository.melody_card.MelodyCardRepository;
 import server.repository.member.MemberRepository;
+import server.repository.music_recommendation.MusicRecommendationRepository;
 import server.repository.notification_info.NotificationRepository;
 import server.service.album.AlbumFindService;
 import server.service.jwt.JwtFacade;
@@ -61,6 +62,9 @@ public abstract class ControllerTest {
 
     @Autowired
     protected FollowingRepository followingRepository;
+
+    @Autowired
+    protected MusicRecommendationRepository musicRecommendationRepository;
 
     @Autowired
     protected JwtFacade jwtFacade;

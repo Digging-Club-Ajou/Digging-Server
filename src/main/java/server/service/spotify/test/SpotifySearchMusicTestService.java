@@ -53,7 +53,7 @@ public class SpotifySearchMusicTestService implements SpotifySearchMusicService 
     }
 
     @Override
-    public List<String> findGenre(final String search) {
-        return null;
+    public String findGenre(final String favoriteArtistName) {
+        return "k-pop";
     }
 }

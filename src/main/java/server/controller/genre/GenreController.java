@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.mapper.genre.dto.GenreRequest;
+import server.mapper.genre.dto.GenreResult;
 import server.service.genre.GenreFindService;
 import server.service.genre.GenreService;
 
@@ -21,9 +22,10 @@ public class GenreController {
         this.genreFindService = genreFindService;
     }
 
-    @GetMapping("/genres/members")
-    public List<String> findFavoriteGenre(@Login final MemberSession memberSession) {
-        return genreFindService.findFavoriteGenre(memberSession.id());
+    @GetMapping("/favorite-genres")
+    public GenreResult findFavoriteGenre(@Login final MemberSession memberSession) {
+        String favoriteGenre = genreFindService.findFavoriteGenre(memberSession.id());
+        return new GenreResult(favoriteGenre);
     }
 
     @PostMapping("/genres")

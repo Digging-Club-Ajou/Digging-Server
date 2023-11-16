@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import server.repository.music_recommendation.MusicRecommendationRepository;
 import server.service.spotify.SpotifySearchMusicService;
 
-import java.util.List;
 
 @Service
 public class GenreFindService {
@@ -18,7 +17,7 @@ public class GenreFindService {
         this.spotifySearchMusicService = spotifySearchMusicService;
     }
 
-    public List<String> findFavoriteGenre(final long memberId) {
+    public String findFavoriteGenre(final long memberId) {
         String favoriteArtistName = musicRecommendationRepository.findFavoriteArtistName(memberId);
         return spotifySearchMusicService.findGenre(favoriteArtistName);
     }
