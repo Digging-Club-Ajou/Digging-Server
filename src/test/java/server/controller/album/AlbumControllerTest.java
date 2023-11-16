@@ -410,18 +410,18 @@ class AlbumControllerTest extends ControllerTest {
 
     private void createFollowingInfo(final Member member, final Member member1, final Member member2, final Member member3) {
         FollowingInfo followingInfo1 = FollowingInfo.builder()
-                .followedId(member.getId())
-                .followingId(member1.getId())
+                .followedId(member1.getId())
+                .followingId(member.getId())
                 .build();
 
         FollowingInfo followingInfo2 = FollowingInfo.builder()
-                .followedId(member.getId())
-                .followingId(member2.getId())
+                .followedId(member2.getId())
+                .followingId(member.getId())
                 .build();
 
         FollowingInfo followingInfo3 = FollowingInfo.builder()
-                .followedId(member.getId())
-                .followingId(member3.getId())
+                .followedId(member3.getId())
+                .followingId(member.getId())
                 .build();
 
         followingRepository.save(followingInfo1);

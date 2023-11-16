@@ -33,8 +33,8 @@ public class FollowingAlbumFindService {
         List<AlbumResponse> albumResponses = new ArrayList<>();
 
         for (FollowingInfo followingInfo : followingInfos) {
-            long followingId = followingInfo.getFollowingId();
-            Album album = albumRepository.getByMemberId(followingId);
+            long followedId = followingInfo.getFollowedId();
+            Album album = albumRepository.getByMemberId(followedId);
             AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
             albumResponses.add(albumResponse);
         }
