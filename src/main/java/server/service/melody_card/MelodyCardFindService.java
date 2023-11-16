@@ -27,7 +27,7 @@ public class MelodyCardFindService {
 
     @Transactional(readOnly = true)
     public List<MelodyCard> findMelodyCards(final long memberId) {
-        List<MelodyCard> melodyCards = melodyCardRepository.findAllByMemberId(memberId);
+        List<MelodyCard> melodyCards = melodyCardRepository.findAllByAlbumId(memberId);
 
         if(melodyCards.size() > 10){
             throw new BadRequestException(MELODY_CARD_LIMIT.message);
