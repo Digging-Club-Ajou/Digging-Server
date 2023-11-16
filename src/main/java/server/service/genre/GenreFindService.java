@@ -1,13 +1,16 @@
 package server.service.genre;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import server.repository.music_recommendation.MusicRecommendationRepository;
 import server.repository.play_record.PlayRecordRepository;
 import server.service.spotify.SpotifySearchMusicService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-
+@Slf4j
 @Service
 public class GenreFindService {
 
@@ -26,12 +29,18 @@ public class GenreFindService {
     public String findFavoriteGenre(final long memberId) {
         Optional<String> favoriteArtistNameFromRecord = playRecordRepository.findFavoriteArtistName(memberId);
         if (favoriteArtistNameFromRecord.isPresent()) {
+            log.info(favoriteArtistNameFromRecord.get());
+            String genre = spotifySearchMusicService.findGenre(favoriteArtistNameFromRecord.get());
+            log.info(genre);
             return spotifySearchMusicService.findGenre(favoriteArtistNameFromRecord.get());
         }
 
         Optional<String> favoriteArtistNameFromGenre = musicRecommendationRepository.findFavoriteArtistName(memberId);
 
         if (favoriteArtistNameFromGenre.isPresent()) {
+            log.info(favoriteArtistNameFromGenre.get());
+            String genre = spotifySearchMusicService.findGenre(favoriteArtistNameFromGenre.get());
+            log.info(genre);
             return spotifySearchMusicService.findGenre(favoriteArtistNameFromGenre.get());
         }
 

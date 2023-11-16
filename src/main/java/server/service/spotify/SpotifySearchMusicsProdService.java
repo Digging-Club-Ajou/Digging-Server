@@ -83,11 +83,15 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
         try {
             rootNode = objectMapper.readTree(response.getBody());
             JsonNode itemsNode = rootNode.path(TRACKS).path(ITEMS);
-            return getGenreDtos(itemsNode).get(0);
+            List<String> genreDtos = getGenreDtos(itemsNode);
+            for (String genreDto : genreDtos) {
+                return genreDto;
+            }
 
         } catch (JsonProcessingException e) {
             throw new RuntimeException(MUSIC_JSON_PARSING.message);
         }
+        return "아직 활동을 추적할 수 없습니다.";
     }
 
     private List<String> getGenreDtos(final JsonNode itemsNode) {
