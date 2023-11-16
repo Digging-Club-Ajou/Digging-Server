@@ -6,6 +6,7 @@ import server.domain.music_recommentdation.MusicRecommendation;
 import server.domain.music_recommentdation.QMusicRecommendation;
 
 import java.util.List;
+import java.util.Optional;
 
 import static server.domain.music_recommentdation.QMusicRecommendation.musicRecommendation;
 
@@ -32,12 +33,14 @@ public class MusicRecommendationRepository {
                 .fetch();
     }
 
-    public String findFavoriteArtistName(final long memberId) {
-        return queryFactory.select(musicRecommendation.artistName)
+    public Optional<String> findFavoriteArtistName(final long memberId) {
+        String artistName = queryFactory.select(musicRecommendation.artistName)
                 .from(musicRecommendation)
                 .where(musicRecommendation.memberId.eq(memberId))
                 .groupBy(musicRecommendation.artistName)
                 .orderBy(musicRecommendation.artistName.count().desc())
                 .fetchFirst();
+
+        return Optional.ofNullable(artistName);
     }
 }
