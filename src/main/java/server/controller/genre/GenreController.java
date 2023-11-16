@@ -5,27 +5,17 @@ import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.mapper.genre.dto.GenreRequest;
 import server.mapper.genre.dto.GenreResult;
-import server.service.genre.GenreFindService;
+import server.service.play_record.PlayRecordFindService;
 import server.service.genre.GenreService;
-
-import java.util.List;
 
 @RequestMapping("/api")
 @RestController
 public class GenreController {
 
     private final GenreService genreService;
-    private final GenreFindService genreFindService;
 
-    public GenreController(final GenreService genreService, final GenreFindService genreFindService) {
+    public GenreController(final GenreService genreService) {
         this.genreService = genreService;
-        this.genreFindService = genreFindService;
-    }
-
-    @GetMapping("/favorite-genres")
-    public GenreResult findFavoriteGenre(@Login final MemberSession memberSession) {
-        String favoriteGenre = genreFindService.findFavoriteGenre(memberSession.id());
-        return new GenreResult(favoriteGenre);
     }
 
     @PostMapping("/genres")

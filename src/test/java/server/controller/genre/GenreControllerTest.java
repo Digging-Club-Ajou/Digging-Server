@@ -72,49 +72,4 @@ class GenreControllerTest extends ControllerTest {
                                 .build()
                         )));
     }
-
-    @Test
-    @DisplayName("로그인한 회원의 가장 좋아하는 아티스트를 찾습니다")
-    void findFavorite() throws Exception {
-        Member member = Member.builder()
-                .username(TEST_USERNAME.value)
-                .build();
-
-        memberRepository.save(member);
-
-        MemberSession memberSession = MemberSession.builder()
-                .id(member.getId())
-                .username(TEST_USERNAME.value)
-                .build();
-
-        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
-
-        // given 2
-        String artistName = "NewJeans";
-        MusicRecommendation musicRecommendation = MusicRecommendation.builder()
-                .memberId(member.getId())
-                .artistName(artistName)
-                .build();
-
-        musicRecommendationRepository.save(musicRecommendation);
-
-        // expected
-        mockMvc.perform(get("/api/favorite-genres")
-                        .header(ACCESS_TOKEN.value, accessToken)
-                )
-                .andExpect(status().isOk())
-                .andDo(document("로그인한 회원의 관심 있는 장르 반환",
-                        preprocessResponse(prettyPrint()),
-                        resource(ResourceSnippetParameters.builder()
-                                .tag("장르")
-                                .summary("로그인한 회원의 관심 있는 장르 반환")
-                                .requestHeaders(
-                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
-                                )
-                                .responseFields(
-                                        fieldWithPath("genre").type(STRING).description("관심있는 장르")
-                                )
-                                .build()
-                        )));
-    }
 }

@@ -36,4 +36,15 @@ public class PlayRecordRepository {
 
         return Optional.ofNullable(artistName);
     }
+
+    public Optional<String> findFavoriteSongTile(final long memberId) {
+        String songTitle = queryFactory.select(playRecord.songTitle)
+                .from(playRecord)
+                .where(playRecord.memberId.eq(memberId))
+                .groupBy(playRecord.songTitle)
+                .orderBy(playRecord.songTitle.count().desc())
+                .fetchFirst();
+
+        return Optional.ofNullable(songTitle);
+    }
 }
