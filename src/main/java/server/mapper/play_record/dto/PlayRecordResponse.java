@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class PlayRecordResponse {
 
+    private String genre;
     private String artistName;
     private String songTitle;
-    private String genre;
 
     public void addArtistName(final String artistName) {
         this.artistName = artistName;

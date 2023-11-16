@@ -3,7 +3,6 @@ package server.controller.play_record;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
-import server.mapper.genre.dto.GenreResult;
 import server.mapper.play_record.dto.PlayRecordRequest;
 import server.mapper.play_record.dto.PlayRecordResponse;
 import server.service.play_record.PlayRecordFindService;

@@ -94,9 +94,9 @@ class PlayRecordControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .responseFields(
+                                        fieldWithPath("genre").type(STRING).description("관심있는 장르"),
                                         fieldWithPath("artistName").type(STRING).description("아티스트 이름"),
-                                        fieldWithPath("songTitle").type(STRING).description("노래 제목"),
-                                        fieldWithPath("genre").type(STRING).description("관심있는 장르")
+                                        fieldWithPath("songTitle").type(STRING).description("노래 제목")
                                 )
                                 .build()
                         )));

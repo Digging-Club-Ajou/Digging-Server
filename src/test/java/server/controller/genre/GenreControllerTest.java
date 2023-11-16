@@ -3,24 +3,14 @@ package server.controller.genre;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockHttpServletResponse;
-import server.domain.member.persist.Member;
-import server.domain.member.vo.MemberSession;
-import server.domain.music_recommentdation.MusicRecommendation;
 import server.mapper.genre.dto.GenreRequest;
-import server.mapper.member.dto.NicknameRequest;
-import server.mapper.music_recommendation.dto.ArtistRequest;
 import server.util.ControllerTest;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
