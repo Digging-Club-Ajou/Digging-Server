@@ -29,6 +29,8 @@ public class PlayRecordRepository {
     public Optional<String> findFavoriteArtistName(final long memberId) {
         String artistName = queryFactory.select(playRecord.artistName)
                 .from(playRecord)
+                .orderBy(playRecord.lastModifiedAt.desc())
+                .limit(100)
                 .where(playRecord.memberId.eq(memberId))
                 .groupBy(playRecord.artistName)
                 .orderBy(playRecord.artistName.count().desc())
@@ -40,6 +42,8 @@ public class PlayRecordRepository {
     public Optional<String> findFavoriteSongTile(final long memberId) {
         String songTitle = queryFactory.select(playRecord.songTitle)
                 .from(playRecord)
+                .orderBy(playRecord.lastModifiedAt.desc())
+                .limit(100)
                 .where(playRecord.memberId.eq(memberId))
                 .groupBy(playRecord.songTitle)
                 .orderBy(playRecord.songTitle.count().desc())
