@@ -49,7 +49,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
     @Transactional
     public void createMelodyCard(final long memberId, final MelodyCardRequest melodyCardRequest,
                                  final MultipartFile melodyCardImage) {
-        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(memberId);
+        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCardsByMemberId(memberId);
         Album album = albumRepository.getByMemberId(memberId);
 
         Boolean isImageUrl = melodyCardImage.getSize() == 0 ? Boolean.FALSE : Boolean.TRUE;
@@ -103,7 +103,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
         expiration.setTime(expTimeMillis);
 
-        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCards(albumId);
+        List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCardsByAlbumId(albumId);
 
         List<MelodyCardResponse> melodyCardResponses = new ArrayList<>();
         for (MelodyCard melodyCard : melodyCards) {
