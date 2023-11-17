@@ -1,5 +1,6 @@
 package server.controller.play_record;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
@@ -27,8 +28,9 @@ public class PlayRecordController {
     }
 
     @PostMapping("/musics/play-record")
-    public void savePlayRecord(@Login final MemberSession memberSession,
+    public ResponseEntity<Void> savePlayRecord(@Login final MemberSession memberSession,
                                @RequestBody final PlayRecordRequest dto) {
         playRecordSaveService.savePlayRecord(memberSession.id(), dto);
+        return ResponseEntity.noContent().build();
     }
 }

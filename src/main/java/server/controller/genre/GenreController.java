@@ -1,5 +1,6 @@
 package server.controller.genre;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
@@ -19,8 +20,9 @@ public class GenreController {
     }
 
     @PostMapping("/genres")
-    public void createGenre(@Login final MemberSession memberSession,
+    public ResponseEntity<Void> createGenre(@Login final MemberSession memberSession,
                             @RequestBody final GenreRequest genreRequest) {
         genreService.saveUserGenre(memberSession.id(),genreRequest);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,5 +1,6 @@
 package server.controller.melody_card;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.vo.MemberSession;
@@ -41,15 +42,17 @@ public class MelodyCardController {
     }
 
     @PostMapping("/melody-cards")
-    public void createMelodyCard(
+    public ResponseEntity<Void> createMelodyCard(
             @Login final MemberSession memberSession,
             @RequestPart final MelodyCardRequest melodyCardRequest,
             @RequestPart final MultipartFile melodyImage){
         melodyCardCreateService.createMelodyCard(memberSession.id(), melodyCardRequest, melodyImage);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/melody-cards/{melodyCardId}")
-    public void deleteMelodyCard(@PathVariable final long melodyCardId){
+    public ResponseEntity<Void> deleteMelodyCard(@PathVariable final long melodyCardId){
         melodyCardService.deleteMelodyCardInfo(melodyCardId);
+        return ResponseEntity.noContent().build();
     }
 }

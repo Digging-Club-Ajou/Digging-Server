@@ -23,6 +23,4 @@ public class MemberSearchController {
     public MemberSearchResponses getMemberSearchList(@RequestParam final String keyword){
         return memberSearchService.getMemberSearchList(keyword);
     }
-
-
 }

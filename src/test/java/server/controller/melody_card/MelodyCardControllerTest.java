@@ -245,7 +245,7 @@ public class MelodyCardControllerTest extends ControllerTest {
                         .header(ACCESS_TOKEN.value, accessToken)
 
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("멜로디 카드 삭제 ",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

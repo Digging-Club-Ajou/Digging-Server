@@ -106,7 +106,7 @@ class NotificationControllerTest extends ControllerTest {
         mockMvc.perform(delete("/api/notifications/{notificationId}", notificationInfo.getId())
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("알림 목록 삭제",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

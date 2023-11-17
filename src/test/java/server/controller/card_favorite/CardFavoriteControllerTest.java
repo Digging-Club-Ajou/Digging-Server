@@ -61,7 +61,7 @@ class CardFavoriteControllerTest extends ControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(cardFavoriteRequest))
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("로그인한 회원이 특정 멜로디 카드에 감정 표현",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

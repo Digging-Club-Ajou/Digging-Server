@@ -38,7 +38,7 @@ class PlayRecordControllerTest extends ControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto))
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("음악 재생 기록 저장",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

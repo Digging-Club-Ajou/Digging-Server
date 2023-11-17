@@ -1,5 +1,6 @@
 package server.controller.card_favorite;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
@@ -30,9 +31,10 @@ public class CardFavoriteController {
     }
 
     @PostMapping("/card-favorites")
-    public void changeLikesState(@Login final MemberSession memberSession,
-                                 @RequestBody final CardFavoriteRequest cardFavoriteRequest) {
+    public ResponseEntity<Void> changeLikesState(@Login final MemberSession memberSession,
+                                           @RequestBody final CardFavoriteRequest cardFavoriteRequest) {
         cardFavoriteCreateService.changeLikesState(memberSession.id(), cardFavoriteRequest);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/card-favorites")
@@ -58,7 +60,9 @@ public class CardFavoriteController {
 
 
     @DeleteMapping("/card-favorites/likes/{melodyCardId}")
-    public void deleteByMelodyCardIdAndMemberId(@Login final MemberSession memberSession,@PathVariable final long melodyCardId) {
+    public ResponseEntity<Void> deleteByMelodyCardIdAndMemberId(@Login final MemberSession memberSession,
+                                                                @PathVariable final long melodyCardId) {
         cardFavoriteCreateService.deleteFavorite(memberSession,melodyCardId);
+        return ResponseEntity.noContent().build();
     }
 }

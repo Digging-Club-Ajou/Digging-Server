@@ -42,7 +42,7 @@ public class FollowingControllerTest extends ControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto))
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("팔로잉 등록",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
@@ -84,7 +84,7 @@ public class FollowingControllerTest extends ControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto))
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("following 삭제 ",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

@@ -232,7 +232,7 @@ class MemberControllerTest extends ControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto))
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("닉네임 생성 성공",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
@@ -339,7 +339,6 @@ class MemberControllerTest extends ControllerTest {
                         )));
     }
 
-
     @Test
     @DisplayName("로그인한 유저 정보를 저장합니다.")
     void createMemberInfo() throws Exception {
@@ -361,7 +360,7 @@ class MemberControllerTest extends ControllerTest {
                         .header(ACCESS_TOKEN.value, accessToken)
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("로그인한 유저 정보(성별과 생일) 저장",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

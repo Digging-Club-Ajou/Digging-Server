@@ -1,6 +1,7 @@
 package server.controller.member;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
@@ -18,7 +19,7 @@ public class MemberController {
     private final NicknameFindService nicknameFindService;
     private final NicknameCreateService nicknameCreateService;
     private final NicknameValidationService nicknameValidationService;
-    
+
     private final MemberInfoCreateService memberInfoCreateService;
 
     public MemberController(final MemberFindService memberFindService,
@@ -55,14 +56,16 @@ public class MemberController {
     }
 
     @PostMapping("/nickname")
-    public void createNickname(@Login final MemberSession memberSession,
-                               @RequestBody final NicknameRequest dto) {
+    public ResponseEntity<Void> createNickname(@Login final MemberSession memberSession,
+                                         @RequestBody final NicknameRequest dto) {
         nicknameCreateService.createNickname(memberSession.id(), dto);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/memberInfo")
-    public void createMemberInfo(@Login final MemberSession memberSession,
-                               @RequestBody final UserInfoRequest dto) {
+    public ResponseEntity<Void> createMemberInfo(@Login final MemberSession memberSession,
+                                 @RequestBody final UserInfoRequest dto) {
         memberInfoCreateService.createMemberInfo(memberSession.id(), dto);
+        return ResponseEntity.noContent().build();
     }
 }

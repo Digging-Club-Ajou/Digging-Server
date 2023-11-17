@@ -39,7 +39,7 @@ class GenreControllerTest extends ControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(genreRequest))
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("장르 등록 - 성공",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

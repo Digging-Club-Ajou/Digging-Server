@@ -50,7 +50,7 @@ class MusicRecommendationControllerTest extends ControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(artistRequest))
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("좋아하는 아티스트 등록 - 성공",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

@@ -1,5 +1,6 @@
 package server.controller.album;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.member.persist.Member;
@@ -96,16 +97,18 @@ public class AlbumController {
     }
 
     @PostMapping("/albums")
-    public void createAlbum(@Login final MemberSession memberSession,
-                            @RequestPart final AlbumNameRequest albumNameRequest,
-                            @RequestPart final MultipartFile albumImage) {
+    public ResponseEntity<Void> createAlbum(@Login final MemberSession memberSession,
+                                            @RequestPart final AlbumNameRequest albumNameRequest,
+                                            @RequestPart final MultipartFile albumImage) {
         albumCreateService.createAlbum(memberSession, albumNameRequest, albumImage);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/albums/update")
-    public void updateAlbum(@Login final MemberSession memberSession,
+    public ResponseEntity<Void> updateAlbum(@Login final MemberSession memberSession,
                             @RequestPart final AlbumNameRequest albumNameRequest,
                             @RequestPart final MultipartFile albumImage){
         albumCreateService.updateAlbum(memberSession, albumNameRequest, albumImage);
+        return ResponseEntity.noContent().build();
     }
 }

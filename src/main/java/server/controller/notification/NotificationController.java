@@ -1,5 +1,6 @@
 package server.controller.notification;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
@@ -26,8 +27,9 @@ public class NotificationController {
     }
 
     @DeleteMapping("/notifications/{notificationId}")
-    public void deleteNotification(@Login final MemberSession memberSession,
+    public ResponseEntity<Void> deleteNotification(@Login final MemberSession memberSession,
                                    @PathVariable final long notificationId) {
         notificationDeleteService.deleteNotification(notificationId);
+        return ResponseEntity.noContent().build();
     }
 }

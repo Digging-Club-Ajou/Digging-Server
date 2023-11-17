@@ -1,5 +1,6 @@
 package server.controller.music_recommendation;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import server.domain.member.vo.MemberSession;
@@ -18,8 +19,9 @@ public class MusicRecommendationController {
     }
 
     @PostMapping("/artists")
-    public void createArtistRecommendation(@Login final MemberSession memberSession,
+    public ResponseEntity<Void> createArtistRecommendation(@Login final MemberSession memberSession,
                                            @RequestBody final ArtistRequest dto) {
         musicRecommendationCreateService.createRecommendation(memberSession.id(), dto);
+        return ResponseEntity.noContent().build();
     }
 }
