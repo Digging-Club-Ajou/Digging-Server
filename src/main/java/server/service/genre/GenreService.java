@@ -7,6 +7,8 @@ import server.mapper.genre.GenreMapper;
 import server.mapper.genre.dto.GenreRequest;
 import server.repository.genre.GenreRepository;
 
+import java.util.Optional;
+
 @Service
 public class GenreService {
 
@@ -18,7 +20,13 @@ public class GenreService {
 
     @Transactional
     public void saveUserGenre(final long memberId, final GenreRequest genreRequest) {
-        Genre genre = GenreMapper.toEntity(memberId, genreRequest);
-        genreRepository.save(genre);
+        Optional<Genre> optionalGenre = genreRepository.findByMemberId(memberId);
+        if (optionalGenre.isPresent()) {
+            Genre genre = optionalGenre.get();
+            genre.updateGenre(genreRequest);
+        } else {
+            Genre genre = GenreMapper.toEntity(memberId, genreRequest);
+            genreRepository.save(genre);
+        }
     }
 }

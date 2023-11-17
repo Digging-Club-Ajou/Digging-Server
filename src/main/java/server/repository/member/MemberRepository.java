@@ -39,12 +39,6 @@ public class MemberRepository {
         return memberJpaRepository.findByNickname(nickname);
     }
 
-    public long count() {
-        return memberJpaRepository.count();
-    }
-
-
-
     public List<Member> findByNicknameStartingWith(final String keyword){
         return memberJpaRepository.findByNicknameStartingWith(keyword);
     }
@@ -55,5 +49,13 @@ public class MemberRepository {
 
     public List<Member> findAllByNickName(final String nickname){
         return memberJpaRepository.findAllByNickname(nickname);
+    }
+
+    public long count() {
+        return memberJpaRepository.count();
+    }
+
+    public void delete(final Member member) {
+        memberJpaRepository.delete(member);
     }
 }

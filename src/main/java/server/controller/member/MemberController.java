@@ -8,6 +8,7 @@ import server.global.annotation.Login;
 import server.global.exception.dto.ResultResponse;
 import server.mapper.member.MemberMapper;
 import server.mapper.member.dto.*;
+import server.mapper.withdrawal.dto.MemberWithdrawalRequest;
 import server.service.jwt.JwtFacade;
 import server.service.member.*;
 
@@ -21,6 +22,7 @@ public class MemberController {
     private final NicknameCreateService nicknameCreateService;
     private final NicknameValidationService nicknameValidationService;
     private final MemberInfoCreateService memberInfoCreateService;
+    private final MemberWithdrawalService memberWithdrawalService;
     private final JwtFacade jwtFacade;
 
     public MemberController(final MemberFindService memberFindService,
@@ -28,12 +30,13 @@ public class MemberController {
                             final NicknameCreateService nicknameCreateService,
                             final NicknameValidationService nicknameValidationService,
                             final MemberInfoCreateService memberInfoCreateService,
-                            final JwtFacade jwtFacade) {
+                            final MemberWithdrawalService memberWithdrawalService, final JwtFacade jwtFacade) {
         this.memberFindService = memberFindService;
         this.nicknameFindService = nicknameFindService;
         this.nicknameCreateService = nicknameCreateService;
         this.nicknameValidationService = nicknameValidationService;
         this.memberInfoCreateService = memberInfoCreateService;
+        this.memberWithdrawalService = memberWithdrawalService;
         this.jwtFacade = jwtFacade;
     }
 
@@ -77,4 +80,10 @@ public class MemberController {
         jwtFacade.deleteJwtRefreshToken(memberSession.id());
         return ResponseEntity.noContent().build();
     }
+
+//    @DeleteMapping("/withdrawal")
+//    public ResponseEntity<Void> withdraw(@Login final MemberSession memberSession,
+//                                         @RequestBody final MemberWithdrawalRequest dto) {
+//        memberWithdrawalService.withdrawal(memberSession.id(), dto);
+//    }
 }

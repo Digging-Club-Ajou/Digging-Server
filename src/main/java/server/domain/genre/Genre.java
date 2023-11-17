@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import server.domain.BaseTimeEntity;
 import server.global.annotation.Association;
+import server.mapper.genre.dto.GenreRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,18 @@ public class Genre extends BaseTimeEntity {
         this.indie = indie;
         this.pop = pop;
         this.ostAndMusical = ostAndMusical;
+    }
+
+    public void updateGenre(final GenreRequest genreRequest) {
+        this.ballade = genreRequest.ballade();
+        this.dance = genreRequest.dance();
+        this.rockMetal = genreRequest.rockMetal();
+        this.rbAndSoul = genreRequest.rbAndSoul();
+        this.rapHiphop = genreRequest.rapHiphop();
+        this.folkBlues = genreRequest.folkBlues();
+        this.indie = genreRequest.indie();
+        this.pop = genreRequest.pop();
+        this.ostAndMusical = genreRequest.ostAndMusical();
     }
 
     public List<String> getGenreText() {

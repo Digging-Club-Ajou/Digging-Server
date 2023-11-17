@@ -21,8 +21,8 @@ public class GenreController {
 
     @PostMapping("/genres")
     public ResponseEntity<Void> createGenre(@Login final MemberSession memberSession,
-                            @RequestBody final GenreRequest genreRequest) {
-        genreService.saveUserGenre(memberSession.id(),genreRequest);
+                                            @RequestBody final GenreRequest genreRequest) {
+        genreService.saveUserGenre(memberSession.id(), genreRequest);
         return ResponseEntity.noContent().build();
     }
 }
