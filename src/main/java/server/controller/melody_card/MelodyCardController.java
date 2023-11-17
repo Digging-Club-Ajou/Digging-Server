@@ -35,12 +35,6 @@ public class MelodyCardController {
         return new MelodyCardResponses(melodyCards);
     }
 
-    @GetMapping("/melody-cards")
-    public MelodyCardResponses getMelodyCardsByLogin(@Login final MemberSession memberSession) {
-        List<MelodyCardResponse> melodyCards = melodyCardCreateService.getMelodyCards(memberSession.id());
-        return new MelodyCardResponses(melodyCards);
-    }
-
     @PostMapping("/melody-cards")
     public ResponseEntity<Void> createMelodyCard(
             @Login final MemberSession memberSession,
