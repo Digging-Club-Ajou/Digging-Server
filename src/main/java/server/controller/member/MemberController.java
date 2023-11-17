@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
+import server.domain.withdrawal.vo.WithdrawalReason;
 import server.global.annotation.Login;
 import server.global.exception.dto.ResultResponse;
 import server.mapper.member.MemberMapper;
@@ -81,9 +82,10 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
-//    @DeleteMapping("/withdrawal")
-//    public ResponseEntity<Void> withdraw(@Login final MemberSession memberSession,
-//                                         @RequestBody final MemberWithdrawalRequest dto) {
-//        memberWithdrawalService.withdrawal(memberSession.id(), dto);
-//    }
+    @PostMapping("/withdrawal")
+    public ResponseEntity<Void> withdraw(@Login final MemberSession memberSession,
+                                         @RequestBody final MemberWithdrawalRequest dto) {
+        memberWithdrawalService.withdrawal(memberSession.id(), dto);
+        return ResponseEntity.noContent().build();
+    }
 }

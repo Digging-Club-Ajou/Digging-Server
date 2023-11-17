@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.member.persist.Member;
 import server.domain.withdrawal.persist.Withdrawal;
+import server.domain.withdrawal.vo.WithdrawalReason;
 import server.mapper.withdrawal.WithdrawalMapper;
 import server.mapper.withdrawal.dto.MemberWithdrawalRequest;
 import server.repository.member.MemberRepository;
@@ -26,7 +27,6 @@ public class MemberWithdrawalService {
         Member member = memberRepository.getById(memberId);
         memberRepository.delete(member);
         Withdrawal withdrawal = WithdrawalMapper.toEntity(memberId, dto);
-
         withdrawalRepository.save(withdrawal);
     }
 }

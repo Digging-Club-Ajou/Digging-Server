@@ -3,28 +3,27 @@ package server.controller.member;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockHttpServletResponse;
 import server.domain.album.Album;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.Gender;
 import server.domain.member.vo.MemberSession;
 import server.mapper.member.dto.NicknameRequest;
 import server.mapper.member.dto.UserInfoRequest;
+import server.mapper.withdrawal.dto.MemberWithdrawalRequest;
 import server.util.ControllerTest;
 
 import java.sql.Date;
 
-import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
-import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static com.epages.restdocs.apispec.ResourceDocumentation.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static server.domain.withdrawal.vo.WithdrawalReason.*;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
 import static server.global.constant.TimeConstant.ONE_HOUR;
 import static server.util.TestConstant.*;
@@ -393,6 +392,58 @@ class MemberControllerTest extends ControllerTest {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("회원")
                                 .summary("로그아웃")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("사용자가 서비스 회원 탈퇴합니다")
+    void withdrawal() throws Exception {
+        // given
+        String accessToken = login();
+        MemberWithdrawalRequest dto = new MemberWithdrawalRequest(REASON_1, null);
+
+        // expected
+        mockMvc.perform(post("/api/withdrawal")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+                )
+                .andExpect(status().isNoContent())
+                .andDo(document("회원탈퇴 - 원하는 상품이나 정보가 없음",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("회원")
+                                .summary("회원탈퇴")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("사용자가 서비스 회원 탈퇴합니다")
+    void withdrawalOtherReason() throws Exception {
+        // given
+        String accessToken = login();
+        MemberWithdrawalRequest dto = new MemberWithdrawalRequest(REASON_6, "다른 기타 탈퇴 이유");
+
+        // expected
+        mockMvc.perform(post("/api/withdrawal")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+                )
+                .andExpect(status().isNoContent())
+                .andDo(document("회원탈퇴 - 기타",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("회원")
+                                .summary("회원탈퇴")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
