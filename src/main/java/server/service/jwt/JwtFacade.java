@@ -47,4 +47,13 @@ public class JwtFacade {
             jwtRefreshTokenRepository.save(entity);
         }
     }
+
+    @Transactional
+    public void deleteJwtRefreshToken(final long memberId) {
+        Optional<JwtRefreshToken> optionalJwtRefreshToken = jwtRefreshTokenRepository.findByMemberId(memberId);
+        if (optionalJwtRefreshToken.isPresent()) {
+            JwtRefreshToken jwtRefreshToken = optionalJwtRefreshToken.get();
+            jwtRefreshTokenRepository.delete(jwtRefreshToken);
+        }
+    }
 }

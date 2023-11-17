@@ -376,4 +376,27 @@ class MemberControllerTest extends ControllerTest {
                                 .build()
                         )));
     }
+
+    @Test
+    @DisplayName("로그인한 사용자가 로그아웃을 합니다")
+    void logout() throws Exception {
+        // given
+        String accessToken = login();
+
+        // expected
+        mockMvc.perform(post("/api/logout")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isNoContent())
+                .andDo(document("로그아웃",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("회원")
+                                .summary("로그아웃")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .build()
+                        )));
+    }
 }

@@ -8,6 +8,7 @@ import server.global.annotation.Login;
 import server.global.exception.dto.ResultResponse;
 import server.mapper.member.MemberMapper;
 import server.mapper.member.dto.*;
+import server.service.jwt.JwtFacade;
 import server.service.member.*;
 
 @Slf4j
@@ -19,19 +20,21 @@ public class MemberController {
     private final NicknameFindService nicknameFindService;
     private final NicknameCreateService nicknameCreateService;
     private final NicknameValidationService nicknameValidationService;
-
     private final MemberInfoCreateService memberInfoCreateService;
+    private final JwtFacade jwtFacade;
 
     public MemberController(final MemberFindService memberFindService,
                             final NicknameFindService nicknameFindService,
                             final NicknameCreateService nicknameCreateService,
                             final NicknameValidationService nicknameValidationService,
-                            final MemberInfoCreateService memberInfoCreateService) {
+                            final MemberInfoCreateService memberInfoCreateService,
+                            final JwtFacade jwtFacade) {
         this.memberFindService = memberFindService;
         this.nicknameFindService = nicknameFindService;
         this.nicknameCreateService = nicknameCreateService;
         this.nicknameValidationService = nicknameValidationService;
         this.memberInfoCreateService = memberInfoCreateService;
+        this.jwtFacade = jwtFacade;
     }
 
     @GetMapping("/members")
@@ -66,6 +69,12 @@ public class MemberController {
     public ResponseEntity<Void> createMemberInfo(@Login final MemberSession memberSession,
                                  @RequestBody final UserInfoRequest dto) {
         memberInfoCreateService.createMemberInfo(memberSession.id(), dto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@Login final MemberSession memberSession) {
+        jwtFacade.deleteJwtRefreshToken(memberSession.id());
         return ResponseEntity.noContent().build();
     }
 }
