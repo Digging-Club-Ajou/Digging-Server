@@ -11,11 +11,10 @@ public class CardFavoriteMapper {
     private CardFavoriteMapper() {
     }
 
-    public static CardFavorite toEntity(final long memberId, final CardFavoriteRequest cardFavoriteRequest) {
+    public static CardFavorite toEntity(final long memberId, final long melodyCardId) {
         return CardFavorite.builder()
                 .memberId(memberId)
-                .melodyCardId(cardFavoriteRequest.melodyCardId())
-                .isLike(cardFavoriteRequest.isLike())
+                .melodyCardId(melodyCardId)
                 .build();
     }
 

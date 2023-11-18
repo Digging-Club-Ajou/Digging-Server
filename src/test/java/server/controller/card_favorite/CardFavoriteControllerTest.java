@@ -16,8 +16,7 @@ import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -29,8 +28,8 @@ import static server.util.TestConstant.TEST_USERNAME;
 class CardFavoriteControllerTest extends ControllerTest {
 
     @Test
-    @DisplayName("로그인한 회원이 특정 멜로디 카드에 감정 표현을 합니다")
-    void changeLikesState() throws Exception {
+    @DisplayName("로그인한 회원이 특정 멜로디 카드에 좋아요를 누릅니다")
+    void saveFavorite() throws Exception {
         // given 1
         Member member = Member.builder()
                 .username(TEST_USERNAME.value)
@@ -53,26 +52,18 @@ class CardFavoriteControllerTest extends ControllerTest {
 
         melodyCardRepository.save(melodyCard);
 
-        CardFavoriteRequest cardFavoriteRequest = new CardFavoriteRequest(melodyCard.getId(), true);
-
         // expected
-        mockMvc.perform(post("/api/card-favorites")
+        mockMvc.perform(post("/api/card-favorites/likes/{melodyCardId}", melodyCard.getId())
                         .header(ACCESS_TOKEN.value, accessToken)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(cardFavoriteRequest))
                 )
                 .andExpect(status().isNoContent())
-                .andDo(document("로그인한 회원이 특정 멜로디 카드에 감정 표현",
+                .andDo(document("로그인한 회원이 특정 멜로디 카드 좋아요 누르기",
                         preprocessRequest(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("좋아요")
-                                .summary("좋아요 or 좋아요 취소")
+                                .summary("좋아요 누르기")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
-                                )
-                                .requestFields(
-                                        fieldWithPath("melodyCardId").type(NUMBER).description("멜로디 카드 id"),
-                                        fieldWithPath("isLike").type(BOOLEAN).description("좋아요")
                                 )
                                 .build()
                         )));
@@ -274,7 +265,7 @@ class CardFavoriteControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("로그인한 회원의 멜로디 카드에 대한 감정표현을 가져옴")
+    @DisplayName("로그인한 회원의 멜로디 카드에 대한 좋아요 상태를 가져옵니다")
     void findLikeInfo() throws Exception {
         // given 1
         Member member = Member.builder()
@@ -302,8 +293,6 @@ class CardFavoriteControllerTest extends ControllerTest {
                 .memberId(member.getId())
                 .melodyCardId(melodyCard.getId())
                 .build();
-
-        cardFavorite.updateState(true);
 
         cardFavoriteRepository.save(cardFavorite);
 
@@ -358,15 +347,13 @@ class CardFavoriteControllerTest extends ControllerTest {
                 .melodyCardId(melodyCard.getId())
                 .build();
 
-        cardFavorite.updateState(true);
-
         cardFavoriteRepository.save(cardFavorite);
 
         // expected
-        mockMvc.perform(get("/api/melody-cards/{melodyCardId}", melodyCard.getId())
+        mockMvc.perform(delete("/api/card-favorites/likes/{melodyCardId}", melodyCard.getId())
                         .header(ACCESS_TOKEN.value, accessToken)
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(document("로그인한 회원의 특정 좋아요 멜로디 카드 삭제",
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()

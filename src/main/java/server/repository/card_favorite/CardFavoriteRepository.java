@@ -26,9 +26,8 @@ public class CardFavoriteRepository {
         return cardFavoriteJpaRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId);
     }
 
-    public CardFavorite getByMemberIdAndMelodyCardId(final long memberId, final long melodyCardId) {
-        return cardFavoriteJpaRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId)
-                .orElseThrow(() -> new NotFoundException(CARD_FAVORITE_NOT_FOUND_EXCEPTION.message));
+    public Optional<CardFavorite> getByMemberIdAndMelodyCardId(final long memberId, final long melodyCardId) {
+        return cardFavoriteJpaRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId);
     }
 
     public List<CardFavorite> findAllByMemberId(final long memberId) {

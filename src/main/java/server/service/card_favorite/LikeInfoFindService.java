@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import server.domain.card_favorite.CardFavorite;
 import server.repository.card_favorite.CardFavoriteRepository;
 
+import java.util.Optional;
+
 @Service
 public class LikeInfoFindService {
 
@@ -16,7 +18,8 @@ public class LikeInfoFindService {
 
     @Transactional(readOnly = true)
     public Boolean findLikeInfo(final long memberId, final long melodyCardId) {
-        CardFavorite cardFavorite = cardFavoriteRepository.getByMemberIdAndMelodyCardId(memberId, melodyCardId);
-        return cardFavorite.getIsLike();
+        Optional<CardFavorite> optionalCardFavorite =
+                cardFavoriteRepository.getByMemberIdAndMelodyCardId(memberId, melodyCardId);
+        return optionalCardFavorite.isPresent();
     }
 }

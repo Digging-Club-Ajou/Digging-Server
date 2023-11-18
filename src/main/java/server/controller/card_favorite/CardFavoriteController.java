@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
-import server.mapper.card_favorite.dto.CardFavoriteRequest;
 import server.mapper.card_favorite.dto.CardFavoriteResponse;
 import server.mapper.card_favorite.dto.CardFavoriteResult;
 import server.mapper.card_favorite.dto.LikeInfoResponse;
@@ -30,10 +29,11 @@ public class CardFavoriteController {
         this.likeInfoFindService = likeInfoFindService;
     }
 
-    @PostMapping("/card-favorites")
-    public ResponseEntity<Void> changeLikesState(@Login final MemberSession memberSession,
-                                           @RequestBody final CardFavoriteRequest cardFavoriteRequest) {
-        cardFavoriteCreateService.changeLikesState(memberSession.id(), cardFavoriteRequest);
+    @PostMapping("/card-favorites/likes/{melodyCardId}")
+    public ResponseEntity<Void> likes(@Login final MemberSession memberSession,
+                                      @PathVariable final long melodyCardId) {
+
+        cardFavoriteCreateService.saveFavorite(memberSession.id(), melodyCardId);
         return ResponseEntity.noContent().build();
     }
 
@@ -57,7 +57,6 @@ public class CardFavoriteController {
         Boolean likeInfo = likeInfoFindService.findLikeInfo(memberSession.id(), melodyCardId);
         return new LikeInfoResponse(likeInfo);
     }
-
 
     @DeleteMapping("/card-favorites/likes/{melodyCardId}")
     public ResponseEntity<Void> deleteByMelodyCardIdAndMemberId(@Login final MemberSession memberSession,

@@ -38,34 +38,29 @@ public class CardFavoriteCreateService {
     }
 
     @Transactional
-    public void changeLikesState(final long memberId, final CardFavoriteRequest dto) {
+    public void saveFavorite(final long memberId, final long melodyCardId) {
         Optional<CardFavorite> optionalCardFavorite =
-                cardFavoriteRepository.findByMemberIdAndMelodyCardId(memberId, dto.melodyCardId());
+                cardFavoriteRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId);
 
-        if (optionalCardFavorite.isPresent()) {
-            CardFavorite cardFavorite = optionalCardFavorite.get();
-            cardFavorite.updateState(dto.isLike());
-        } else {
-            CardFavorite cardFavorite = CardFavoriteMapper.toEntity(memberId, dto);
+        if (optionalCardFavorite.isEmpty()) {
+            CardFavorite cardFavorite = CardFavoriteMapper.toEntity(memberId, melodyCardId);
             cardFavoriteRepository.save(cardFavorite);
+            notification(memberId, melodyCardId);
         }
-
-        notification(memberId, dto);
     }
 
-    private void notification(final long memberId, final CardFavoriteRequest dto) {
-        if (dto.isLike()) {
-            Member member = memberRepository.getById(memberId);
-            MelodyCard melodyCard = melodyCardRepository.getById(dto.melodyCardId());
-            String notificationMessage = member.getNickname() + MELODY_CARD_LIKES_NOTIFICATION;
-            notificationCreateService.saveNotificationMessage(melodyCard.getMemberId(), notificationMessage);
-        }
+    private void notification(final long memberId, final long melodyCardId) {
+        Member member = memberRepository.getById(memberId);
+        MelodyCard melodyCard = melodyCardRepository.getById(melodyCardId);
+        String notificationMessage = member.getNickname() + MELODY_CARD_LIKES_NOTIFICATION;
+        notificationCreateService.saveNotificationMessage(melodyCard.getMemberId(), notificationMessage);
     }
 
     @Transactional
     public void deleteFavorite(final MemberSession memberSession, final Long melodyCardId) {
 
-        Optional<CardFavorite> cardFavorite = cardFavoriteRepository.findByMemberIdAndMelodyCardId(memberSession.id(),melodyCardId);
+        Optional<CardFavorite> cardFavorite =
+                cardFavoriteRepository.findByMemberIdAndMelodyCardId(memberSession.id(),melodyCardId);
 
         if(cardFavorite.isPresent()){
             cardFavoriteRepository.deleteByCardFavorite(cardFavorite.get());
