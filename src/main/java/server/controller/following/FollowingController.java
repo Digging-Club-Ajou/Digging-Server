@@ -35,12 +35,12 @@ public class FollowingController {
 
     @GetMapping("/followings")
     public Followings getMemberFollowings(@Login final MemberSession memberSession){
-        return followingService.getFollowingList(memberSession.id());
+        return followingService.getFollowingListByLogin(memberSession.id());
     }
 
     @GetMapping("/followings/{memberId}")
-    public Followings getFollowings(@PathVariable final long memberId){
-       return followingService.getFollowingList(memberId);
+    public Followings getFollowings(@Login final MemberSession memberSession, @PathVariable final long memberId){
+       return followingService.getFollowingListByMemberId(memberSession.id(),memberId);
     }
 
     @GetMapping("/following-validation")

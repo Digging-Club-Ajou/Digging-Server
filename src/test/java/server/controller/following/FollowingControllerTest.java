@@ -180,11 +180,13 @@ public class FollowingControllerTest extends ControllerTest {
                                         fieldWithPath("followings[].memberId").description("멤버 id"),
                                         fieldWithPath("followings[].albumId").description("앨범 id"),
                                         fieldWithPath("followings[].nickname").description("멤버 닉네임"),
-                                        fieldWithPath("followings[].isFollowForFollow").description("맞팔 여부"),
+                                        fieldWithPath("followings[].isFollowing").description("로그인 한 회원의 팔로잉 여부"),
+                                        fieldWithPath("followings[].isFollower").description("로그인 한 회원의 팔로워 여부"),
                                         fieldWithPath("followers[].memberId").description("멤버 id"),
                                         fieldWithPath("followers[].albumId").description("앨범 id"),
                                         fieldWithPath("followers[].nickname").description("멤버 닉네임"),
-                                        fieldWithPath("followers[].isFollowForFollow").description("맞팔 여부")
+                                        fieldWithPath("followers[].isFollowing").description("로그인 한 회원의 팔로잉 여부"),
+                                        fieldWithPath("followers[].isFollower").description("로그인 한 회원의 팔로워 여부")
                                 )
                                 .build()
                         )));
@@ -268,11 +270,13 @@ public class FollowingControllerTest extends ControllerTest {
                                         fieldWithPath("followings[].memberId").description("멤버 id"),
                                         fieldWithPath("followings[].albumId").description("앨범 id"),
                                         fieldWithPath("followings[].nickname").description("멤버 닉네임"),
-                                        fieldWithPath("followings[].isFollowForFollow").description("맞팔 여부"),
+                                        fieldWithPath("followings[].isFollowing").description("로그인 한 회원의 팔로잉 여부"),
+                                        fieldWithPath("followings[].isFollower").description("로그인 한 회원의 팔로워 여부"),
                                         fieldWithPath("followers[].memberId").description("멤버 id"),
                                         fieldWithPath("followers[].albumId").description("앨범 id"),
                                         fieldWithPath("followers[].nickname").description("멤버 닉네임"),
-                                        fieldWithPath("followers[].isFollowForFollow").description("맞팔 여부")
+                                        fieldWithPath("followers[].isFollowing").description("로그인 한 회원의 팔로잉 여부"),
+                                        fieldWithPath("followers[].isFollower").description("로그인 한 회원의 팔로워 여부")
                                 )
                                 .build()
                         )));
