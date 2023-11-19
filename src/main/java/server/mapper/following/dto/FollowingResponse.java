@@ -7,7 +7,8 @@ public record FollowingResponse(
         Long memberId,
         Long albumId,
         String nickname,
-        Boolean isFollowForFollow
+        Boolean isFollowing,
+        Boolean isFollower
 
 ) {
 

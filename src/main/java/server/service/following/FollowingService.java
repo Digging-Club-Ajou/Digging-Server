@@ -78,10 +78,14 @@ public class FollowingService {
     }
 
     @Transactional
-    public Followings getFollowingList(Long memberId){
+    public Followings getFollowingListByMemberId(Long memberSessionId, Long memberId){
+
+        List<FollowingInfo> followingListByMemberSession = followingRepository.findAllByFollowingId(memberSessionId);
+        List<FollowingInfo> followerListByMemberSession = followingRepository.findAllByFollowedId(memberSessionId);
 
         List<FollowingInfo> followingList= followingRepository.findAllByFollowingId(memberId);
         List<FollowingInfo> followerList = followingRepository.findAllByFollowedId(memberId);
+
 
         List<FollowingResponse> followingResponses =  new ArrayList<>();
         List<FollowingResponse> followerResponses =  new ArrayList<>();
@@ -94,16 +98,18 @@ public class FollowingService {
                 albumId = album.getId();
 
             }catch (BadRequestException e){
-                albumId =null;
+                albumId = null;
             }
 
-            Boolean check = !followingList.stream().filter(info -> info.getFollowedId().equals(followInfo.getFollowingId())).collect(Collectors.toList()).isEmpty();
+            Boolean isFollowing = !followingListByMemberSession.stream().filter( info -> info.getFollowedId().equals(followInfo.getFollowingId())).collect(Collectors.toList()).isEmpty();
+            Boolean isFollower = !followerListByMemberSession.stream().filter( info -> info.getFollowingId().equals(followInfo.getFollowingId())).collect(Collectors.toList()).isEmpty();
 
             FollowingResponse follow = FollowingResponse.builder()
                     .memberId(followInfo.getFollowingId())
                     .albumId(albumId)
                     .nickname(memberRepository.getById(followInfo.getFollowingId()).getNickname())
-                    .isFollowForFollow(check)
+                    .isFollower(isFollower)
+                    .isFollowing(isFollowing)
                     .build();
             followerResponses.add(follow);
 
@@ -121,13 +127,15 @@ public class FollowingService {
                 albumId =null;
             }
 
-            Boolean check = !followerList.stream().filter(info -> info.getFollowingId().equals(followInfo.getFollowedId())).collect(Collectors.toList()).isEmpty();
+            Boolean isFollowing = !followingListByMemberSession.stream().filter(info -> info.getFollowedId().equals(followInfo.getFollowedId())).collect(Collectors.toList()).isEmpty();
+            Boolean isFollower = !followerListByMemberSession.stream().filter(info -> info.getFollowingId().equals(followInfo.getFollowedId())).collect(Collectors.toList()).isEmpty();
 
             FollowingResponse follow = FollowingResponse.builder()
                     .memberId(followInfo.getFollowedId())
                     .albumId(albumId)
                     .nickname(memberRepository.getById(followInfo.getFollowedId()).getNickname())
-                    .isFollowForFollow(check)
+                    .isFollowing(isFollowing)
+                    .isFollower(isFollower)
                     .build();
 
             followingResponses.add(follow);
@@ -137,6 +145,68 @@ public class FollowingService {
         return Followings.builder().followings(followingResponses).followers(followerResponses).build();
     }
 
+    @Transactional
+    public Followings getFollowingListByLogin(Long memberId){
+
+
+        List<FollowingInfo> followingList= followingRepository.findAllByFollowingId(memberId);
+        List<FollowingInfo> followerList = followingRepository.findAllByFollowedId(memberId);
+
+        List<FollowingResponse> followingResponses =  new ArrayList<>();
+        List<FollowingResponse> followerResponses =  new ArrayList<>();
+
+        followerList.forEach( followInfo -> {
+
+                    Long albumId;
+                    try {
+                        Album album = albumRepository.getByMemberId(followInfo.getFollowingId());
+                        albumId = album.getId();
+
+                    }catch (BadRequestException e){
+                        albumId = null;
+                    }
+
+                    Boolean isFollowing = !followingList.stream().filter(info -> info.getFollowedId().equals(followInfo.getFollowingId())).collect(Collectors.toList()).isEmpty();
+
+                    FollowingResponse follow = FollowingResponse.builder()
+                            .memberId(followInfo.getFollowingId())
+                            .albumId(albumId)
+                            .nickname(memberRepository.getById(followInfo.getFollowingId()).getNickname())
+                            .isFollowing(isFollowing)
+                            .isFollower(true)
+                            .build();
+                    followerResponses.add(follow);
+
+                }
+        );
+
+        followingList.forEach( followInfo -> {
+
+            Long albumId;
+            try {
+                Album album = albumRepository.getByMemberId(followInfo.getFollowedId());
+                albumId = album.getId();
+
+            }catch (BadRequestException e){
+                albumId =null;
+            }
+
+            Boolean isFollower = !followerList.stream().filter(info -> info.getFollowingId().equals(followInfo.getFollowedId())).collect(Collectors.toList()).isEmpty();
+
+            FollowingResponse follow = FollowingResponse.builder()
+                    .memberId(followInfo.getFollowedId())
+                    .albumId(albumId)
+                    .nickname(memberRepository.getById(followInfo.getFollowedId()).getNickname())
+                    .isFollower(isFollower)
+                    .isFollowing(true)
+                    .build();
+
+            followingResponses.add(follow);
+
+        });
+
+        return Followings.builder().followings(followingResponses).followers(followerResponses).build();
+    }
 
     @Transactional
     public boolean getFollowing(MemberSession memberSession, Long memberId){
