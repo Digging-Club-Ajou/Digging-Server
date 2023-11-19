@@ -23,7 +23,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
     }
 
     @Override
-    public MelodyCardResponse getMelodyCard(final long melodyCardId) {
+    public MelodyCardResponse getMelodyCard(final long memberId, final long melodyCardId) {
         return MelodyCardResponse.builder()
                 .melodyCardId(1L)
                 .albumId(1L)
@@ -39,10 +39,11 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .cardDescription("카드에 대한 설명")
                 .color("#FFFFFF")
                 .isImageUrl(true)
+                .isLike(true)
                 .build();
     }
 
-    public List<MelodyCardResponse> getMelodyCards(final long albumId) {
+    public List<MelodyCardResponse> getMelodyCards(final long memberId, final long albumId) {
         MelodyCardResponse melodyCardResponse1 = MelodyCardResponse.builder()
                 .melodyCardId(1L)
                 .albumId(1L)
@@ -58,6 +59,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .cardDescription("카드에 대한 설명1")
                 .color("#FFFFFF")
                 .isImageUrl(true)
+                .isLike(true)
                 .build();
 
         MelodyCardResponse melodyCardResponse2 = MelodyCardResponse.builder()
@@ -75,6 +77,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .cardDescription("카드에 대한 설명2")
                 .color("#FFFFFF")
                 .isImageUrl(true)
+                .isLike(true)
                 .build();
 
         MelodyCardResponse melodyCardResponse3 = MelodyCardResponse.builder()
@@ -92,6 +95,7 @@ public class MelodyCardCreateTestService implements MelodyCardCreateService {
                 .cardDescription("카드에 대한 설명3")
                 .color("#FFFFFF")
                 .isImageUrl(true)
+                .isLike(true)
                 .build();
 
         List<MelodyCardResponse> melodyCardResponses = new ArrayList<>();

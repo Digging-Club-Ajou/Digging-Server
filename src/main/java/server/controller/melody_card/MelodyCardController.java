@@ -19,19 +19,22 @@ public class MelodyCardController {
     private final MelodyCardCreateService melodyCardCreateService;
     private final MelodyCardService melodyCardService;
 
-    public MelodyCardController(final MelodyCardCreateService melodyCardCreateService, final MelodyCardService melodyCardService) {
+    public MelodyCardController(final MelodyCardCreateService melodyCardCreateService,
+                                final MelodyCardService melodyCardService) {
         this.melodyCardCreateService = melodyCardCreateService;
         this.melodyCardService = melodyCardService;
     }
 
     @GetMapping("/melody-cards/{melodyCardId}")
-    public MelodyCardResponse getMelodyCard(@PathVariable final long melodyCardId) {
-        return melodyCardCreateService.getMelodyCard(melodyCardId);
+    public MelodyCardResponse getMelodyCard(@Login final MemberSession memberSession,
+                                            @PathVariable final long melodyCardId) {
+        return melodyCardCreateService.getMelodyCard(memberSession.id(), melodyCardId);
     }
 
     @GetMapping("/melody-cards/albums/{albumId}")
-    public MelodyCardResponses getMelodyCards(@PathVariable final long albumId) {
-        List<MelodyCardResponse> melodyCards = melodyCardCreateService.getMelodyCards(albumId);
+    public MelodyCardResponses getMelodyCards(@Login final MemberSession memberSession,
+                                              @PathVariable final long albumId) {
+        List<MelodyCardResponse> melodyCards = melodyCardCreateService.getMelodyCards(memberSession.id(), albumId);
         return new MelodyCardResponses(melodyCards);
     }
 

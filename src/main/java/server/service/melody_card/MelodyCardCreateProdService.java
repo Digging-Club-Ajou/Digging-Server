@@ -12,10 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import server.domain.album.Album;
 import server.domain.melody_card.MelodyCard;
 import server.global.exception.BadRequestException;
-import server.global.exception.NotFoundException;
 import server.mapper.melody_card.dto.MelodyCardRequest;
 import server.mapper.melody_card.dto.MelodyCardResponse;
 import server.repository.album.AlbumRepository;
+import server.service.card_favorite.LikeInfoFindService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,15 +35,18 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
     private final MelodyCardInfoCreateService melodyCardInfoCreateService;
     private final MelodyCardFindService melodyCardFindService;
     private final AlbumRepository albumRepository;
+    private final LikeInfoFindService likeInfoFindService;
 
     public MelodyCardCreateProdService(final AmazonS3 amazonS3Client,
                                        final MelodyCardInfoCreateService melodyCardInfoCreateService,
                                        final MelodyCardFindService melodyCardFindService,
-                                       final AlbumRepository albumRepository) {
+                                       final AlbumRepository albumRepository,
+                                       final LikeInfoFindService likeInfoFindService) {
         this.amazonS3Client = amazonS3Client;
         this.melodyCardInfoCreateService = melodyCardInfoCreateService;
         this.melodyCardFindService = melodyCardFindService;
         this.albumRepository = albumRepository;
+        this.likeInfoFindService = likeInfoFindService;
     }
 
     @Transactional
@@ -76,7 +79,7 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
     }
 
 
-    public MelodyCardResponse getMelodyCard(final long melodyCardId) {
+    public MelodyCardResponse getMelodyCard(final long memberId, final long melodyCardId) {
         Date expiration = new Date();
         long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
         expiration.setTime(expTimeMillis);
@@ -94,11 +97,13 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
             melodyCardResponse.updateUrl(url.toString());
         }
 
+        Boolean isLike = likeInfoFindService.findLikeInfo(memberId, melodyCardId);
+        melodyCardResponse.updateLikeInfo(isLike);
 
         return melodyCardResponse;
     }
 
-    public List<MelodyCardResponse>  getMelodyCards(final long albumId) {
+    public List<MelodyCardResponse> getMelodyCards(final long memberId, final long albumId) {
         Date expiration = new Date();
         long expTimeMillis = expiration.getTime() + ONE_HOUR.value;
         expiration.setTime(expTimeMillis);
@@ -120,6 +125,8 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
                 URL url = amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
                 melodyCardResponse.updateUrl(url.toString());
             }
+            Boolean isLike = likeInfoFindService.findLikeInfo(memberId, melodyCard.getId());
+            melodyCardResponse.updateLikeInfo(isLike);
 
             melodyCardResponses.add(melodyCardResponse);
 

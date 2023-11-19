@@ -19,6 +19,7 @@ public class MelodyCardResponse {
     private String cardDescription;
     private String color;
     private Boolean isImageUrl;
+    private Boolean isLike;
 
     protected MelodyCardResponse() {
     }
@@ -28,7 +29,7 @@ public class MelodyCardResponse {
                               final String nickname, final String artistName, final String songTitle,
                               final String previewUrl, final String imageUrl, final String albumCoverImageUrl,
                               final String address, final String cardDescription, final String color,
-                               final Boolean isImageUrl) {
+                               final Boolean isImageUrl, final Boolean isLike) {
         this.melodyCardId = melodyCardId;
         this.albumId = albumId;
         this.memberId = memberId;
@@ -42,9 +43,14 @@ public class MelodyCardResponse {
         this.cardDescription = cardDescription;
         this.color = color;
         this.isImageUrl = isImageUrl;
+        this.isLike = isLike;
     }
 
     public void updateUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void updateLikeInfo(final Boolean isLike) {
+        this.isLike = isLike;
     }
 }

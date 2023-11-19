@@ -64,7 +64,8 @@ public class MelodyCardControllerTest extends ControllerTest {
                                         fieldWithPath("address").type(STRING).description("주소"),
                                         fieldWithPath("cardDescription").type(STRING).description("카드 설명"),
                                         fieldWithPath("color").type(STRING).description("색상"),
-                                        fieldWithPath("isImageUrl").type(BOOLEAN).description("imageUrl 유무")
+                                        fieldWithPath("isImageUrl").type(BOOLEAN).description("imageUrl 유무"),
+                                        fieldWithPath("isLike").type(BOOLEAN).description("좋아요 상태")
                                         )
                                 .build()
                         )));
@@ -140,7 +141,9 @@ public class MelodyCardControllerTest extends ControllerTest {
                                         fieldWithPath("melodyCardResponses[0].color").type(STRING)
                                                 .description("색상"),
                                         fieldWithPath("melodyCardResponses[0].isImageUrl").type(BOOLEAN)
-                                                .description("이미지 URL 유무")
+                                                .description("이미지 URL 유무"),
+                                        fieldWithPath("melodyCardResponses[0].isLike").type(BOOLEAN)
+                                                .description("좋아요 상태")
                                 )
                                 .build()
                         )));
