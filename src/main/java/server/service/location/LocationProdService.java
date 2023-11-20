@@ -38,12 +38,13 @@ public class LocationProdService implements LocationService {
         this.objectMapper = objectMapper;
     }
 
-    public List<LocationResponse> findLocation(final String query, final String x, final String y) {
+    public List<LocationResponse> findLocation(final String query, final String x,
+                                               final String y, final int page) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(AUTHORIZATION, KAKAO_AK + KAKAO_REST_API);
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        UriComponents uriComponents = getUriComponents(query, x, y);
+        UriComponents uriComponents = getUriComponents(query, x, y, page);
 
         ResponseEntity<String> locationInfo =
                 restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
@@ -51,12 +52,13 @@ public class LocationProdService implements LocationService {
         return getLocationResponses(locationInfo);
     }
 
-    private static UriComponents getUriComponents(final String query, final String x, final String y) {
+    private static UriComponents getUriComponents(final String query, final String x,
+                                                  final String y, final int page) {
         return UriComponentsBuilder.fromHttpUrl(KAKAO_LOCATION_KEYWORD_URL)
                 .queryParam(QUERY, BRACE_QUERY)
                 .queryParam(X, x)
                 .queryParam(Y, y)
-                .queryParam(SIZE, MUSIC_SEARCH_SIZE)
+                .queryParam(PAGE, page)
                 .queryParam(SORT, DISTANCE)
                 .build()
                 .expand(Collections.singletonMap(QUERY, query));

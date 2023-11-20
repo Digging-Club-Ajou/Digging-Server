@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface LocationService {
 
-    List<LocationResponse> findLocation(final String query, final String x, final String y);
+    List<LocationResponse> findLocation(final String query, final String x, final String y, final int page);
 }

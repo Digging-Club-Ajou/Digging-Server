@@ -24,8 +24,9 @@ public class LocationController {
     @GetMapping("/location")
     public LocationResult findLocation(@RequestParam final String query,
                                        @RequestParam final String x,
-                                       @RequestParam final String y) {
-        List<LocationResponse> locationResponses = locationService.findLocation(query, x, y);
+                                       @RequestParam final String y,
+                                       @RequestParam final int page) {
+        List<LocationResponse> locationResponses = locationService.findLocation(query, x, y, page);
         return new LocationResult(locationResponses);
     }
 }

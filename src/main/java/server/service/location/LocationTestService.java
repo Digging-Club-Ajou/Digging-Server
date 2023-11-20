@@ -14,7 +14,8 @@ public class LocationTestService implements LocationService {
 
     // API 문서화 용도
     @Override
-    public List<LocationResponse> findLocation(final String query, final String x, final String y) {
+    public List<LocationResponse> findLocation(final String query, final String x,
+                                               final String y, final int page) {
         LocationResponse locationResponse1 =
                 new LocationResponse("아주대학교 중앙도서관", "140m");
         LocationResponse locationResponse2 =

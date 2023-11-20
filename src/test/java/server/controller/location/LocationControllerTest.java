@@ -35,6 +35,7 @@ class LocationControllerTest extends ControllerTest {
                         .param("query", "아주대학교 도서관")
                         .param("x", "127.044128202435")
                         .param("y", "37.283192168869")
+                        .param("page", "1")
                 )
                 .andExpect(status().isOk())
                 .andDo(document("검색어로 장소 찾기 - 거리 가까운 순서",
@@ -48,7 +49,8 @@ class LocationControllerTest extends ControllerTest {
                                 .queryParameters(
                                         parameterWithName("query").description("현재 위치 도로명 주소"),
                                         parameterWithName("x").description("경도"),
-                                        parameterWithName("y").description("위도")
+                                        parameterWithName("y").description("위도"),
+                                        parameterWithName("page").description("조회 페이지")
                                 )
                                 .responseFields(
                                         fieldWithPath("locationResponses[0].placeName").type(STRING)
