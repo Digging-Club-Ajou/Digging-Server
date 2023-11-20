@@ -31,8 +31,10 @@ public enum SpotifyConstant {
     public static final String PLACE_NAME = "place_name";
     public static final String X = "x";
     public static final String Y = "y";
+    public static final String SIZE = "size";
     public static final String M = "m";
     public static final int ZERO = 0;
+    public static final int MUSIC_SEARCH_SIZE = 45;
     public static final String ID = "id";
 
     public static final String countryCode = "KR";

@@ -56,6 +56,7 @@ public class LocationProdService implements LocationService {
                 .queryParam(QUERY, BRACE_QUERY)
                 .queryParam(X, x)
                 .queryParam(Y, y)
+                .queryParam(SIZE, MUSIC_SEARCH_SIZE)
                 .queryParam(SORT, DISTANCE)
                 .build()
                 .expand(Collections.singletonMap(QUERY, query));
