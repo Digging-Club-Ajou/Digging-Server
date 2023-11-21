@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import server.mapper.location.LocationResponse;
 import server.mapper.location.LocationResult;
-import server.service.location.LocationProdService;
+import server.service.location.LocationCompositionService;
 import server.service.location.LocationService;
 
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 public class LocationController {
 
-    private final LocationService locationService;
+    private final LocationCompositionService locationCompositionService;
 
-    public LocationController(final LocationService locationService) {
-        this.locationService = locationService;
+    public LocationController(final LocationCompositionService locationCompositionService) {
+        this.locationCompositionService = locationCompositionService;
     }
 
     @GetMapping("/location")
@@ -26,7 +26,7 @@ public class LocationController {
                                        @RequestParam final String x,
                                        @RequestParam final String y,
                                        @RequestParam final int page) {
-        List<LocationResponse> locationResponses = locationService.findLocation(query, x, y, page);
-        return new LocationResult(locationResponses);
+        List<LocationResponse> locationAfterResponses = locationCompositionService.findLocation(query, x, y, page);
+        return new LocationResult(locationAfterResponses);
     }
 }
