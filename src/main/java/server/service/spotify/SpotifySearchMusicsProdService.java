@@ -50,7 +50,8 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
 
     private ResponseEntity<String> getStringResponseEntity(final String favoriteArtistName,
                                                            final int page) {
-        String apiUrl = SPOTIFY_TRACKS_URL + favoriteArtistName + BASIC_CONDITION + page;
+        int offset = (page - 1) * 15;
+        String apiUrl = SPOTIFY_TRACKS_URL + favoriteArtistName + BASIC_CONDITION + offset;
         String spotifyAccessToken = getSpotifyToken();
 
         HttpHeaders headers = new HttpHeaders();
@@ -78,7 +79,7 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
 
     // search Genre
     public String findGenre(final String favoriteArtistName) {
-        ResponseEntity<String> response = getStringResponseEntity(favoriteArtistName);
+        ResponseEntity<String> response = getStringResponseEntity(favoriteArtistName, 0);
 
         JsonNode rootNode;
         try {

@@ -29,6 +29,7 @@ class SpotifyControllerTest extends ControllerTest {
         mockMvc.perform(get("/api/musics")
                         .header(ACCESS_TOKEN.value, accessToken)
                         .param("search", "NewJeans")
+                        .param("page", "1")
                 )
                 .andExpect(status().isOk())
                 .andDo(document("음악 검색 - 아티스트 or 노래 제목으로 검색",
@@ -41,7 +42,8 @@ class SpotifyControllerTest extends ControllerTest {
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )
                                 .queryParameters(
-                                        parameterWithName("search").description("검색어 - 아티스트 이름 or 노래 제목")
+                                        parameterWithName("search").description("검색어 - 아티스트 이름 or 노래 제목"),
+                                        parameterWithName("page").description("페이지")
                                 )
                                 .responseFields(
                                         fieldWithPath("spotifySearchDtos[0].artistName").type(STRING)
