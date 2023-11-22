@@ -8,6 +8,7 @@ import server.mapper.member.MemberMapper;
 import server.mapper.member.dto.KakaoSignupRequest;
 import server.service.jwt.JwtFacade;
 import server.service.oauth.KakaoSignupService;
+import server.service.push_alarm.PushAlarmService;
 
 import java.util.Optional;
 
@@ -19,13 +20,15 @@ public class DiggingLoginService {
 
     private final MemberFindByEmailService memberFindByEmailService;
     private final KakaoSignupService kakaoSignupService;
+    private final PushAlarmService pushAlarmService;
     private final JwtFacade jwtFacade;
 
     public DiggingLoginService(final MemberFindByEmailService memberFindByEmailService,
                                final KakaoSignupService kakaoSignupService,
-                               final JwtFacade jwtFacade) {
+                               final PushAlarmService pushAlarmService, final JwtFacade jwtFacade) {
         this.memberFindByEmailService = memberFindByEmailService;
         this.kakaoSignupService = kakaoSignupService;
+        this.pushAlarmService = pushAlarmService;
         this.jwtFacade = jwtFacade;
     }
 
@@ -35,6 +38,7 @@ public class DiggingLoginService {
         Boolean isNew;
         if (optionalMember.isEmpty()) {
             member = kakaoSignupService.kakaoSignup(dto);
+            pushAlarmService.savePushAlarm(member.getId());
             isNew = true;
         } else {
             member = optionalMember.get();
