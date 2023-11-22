@@ -18,8 +18,9 @@ public class SpotifyController {
     }
 
     @GetMapping("/musics")
-    public SpotifyMusicResult getMusics(@RequestParam final String search) {
-        List<SpotifySearchDto> spotifySearchDtos = spotifySearchMusicService.searchTracks(search);
+    public SpotifyMusicResult getMusics(@RequestParam final String search,
+                                        @RequestParam final int page) {
+        List<SpotifySearchDto> spotifySearchDtos = spotifySearchMusicService.searchTracks(search, page);
         return new SpotifyMusicResult(spotifySearchDtos);
     }
 }

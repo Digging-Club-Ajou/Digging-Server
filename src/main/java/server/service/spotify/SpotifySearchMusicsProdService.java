@@ -33,8 +33,8 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
     }
 
     // search Musics
-    public List<SpotifySearchDto> searchTracks(final String search) {
-        ResponseEntity<String> response = getStringResponseEntity(search);
+    public List<SpotifySearchDto> searchTracks(final String search, final int page) {
+        ResponseEntity<String> response = getStringResponseEntity(search, page);
 
         JsonNode rootNode;
         try {
@@ -48,8 +48,9 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
         }
     }
 
-    private ResponseEntity<String> getStringResponseEntity(final String favoriteArtistName) {
-        String apiUrl = SPOTIFY_TRACKS_URL + favoriteArtistName + BASIC_CONDITION;
+    private ResponseEntity<String> getStringResponseEntity(final String favoriteArtistName,
+                                                           final int page) {
+        String apiUrl = SPOTIFY_TRACKS_URL + favoriteArtistName + BASIC_CONDITION + page;
         String spotifyAccessToken = getSpotifyToken();
 
         HttpHeaders headers = new HttpHeaders();

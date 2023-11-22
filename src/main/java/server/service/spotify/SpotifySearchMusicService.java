@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public interface SpotifySearchMusicService {
 
-    List<SpotifySearchDto> searchTracks(final String search);
+    List<SpotifySearchDto> searchTracks(final String search, final int page);
 
     String findGenre(final String favoriteArtistName);
 }

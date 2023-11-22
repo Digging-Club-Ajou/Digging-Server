@@ -24,7 +24,7 @@ public class SpotifySearchMusicTestService implements SpotifySearchMusicService 
     }
 
     // API 문서화 용도
-    public List<SpotifySearchDto> searchTracks(final String search) {
+    public List<SpotifySearchDto> searchTracks(final String search, final int page) {
         SpotifySearchDto spotifySearchDto1 = new SpotifySearchDto("NewJeans", "Super Shy",
                 "https://i.scdn.co/image/ab67616d0000b2733d98a0ae7c78a3a9babaf8af",
                 "https://p.scdn.co/mp3-preview/dab062e2cc708a2680ce84953a3581c5a679a230?cid=eb9c2bc88c014e5e9a78cdb743d7a6df");
