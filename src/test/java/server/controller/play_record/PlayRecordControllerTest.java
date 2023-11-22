@@ -57,7 +57,7 @@ class PlayRecordControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("로그인한 회원의 활동을 추적하여 반환합니다")
-    void findFavoriteGenre() throws Exception {
+    void findPlayRecord() throws Exception {
         Member member = Member.builder()
                 .username(TEST_USERNAME.value)
                 .build();
@@ -90,6 +90,53 @@ class PlayRecordControllerTest extends ControllerTest {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("음악")
                                 .summary("로그인한 회원의 활동 내역 반환")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .responseFields(
+                                        fieldWithPath("genre").type(STRING).description("관심있는 장르"),
+                                        fieldWithPath("artistName").type(STRING).description("아티스트 이름"),
+                                        fieldWithPath("songTitle").type(STRING).description("노래 제목")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("로그인한 회원의 활동을 추적하여 반환합니다")
+    void findPlayRecordByMemberId() throws Exception {
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+
+        // given 2
+        PlayRecord playRecord = PlayRecord.builder()
+                .memberId(member.getId())
+                .artistName("NewJeans")
+                .songTitle("Hype Boy")
+                .build();
+
+        playRecordRepository.save(playRecord);
+
+        // expected
+        mockMvc.perform(get("/api/musics/play-record/{memberId}", member.getId())
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("특정 회원의 활동 내역 반환",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("음악")
+                                .summary("특정 회원의 활동 내역 반환")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )

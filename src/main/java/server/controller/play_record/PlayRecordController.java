@@ -23,13 +23,18 @@ public class PlayRecordController {
     }
 
     @GetMapping("/musics/play-record")
-    public PlayRecordResponse findFavoriteGenre(@Login final MemberSession memberSession) {
+    public PlayRecordResponse findPlayRecord(@Login final MemberSession memberSession) {
         return playRecordFindService.findPlayRecord(memberSession.id());
+    }
+
+    @GetMapping("/musics/play-record/{memberId}")
+    public PlayRecordResponse findPlayRecordByMemberId(@PathVariable final long memberId) {
+        return playRecordFindService.findPlayRecord(memberId);
     }
 
     @PostMapping("/musics/play-record")
     public ResponseEntity<Void> savePlayRecord(@Login final MemberSession memberSession,
-                               @RequestBody final PlayRecordRequest dto) {
+                                               @RequestBody final PlayRecordRequest dto) {
         playRecordSaveService.savePlayRecord(memberSession.id(), dto);
         return ResponseEntity.noContent().build();
     }
