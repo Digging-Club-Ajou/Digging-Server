@@ -253,6 +253,10 @@ class MemberControllerTest extends ControllerTest {
         // given 1
         Member member = Member.builder()
                 .username(TEST_USERNAME.value)
+                .gender(Gender.MALE)
+                .nickname(TEST_NICKNAME.value)
+                .phoneNumber("010-1234-5678")
+                .email("Test@email.com")
                 .build();
 
         memberRepository.save(member);
@@ -287,7 +291,11 @@ class MemberControllerTest extends ControllerTest {
                                 )
                                 .responseFields(
                                         fieldWithPath("memberId").type(NUMBER).description("회원 ID"),
-                                        fieldWithPath("albumId").type(NUMBER).description("앨범 ID")
+                                        fieldWithPath("albumId").type(NUMBER).description("앨범 ID"),
+                                        fieldWithPath("nickname").type(STRING).description("닉네임"),
+                                        fieldWithPath("gender").type(STRING).description("성별"),
+                                        fieldWithPath("phoneNumber").type(STRING).description("전화번호"),
+                                        fieldWithPath("email").type(STRING).description("이메일")
                                 )
                                 .build()
                         )));
@@ -364,7 +372,7 @@ class MemberControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("회원")
-                                .summary("유저 정보")
+                                .summary("회원 정보")
                                 .requestHeaders(
                                         headerWithName(ACCESS_TOKEN.value).description("AccessToken")
                                 )

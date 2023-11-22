@@ -40,6 +40,17 @@ public class MemberMapper {
                 .build();
     }
 
+    public static MemberResponse toMemberResponse(final Member member, final long albumId) {
+        return MemberResponse.builder()
+                .memberId(member.getId())
+                .albumId(albumId)
+                .nickname(member.getNickname())
+                .gender(member.getGender())
+                .phoneNumber(member.getPhoneNumber())
+                .email(member.getEmail())
+                .build();
+    }
+
     public static NicknameResponse toNicknameResponse(final String nickname) {
         return new NicknameResponse(nickname);
     }
