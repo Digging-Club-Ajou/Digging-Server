@@ -3,6 +3,7 @@ package server.service.push_alarm;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.push_alarm.PushAlarm;
+import server.mapper.push_alarm.PushAlarmResponse;
 import server.repository.push_alarm.PushAlarmRepository;
 
 import java.util.Optional;
@@ -40,5 +41,16 @@ public class PushAlarmService {
 
             pushAlarmRepository.save(pushAlarm);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public PushAlarmResponse getPushAlarmInfo(final long memberId) {
+        Optional<PushAlarm> optionalPushAlarm = pushAlarmRepository.findByMemberId(memberId);
+        if (optionalPushAlarm.isPresent()) {
+            PushAlarm pushAlarm = optionalPushAlarm.get();
+            Boolean pushAlarmInfo = pushAlarm.getPushAlarm();
+            return new PushAlarmResponse(pushAlarmInfo);
+        }
+        return new PushAlarmResponse(false);
     }
 }
