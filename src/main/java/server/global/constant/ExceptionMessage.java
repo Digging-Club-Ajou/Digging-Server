@@ -42,8 +42,8 @@ public enum ExceptionMessage {
 
     METHOD_ARGUMENT_TYPE_MISMATCH("서버에 전달한 인자와 타입이 맞지 않습니다"),
     SERVLET_REQUEST_BINDING("파라미터나 HTTP 바디 데이터를 바인딩 할 수 없습니다"),
-    METHOD_NOT_ALLOWED("HTTP 메소드가 올바르지 않습니다");
-
+    METHOD_NOT_ALLOWED("HTTP 메소드가 올바르지 않습니다"),
+    NOT_ENOUGH_PLAY_RECORD("활동이 충분하지 않아 활동 내역을 추적할 수 없습니다");
 
     public final String message;
 

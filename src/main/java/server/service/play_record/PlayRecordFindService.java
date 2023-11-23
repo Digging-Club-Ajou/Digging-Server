@@ -49,6 +49,7 @@ public class PlayRecordFindService {
         favoriteArtistNameFromRecord.ifPresent(playRecordResponse::addArtistName);
         favoriteSongTileFromRecord.ifPresent(playRecordResponse::addSongTitle);
         playRecordResponse.addGenre(favoriteGenre);
+        playRecordResponse.validate();
 
         return playRecordResponse;
     }
