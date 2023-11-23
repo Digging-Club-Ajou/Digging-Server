@@ -4,8 +4,8 @@ import lombok.Builder;
 
 @Builder
 public record FollowingResponse(
-        Long memberId,
-        Long albumId,
+        long memberId,
+        long albumId,
         String nickname,
         Boolean isFollowing,
         Boolean isFollower

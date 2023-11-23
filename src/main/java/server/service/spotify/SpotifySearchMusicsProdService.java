@@ -70,8 +70,10 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
             String imageUrl = item.path(ALBUM).path(IMAGES).get(ZERO).path(URL).asText();
             String previewUrl = item.path(PREVIEW_URL).asText();
 
-            SpotifySearchDto dto = new SpotifySearchDto(artistName, name, imageUrl, previewUrl);
-            spotifySearchDtos.add(dto);
+            if (previewUrl != null) {
+                SpotifySearchDto dto = new SpotifySearchDto(artistName, name, imageUrl, previewUrl);
+                spotifySearchDtos.add(dto);
+            }
         }
         return spotifySearchDtos;
     }
