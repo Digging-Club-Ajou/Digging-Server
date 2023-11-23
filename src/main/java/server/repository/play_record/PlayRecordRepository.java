@@ -34,7 +34,8 @@ public class PlayRecordRepository {
                 .limit(100)
                 .groupBy(playRecord.artistName)
                 .orderBy(playRecord.artistName.count().desc())
-                .fetchFirst();
+                .limit(1)
+                .fetchOne();
 
         return Optional.ofNullable(artistName);
     }
@@ -47,7 +48,8 @@ public class PlayRecordRepository {
                 .limit(100)
                 .groupBy(playRecord.songTitle)
                 .orderBy(playRecord.songTitle.count().desc())
-                .fetchFirst();
+                .limit(1)
+                .fetchOne();
 
         return Optional.ofNullable(songTitle);
     }

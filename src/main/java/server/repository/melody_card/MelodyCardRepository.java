@@ -51,6 +51,10 @@ public class MelodyCardRepository {
                 .fetch();
     }
 
+    public void delete(final MelodyCard melodyCard) {
+        melodyCardJpaRepository.delete(melodyCard);
+    }
+
     public void deleteById(final long melodyCardId){
         melodyCardJpaRepository.deleteById(melodyCardId);
     }

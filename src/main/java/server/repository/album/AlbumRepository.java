@@ -45,4 +45,8 @@ public class AlbumRepository {
         return albumJpaRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new BadRequestException(ALBUM_NOT_EXIST.message));
     }
+
+    public void delete(final Album album) {
+        albumJpaRepository.delete(album);
+    }
 }

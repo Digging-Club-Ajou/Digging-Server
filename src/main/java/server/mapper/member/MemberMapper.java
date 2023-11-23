@@ -54,6 +54,7 @@ public class MemberMapper {
     public static MemberResponse toMemberResponseWithoutAlbum(final Member member) {
         return MemberResponse.builder()
                 .memberId(member.getId())
+                .albumId(-1)
                 .nickname(member.getNickname())
                 .gender(member.getGender())
                 .phoneNumber(member.getPhoneNumber())
