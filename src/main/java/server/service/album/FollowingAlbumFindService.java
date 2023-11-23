@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.album.Album;
 import server.domain.following.FollowingInfo;
+import server.global.exception.BadRequestException;
 import server.mapper.album.dto.AlbumResponse;
 import server.repository.album.AlbumRepository;
 import server.repository.following.FollowingRepository;
@@ -33,10 +34,15 @@ public class FollowingAlbumFindService {
         List<AlbumResponse> albumResponses = new ArrayList<>();
 
         for (FollowingInfo followingInfo : followingInfos) {
-            long followedId = followingInfo.getFollowedId();
-            Album album = albumRepository.getByMemberId(followedId);
-            AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
-            albumResponses.add(albumResponse);
+            try {
+                long followedId = followingInfo.getFollowedId();
+                Album album = albumRepository.getByMemberId(followedId);
+                AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
+                albumResponses.add(albumResponse);
+            }catch (BadRequestException e){
+
+            }
+
         }
 
         return albumResponses;
