@@ -79,7 +79,7 @@ public class SpotifySearchMusicsProdService implements SpotifySearchMusicService
 
     // search Genre
     public String findGenre(final String favoriteArtistName) {
-        ResponseEntity<String> response = getStringResponseEntity(favoriteArtistName, 0);
+        ResponseEntity<String> response = getStringResponseEntity(favoriteArtistName, 1);
 
         JsonNode rootNode;
         try {

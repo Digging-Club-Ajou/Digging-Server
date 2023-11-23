@@ -42,8 +42,9 @@ public class PlayRecordFindService {
     }
 
     private PlayRecordResponse getPlayRecordResponse(final Optional<String> favoriteArtistNameFromRecord,
-                                       final Optional<String> favoriteSongTileFromRecord,
-                                       final String favoriteGenre) {
+                                                     final Optional<String> favoriteSongTileFromRecord,
+                                                     final String favoriteGenre) {
+
         PlayRecordResponse playRecordResponse = new PlayRecordResponse();
         favoriteArtistNameFromRecord.ifPresent(playRecordResponse::addArtistName);
         favoriteSongTileFromRecord.ifPresent(playRecordResponse::addSongTitle);
