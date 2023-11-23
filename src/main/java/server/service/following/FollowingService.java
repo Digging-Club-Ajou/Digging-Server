@@ -92,13 +92,13 @@ public class FollowingService {
 
         followerList.forEach( followInfo -> {
 
-            Long albumId;
+            long albumId;
             try {
                 Album album = albumRepository.getByMemberId(followInfo.getFollowingId());
                 albumId = album.getId();
 
             }catch (BadRequestException e){
-                albumId = null;
+                albumId = 0;
             }
 
             Boolean isFollowing = !followingListByMemberSession.stream().filter( info -> info.getFollowedId().equals(followInfo.getFollowingId())).collect(Collectors.toList()).isEmpty();
@@ -118,13 +118,13 @@ public class FollowingService {
 
         followingList.forEach( followInfo -> {
 
-            Long albumId;
+            long albumId;
             try {
                 Album album = albumRepository.getByMemberId(followInfo.getFollowedId());
                 albumId = album.getId();
 
             }catch (BadRequestException e){
-                albumId =null;
+                albumId = 0;
             }
 
             Boolean isFollowing = !followingListByMemberSession.stream().filter(info -> info.getFollowedId().equals(followInfo.getFollowedId())).collect(Collectors.toList()).isEmpty();
@@ -157,13 +157,13 @@ public class FollowingService {
 
         followerList.forEach( followInfo -> {
 
-                    Long albumId;
+                    long albumId;
                     try {
                         Album album = albumRepository.getByMemberId(followInfo.getFollowingId());
                         albumId = album.getId();
 
                     }catch (BadRequestException e){
-                        albumId = null;
+                        albumId = 0;
                     }
 
                     Boolean isFollowing = !followingList.stream().filter(info -> info.getFollowedId().equals(followInfo.getFollowingId())).collect(Collectors.toList()).isEmpty();
@@ -182,13 +182,13 @@ public class FollowingService {
 
         followingList.forEach( followInfo -> {
 
-            Long albumId;
+            long albumId;
             try {
                 Album album = albumRepository.getByMemberId(followInfo.getFollowedId());
                 albumId = album.getId();
 
             }catch (BadRequestException e){
-                albumId =null;
+                albumId = 0;
             }
 
             Boolean isFollower = !followerList.stream().filter(info -> info.getFollowingId().equals(followInfo.getFollowedId())).collect(Collectors.toList()).isEmpty();

@@ -1,4 +1,4 @@
-package server.mapper.memeber_search.dto;
+package server.mapper.member_search.dto;
 
 import lombok.Builder;
 
