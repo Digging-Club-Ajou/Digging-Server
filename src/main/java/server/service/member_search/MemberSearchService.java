@@ -1,6 +1,7 @@
 package server.service.member_search;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import server.domain.album.Album;
 import server.domain.member.persist.Member;
 import server.global.exception.BadRequestException;
@@ -29,6 +30,7 @@ public class MemberSearchService {
         this.albumRepository = albumRepository;
     }
 
+    @Transactional(readOnly = true)
     public MemberSearchResponses getMemberSearchList(final String keyword){
         List<Member> members = getMembers(keyword);
         List<MemberSearchResponse> memberSearchResponses = new ArrayList<>();
