@@ -41,7 +41,8 @@ public class MemberSearchService {
                 MemberSearchResponse memberSearchResponse = MemberSearchResponse.builder().nickname(member.getNickname()).albumId(album.getId()).build();
                 memberSearchResponses.add(memberSearchResponse);
             }catch (BadRequestException e){
-
+                MemberSearchResponse memberSearchResponse = MemberSearchResponse.builder().nickname(member.getNickname()).albumId(0).build();
+                memberSearchResponses.add(memberSearchResponse);
             }
 
         }
