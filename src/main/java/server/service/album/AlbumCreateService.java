@@ -3,7 +3,6 @@ package server.service.album;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import jakarta.validation.constraints.Null;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import server.domain.album.Album;
@@ -23,14 +22,14 @@ public class AlbumCreateService {
 
     private final AmazonS3Client amazonS3Client;
     private final AlbumValidationService albumValidationService;
-    private final AlbumInfoCreateService albumInfoCreateService;
+    private final AlbumInfoService albumInfoService;
 
     public AlbumCreateService(final AmazonS3Client amazonS3Client,
                               final AlbumValidationService albumValidationService,
-                              final AlbumInfoCreateService albumInfoCreateService) {
+                              final AlbumInfoService albumInfoService) {
         this.amazonS3Client = amazonS3Client;
         this.albumValidationService = albumValidationService;
-        this.albumInfoCreateService = albumInfoCreateService;
+        this.albumInfoService = albumInfoService;
     }
 
     public void createAlbum(final MemberSession memberSession, final AlbumNameRequest dto,
@@ -39,8 +38,7 @@ public class AlbumCreateService {
         dto.validateRegex();
         String albumName = dto.albumName();
         validateExist(memberSession.id());
-        Album album = albumInfoCreateService.createProfileInfo(memberSession, albumName);
-
+        Album album = albumInfoService.createProfileInfo(memberSession.id(), albumName);
 
         ObjectMetadata objectMetadata = getObjectMetadata(albumImage);
 
@@ -62,7 +60,7 @@ public class AlbumCreateService {
     public void updateAlbum(final MemberSession memberSession, final AlbumNameRequest dto,
                             final MultipartFile albumImage) {
 
-        Album album = albumInfoCreateService.updateProfileInfo(memberSession,dto.albumName());
+        Album album = albumInfoService.updateProfileInfo(memberSession.id(), dto.albumName());
 
         if(albumImage.getSize() != 0){
             ObjectMetadata objectMetadata = getObjectMetadata(albumImage);

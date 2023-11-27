@@ -49,4 +49,8 @@ public class AlbumRepository {
     public void delete(final Album album) {
         albumJpaRepository.delete(album);
     }
+
+    public long count() {
+        return albumJpaRepository.count();
+    }
 }
