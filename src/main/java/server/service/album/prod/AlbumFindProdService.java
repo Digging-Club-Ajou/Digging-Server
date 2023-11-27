@@ -16,6 +16,7 @@ import server.service.melody_card.MelodyCardFindService;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static server.global.constant.ExceptionMessage.ALBUM_NOT_FOUND_EXCEPTION;
 import static server.global.constant.TextConstant.ALBUM_IMAGE;
@@ -40,6 +41,11 @@ public class AlbumFindProdService implements AlbumFindService {
         this.albumValidationService = albumValidationService;
         this.albumRepository = albumRepository;
         this.melodyCardFindService = melodyCardFindService;
+    }
+
+    @Override
+    public Optional<Album> findByMemberId(final long memberId) {
+        return albumRepository.findByMemberId(memberId);
     }
 
     public AlbumResponse getAlbumResponse(final long albumId) {

@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public class FollowingRepository {
 
-    private FollowingJpaRepository followingJpaRepository;
+    private final FollowingJpaRepository followingJpaRepository;
 
     public FollowingRepository(final FollowingJpaRepository followingJpaRepository){
         this.followingJpaRepository = followingJpaRepository;

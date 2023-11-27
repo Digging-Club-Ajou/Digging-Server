@@ -1,8 +1,5 @@
 package server.service.album.test;
 
-import com.amazonaws.HttpMethod;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import server.domain.album.Album;
@@ -15,7 +12,7 @@ import server.service.album.AlbumValidationService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.Optional;
 
 import static server.global.constant.ExceptionMessage.ALBUM_NOT_FOUND_EXCEPTION;
 import static server.global.constant.TestConstant.TEST_URL;
@@ -32,6 +29,11 @@ public class AlbumFindTestService implements AlbumFindService {
                                 final AlbumRepository albumRepository) {
         this.albumValidationService = albumValidationService;
         this.albumRepository = albumRepository;
+    }
+
+    @Override
+    public Optional<Album> findByMemberId(final long memberId) {
+        return albumRepository.findByMemberId(memberId);
     }
 
     @Override

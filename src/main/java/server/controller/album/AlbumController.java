@@ -3,13 +3,13 @@ package server.controller.album;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.global.exception.dto.ResultResponse;
 import server.mapper.album.AlbumMapper;
 import server.mapper.album.dto.*;
 import server.service.album.*;
+import server.service.following.FollowingAlbumFindService;
 
 import java.util.List;
 
