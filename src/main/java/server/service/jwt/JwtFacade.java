@@ -1,6 +1,7 @@
 package server.service.jwt;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.jwt.JwtRefreshToken;
@@ -10,6 +11,7 @@ import server.repository.jwt.JwtRefreshTokenRepository;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class JwtFacade {
 
@@ -29,6 +31,7 @@ public class JwtFacade {
     }
 
     public String createRefreshToken(final long memberId, final long expired) {
+        log.info("RefreshToken 발급={}", memberId);
         return jwtCreateTokenService.createRefreshToken(memberId, expired);
     }
 

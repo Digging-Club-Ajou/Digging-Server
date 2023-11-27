@@ -8,6 +8,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import server.domain.jwt.JwtRefreshToken;
 import server.domain.member.persist.Member;
@@ -25,6 +26,7 @@ import static server.global.constant.JwtKey.JWT_KEY;
 import static server.global.constant.TextConstant.*;
 import static server.global.constant.TimeConstant.ONE_HOUR;
 
+@Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
 
     private static final byte[] decodedKey = Base64.getDecoder().decode(JWT_KEY);
@@ -93,6 +95,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             Jws<Claims> claims = getClaims(refreshToken);
             String memberId = claims.getBody().getSubject();
             JwtRefreshToken jwtRefreshToken = jwtRefreshTokenRepository.getByMemberId(Long.parseLong(memberId));
+
             if (refreshToken.equals(jwtRefreshToken.getRefreshToken())) {
                 Member member = memberRepository.getById(Long.parseLong(memberId));
                 MemberSession memberSession = MemberMapper.toMemberSession(member);
@@ -100,6 +103,9 @@ public class LoginInterceptor implements HandlerInterceptor {
                 response.setHeader(ACCESS_TOKEN.value, accessToken);
                 return memberSession;
             }
+
+            log.info("Client RefreshToken={}", refreshToken);
+            log.info("DB RefreshToken={}", jwtRefreshToken.getRefreshToken());
 
             throw new UnAuthorizedException(REFRESH_TOKEN_NOT_MATCH.message);
         } catch (JwtException e) {
