@@ -38,10 +38,10 @@ public class MemberSearchService {
         members.forEach(member -> {
             try {
                 Album album = albumRepository.getByMemberId(member.getId());
-                MemberSearchResponse memberSearchResponse = MemberSearchResponse.builder().nickname(member.getNickname()).albumId(album.getId()).build();
+                MemberSearchResponse memberSearchResponse = MemberSearchResponse.builder().nickname(member.getNickname()).memberId(member.getId()).albumId(album.getId()).build();
                 memberSearchResponses.add(memberSearchResponse);
             }catch (BadRequestException e){
-                MemberSearchResponse memberSearchResponse = MemberSearchResponse.builder().nickname(member.getNickname()).albumId(0).build();
+                MemberSearchResponse memberSearchResponse = MemberSearchResponse.builder().nickname(member.getNickname()).memberId(member.getId()).albumId(0).build();
                 memberSearchResponses.add(memberSearchResponse);
             }
 
