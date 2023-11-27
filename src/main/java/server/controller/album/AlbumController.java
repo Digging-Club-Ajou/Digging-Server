@@ -77,8 +77,8 @@ public class AlbumController {
 
     // todo ML 로직 확정되면 변경 (임시 코드)
     @GetMapping("/albums/recommendation-ai")
-    public AlbumResponses getRecommendationAlbumResponses() {
-        List<AlbumResponse> albumResponses = recommendationAlbumFindService.findAll();
+    public AlbumResponses getRecommendationAlbumResponses(@Login final MemberSession memberSession) {
+        List<AlbumResponse> albumResponses = recommendationAlbumFindService.findAll(memberSession.id());
         return new AlbumResponses(albumResponses);
     }
 
@@ -89,7 +89,6 @@ public class AlbumController {
         return new AlbumResponses(albumResponses);
     }
 
-    // todo 추천 장르 반환하기
     @GetMapping("/albums/dummy")
     public AlbumResponses getDummyAlbums() {
         List<AlbumResponse> albumResponses = genreAlbumFindService.findAll();
