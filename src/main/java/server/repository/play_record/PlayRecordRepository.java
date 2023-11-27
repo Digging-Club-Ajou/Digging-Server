@@ -3,11 +3,9 @@ package server.repository.play_record;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 import server.domain.play_record.PlayRecord;
-import server.domain.play_record.QPlayRecord;
 
 import java.util.Optional;
 
-import static server.domain.music_recommentdation.QMusicRecommendation.musicRecommendation;
 import static server.domain.play_record.QPlayRecord.playRecord;
 
 @Repository
@@ -26,7 +24,7 @@ public class PlayRecordRepository {
         playRecordJpaRepository.save(playRecord);
     }
 
-    public Optional<String> findFavoriteArtistName(final long memberId) {
+    public Optional<String> findMostPlayedArtistName(final long memberId) {
         String artistName = queryFactory.select(playRecord.artistName)
                 .from(playRecord)
                 .where(playRecord.memberId.eq(memberId))

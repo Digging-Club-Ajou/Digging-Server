@@ -1,7 +1,6 @@
 package server.mapper.play_record.dto;
 
 import lombok.Getter;
-import server.global.constant.ExceptionMessage;
 import server.global.exception.BadRequestException;
 
 import static server.global.constant.ExceptionMessage.NOT_ENOUGH_PLAY_RECORD;
@@ -10,11 +9,16 @@ import static server.global.constant.ExceptionMessage.NOT_ENOUGH_PLAY_RECORD;
 public class PlayRecordResponse {
 
     private String genre;
-    private String artistName;
+    private String mostPlayedArtistName;
+    private String favoriteArtistName;
     private String songTitle;
 
-    public void addArtistName(final String artistName) {
-        this.artistName = artistName;
+    public void addMostPlayedArtistName(final String mostPlayedArtistName) {
+        this.mostPlayedArtistName = mostPlayedArtistName;
+    }
+
+    public void addFavoriteArtistName(final String favoriteArtistName) {
+        this.favoriteArtistName = favoriteArtistName;
     }
 
     public void addSongTitle(final String songTitle) {
@@ -26,7 +30,7 @@ public class PlayRecordResponse {
     }
 
     public void validate() {
-        if (genre == null || artistName == null || songTitle == null) {
+        if (genre == null || mostPlayedArtistName == null || favoriteArtistName == null || songTitle == null) {
             throw new BadRequestException(NOT_ENOUGH_PLAY_RECORD.message);
         }
     }

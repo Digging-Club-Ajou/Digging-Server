@@ -3,6 +3,8 @@ package server.controller.play_record;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import server.domain.card_favorite.CardFavorite;
+import server.domain.melody_card.MelodyCard;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
 import server.domain.play_record.PlayRecord;
@@ -80,6 +82,22 @@ class PlayRecordControllerTest extends ControllerTest {
 
         playRecordRepository.save(playRecord);
 
+        // given 3
+        MelodyCard melodyCard = MelodyCard.builder()
+                .memberId(member.getId())
+                .artistName("NewJeans")
+                .build();
+
+        melodyCardRepository.save(melodyCard);
+
+        // given 4
+        CardFavorite cardFavorite = CardFavorite.builder()
+                .memberId(member.getId())
+                .melodyCardId(melodyCard.getId())
+                .build();
+
+        cardFavoriteRepository.save(cardFavorite);
+
         // expected
         mockMvc.perform(get("/api/musics/play-record")
                         .header(ACCESS_TOKEN.value, accessToken)
@@ -95,7 +113,10 @@ class PlayRecordControllerTest extends ControllerTest {
                                 )
                                 .responseFields(
                                         fieldWithPath("genre").type(STRING).description("관심있는 장르"),
-                                        fieldWithPath("artistName").type(STRING).description("아티스트 이름"),
+                                        fieldWithPath("mostPlayedArtistName").type(STRING)
+                                                .description("가장 많이 재생한 아티스트"),
+                                        fieldWithPath("favoriteArtistName").type(STRING)
+                                                .description("가장 좋아하는 아티스트"),
                                         fieldWithPath("songTitle").type(STRING).description("노래 제목")
                                 )
                                 .build()
@@ -103,7 +124,7 @@ class PlayRecordControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("로그인한 회원의 활동을 추적하여 반환합니다")
+    @DisplayName("특정 회원의 활동을 추적하여 반환합니다")
     void findPlayRecordByMemberId() throws Exception {
         Member member = Member.builder()
                 .username(TEST_USERNAME.value)
@@ -127,6 +148,22 @@ class PlayRecordControllerTest extends ControllerTest {
 
         playRecordRepository.save(playRecord);
 
+        // given 3
+        MelodyCard melodyCard = MelodyCard.builder()
+                .memberId(member.getId())
+                .artistName("NewJeans")
+                .build();
+
+        melodyCardRepository.save(melodyCard);
+
+        // given 4
+        CardFavorite cardFavorite = CardFavorite.builder()
+                .memberId(member.getId())
+                .melodyCardId(melodyCard.getId())
+                .build();
+
+        cardFavoriteRepository.save(cardFavorite);
+
         // expected
         mockMvc.perform(get("/api/musics/play-record/{memberId}", member.getId())
                         .header(ACCESS_TOKEN.value, accessToken)
@@ -142,7 +179,10 @@ class PlayRecordControllerTest extends ControllerTest {
                                 )
                                 .responseFields(
                                         fieldWithPath("genre").type(STRING).description("관심있는 장르"),
-                                        fieldWithPath("artistName").type(STRING).description("아티스트 이름"),
+                                        fieldWithPath("mostPlayedArtistName").type(STRING)
+                                                .description("가장 많이 재생한 아티스트"),
+                                        fieldWithPath("favoriteArtistName").type(STRING)
+                                                .description("가장 좋아하는 아티스트"),
                                         fieldWithPath("songTitle").type(STRING).description("노래 제목")
                                 )
                                 .build()
