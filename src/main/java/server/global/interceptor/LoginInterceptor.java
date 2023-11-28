@@ -104,8 +104,8 @@ public class LoginInterceptor implements HandlerInterceptor {
                 return memberSession;
             }
 
-            log.info("Client RefreshToken={}", refreshToken);
-            log.info("DB RefreshToken={}", jwtRefreshToken.getRefreshToken());
+            log.info("Client memberId={}, RefreshToken={}", memberId, refreshToken);
+            log.info("DB memberId={}, RefreshToken={}", memberId, jwtRefreshToken.getRefreshToken());
 
             throw new UnAuthorizedException(REFRESH_TOKEN_NOT_MATCH.message);
         } catch (JwtException e) {
