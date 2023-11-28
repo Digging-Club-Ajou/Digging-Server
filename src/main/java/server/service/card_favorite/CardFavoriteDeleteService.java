@@ -21,7 +21,7 @@ public class CardFavoriteDeleteService {
     }
 
     @Transactional
-    public void deleteFavorite(final long memberId, final Long melodyCardId) {
+    public void deleteFavorite(final long memberId, final long melodyCardId) {
         Optional<CardFavorite> cardFavorite =
                 cardFavoriteRepository.findByMemberIdAndMelodyCardId(memberId,melodyCardId);
 

@@ -19,7 +19,7 @@ public class LikeInfoFindService {
     @Transactional(readOnly = true)
     public Boolean findLikeInfo(final long memberId, final long melodyCardId) {
         Optional<CardFavorite> optionalCardFavorite =
-                cardFavoriteRepository.getByMemberIdAndMelodyCardId(memberId, melodyCardId);
+                cardFavoriteRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId);
         return optionalCardFavorite.isPresent();
     }
 }

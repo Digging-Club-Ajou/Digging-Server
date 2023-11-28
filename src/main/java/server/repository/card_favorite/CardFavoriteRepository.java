@@ -30,10 +30,6 @@ public class CardFavoriteRepository {
         return cardFavoriteJpaRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId);
     }
 
-    public Optional<CardFavorite> getByMemberIdAndMelodyCardId(final long memberId, final long melodyCardId) {
-        return cardFavoriteJpaRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId);
-    }
-
     public List<CardFavorite> findAllByMemberId(final long memberId) {
         return cardFavoriteJpaRepository.findAllByMemberIdOrderByLastModifiedAtDesc(memberId);
     }
@@ -51,7 +47,6 @@ public class CardFavoriteRepository {
 
         return Optional.ofNullable(artistName);
     }
-
 
     public void deleteByCardFavorite(CardFavorite cardFavorite){
         cardFavoriteJpaRepository.delete(cardFavorite);
