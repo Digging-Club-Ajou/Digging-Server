@@ -28,7 +28,7 @@ public record AlbumResponse(
     }
 
     public static AlbumResponse toAlbumResponseTest(final Album album, final String imageUrl,
-                                                final List<String> artistNames) {
+                                                    final List<String> artistNames) {
         return AlbumResponse.builder()
                 .memberId(album.getMemberId())
                 .albumId(album.getMemberId())

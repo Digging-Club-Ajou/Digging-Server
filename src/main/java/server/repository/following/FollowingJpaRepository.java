@@ -9,7 +9,7 @@ public interface FollowingJpaRepository extends JpaRepository<FollowingInfo, Lon
 
     List<FollowingInfo> findAllByFollowedId(final Long followedId);
 
-    List<FollowingInfo> findAllByFollowingId(final Long followingId);
+    List<FollowingInfo> findAllByFollowingIdOrderByLastModifiedAtDesc(final Long followingId);
 
     FollowingInfo findByFollowingIdAndAndFollowedId(final Long followingId, Long followedId);
 

@@ -22,15 +22,15 @@ public class FollowingRepository {
         followingJpaRepository.delete(followingInfo);
     }
 
-    public List<FollowingInfo> findAllByFollowedId(final Long followedId) {
+    public List<FollowingInfo> findAllByFollowedId(final long followedId) {
         return followingJpaRepository.findAllByFollowedId(followedId);
     }
 
-    public List<FollowingInfo> findAllByFollowingId(final Long followingId) {
-        return followingJpaRepository.findAllByFollowingId(followingId);
+    public List<FollowingInfo> findAllByFollowingId(final long followingId) {
+        return followingJpaRepository.findAllByFollowingIdOrderByLastModifiedAtDesc(followingId);
     }
 
-    public FollowingInfo findByFollowingIdAndFollowedId(final Long followingId, final Long followedId){
+    public FollowingInfo findByFollowingIdAndFollowedId(final long followingId, final long followedId){
          return followingJpaRepository.findByFollowingIdAndAndFollowedId(followingId,followedId);
     }
 
