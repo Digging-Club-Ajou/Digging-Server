@@ -8,6 +8,7 @@ import server.mapper.card_favorite.dto.CardFavoriteResponse;
 import server.mapper.card_favorite.dto.CardFavoriteResult;
 import server.mapper.card_favorite.dto.LikeInfoResponse;
 import server.service.card_favorite.CardFavoriteCreateService;
+import server.service.card_favorite.CardFavoriteDeleteService;
 import server.service.card_favorite.CardFavoriteFindService;
 import server.service.card_favorite.LikeInfoFindService;
 
@@ -19,13 +20,16 @@ public class CardFavoriteController {
 
     private final CardFavoriteCreateService cardFavoriteCreateService;
     private final CardFavoriteFindService cardFavoriteFindService;
+    private final CardFavoriteDeleteService cardFavoriteDeleteService;
     private final LikeInfoFindService likeInfoFindService;
 
     public CardFavoriteController(final CardFavoriteCreateService cardFavoriteCreateService,
                                   final CardFavoriteFindService cardFavoriteFindService,
+                                  final CardFavoriteDeleteService cardFavoriteDeleteService,
                                   final LikeInfoFindService likeInfoFindService) {
         this.cardFavoriteCreateService = cardFavoriteCreateService;
         this.cardFavoriteFindService = cardFavoriteFindService;
+        this.cardFavoriteDeleteService = cardFavoriteDeleteService;
         this.likeInfoFindService = likeInfoFindService;
     }
 
@@ -61,7 +65,7 @@ public class CardFavoriteController {
     @DeleteMapping("/card-favorites/likes/{melodyCardId}")
     public ResponseEntity<Void> deleteByMelodyCardIdAndMemberId(@Login final MemberSession memberSession,
                                                                 @PathVariable final long melodyCardId) {
-        cardFavoriteCreateService.deleteFavorite(memberSession,melodyCardId);
+        cardFavoriteDeleteService.deleteFavorite(memberSession.id(), melodyCardId);
         return ResponseEntity.noContent().build();
     }
 }

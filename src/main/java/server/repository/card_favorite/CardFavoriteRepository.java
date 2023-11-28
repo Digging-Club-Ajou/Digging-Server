@@ -56,4 +56,8 @@ public class CardFavoriteRepository {
     public void deleteByCardFavorite(CardFavorite cardFavorite){
         cardFavoriteJpaRepository.delete(cardFavorite);
     }
+
+    public long count() {
+        return cardFavoriteJpaRepository.count();
+    }
 }
