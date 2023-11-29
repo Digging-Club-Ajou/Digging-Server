@@ -12,10 +12,14 @@ import java.util.List;
 public class RecommendationAlbumFindService {
 
     private final AlbumFindService albumFindService;
+    private final AlbumValidationService albumValidationService;
     private final AIService aiService;
 
-    public RecommendationAlbumFindService(final AlbumFindService albumFindService, final AIService aiService) {
+    public RecommendationAlbumFindService(final AlbumFindService albumFindService,
+                                          final AlbumValidationService albumValidationService,
+                                          final AIService aiService) {
         this.albumFindService = albumFindService;
+        this.albumValidationService = albumValidationService;
         this.aiService = aiService;
     }
 
@@ -45,8 +49,11 @@ public class RecommendationAlbumFindService {
         int i = 0;
 
         while(albumResponses.size() < 5) {
-            AlbumResponse albumResponse = albumFindService.getAlbumResponse(i++);
-            albumResponses.add(albumResponse);
+            if (albumValidationService.validateExistByAlbumId(i)) {
+                AlbumResponse albumResponse = albumFindService.getAlbumResponse(i);
+                albumResponses.add(albumResponse);
+            }
+            i++;
         }
 
         return albumResponses;

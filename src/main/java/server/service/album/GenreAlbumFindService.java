@@ -3,9 +3,6 @@ package server.service.album;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.mapper.album.dto.AlbumResponse;
-import server.mapper.music_recommendation.dto.AIRecommendationGenreResult;
-import server.mapper.music_recommendation.dto.AIRecommendationMelodyCard;
-import server.mapper.spotify.SpotifySearchDto;
 import server.service.ai.AIService;
 import server.service.spotify.SpotifySearchMusicService;
 
@@ -16,13 +13,16 @@ import java.util.List;
 public class GenreAlbumFindService {
 
     private final SpotifySearchMusicService spotifySearchMusicService;
+    private final AlbumValidationService albumValidationService;
     private final AlbumFindService albumFindService;
     private final AIService aiService;
 
     public GenreAlbumFindService(final SpotifySearchMusicService spotifySearchMusicService,
+                                 final AlbumValidationService albumValidationService,
                                  final AlbumFindService albumFindService,
                                  final AIService aiService) {
         this.spotifySearchMusicService = spotifySearchMusicService;
+        this.albumValidationService = albumValidationService;
         this.albumFindService = albumFindService;
         this.aiService = aiService;
     }
@@ -60,8 +60,11 @@ public class GenreAlbumFindService {
         int i = 0;
 
         while(albumResponses.size() < 5) {
-            AlbumResponse albumResponse = albumFindService.getAlbumResponse(i++);
-            albumResponses.add(albumResponse);
+            if (albumValidationService.validateExistByAlbumId(i)) {
+                AlbumResponse albumResponse = albumFindService.getAlbumResponse(i);
+                albumResponses.add(albumResponse);
+            }
+            i++;
         }
 
         return albumResponses;
