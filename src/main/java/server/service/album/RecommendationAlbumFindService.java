@@ -2,14 +2,11 @@ package server.service.album;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import server.domain.album.Album;
 import server.mapper.album.dto.AlbumResponse;
-import server.mapper.music_recommendation.dto.AIRecommendationResult;
 import server.service.ai.AIService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RecommendationAlbumFindService {
@@ -25,7 +22,7 @@ public class RecommendationAlbumFindService {
     // todo ML 로직 확정되면 변경 (임시 코드)
 //    @Transactional(readOnly = true)
 //    public List<AlbumResponse> findAll(final long memberId) {
-//        AIRecommendationResult aiRecommendationResult = aiService.findIds(memberId);
+//        AIRecommendationIdResult aiRecommendationResult = aiService.findIds(memberId);
 //        List<Long> memberIds = aiRecommendationResult.memberIds();
 //        List<AlbumResponse> albumResponses = new ArrayList<>();
 //
@@ -45,9 +42,10 @@ public class RecommendationAlbumFindService {
     @Transactional(readOnly = true)
     public List<AlbumResponse> findAll(final long memberId) {
         List<AlbumResponse> albumResponses = new ArrayList<>();
+        int i = 0;
 
-        for (int i = 1; i < 4; i++) {
-            AlbumResponse albumResponse = albumFindService.getAlbumResponse(i);
+        while(albumResponses.size() < 5) {
+            AlbumResponse albumResponse = albumFindService.getAlbumResponse(i++);
             albumResponses.add(albumResponse);
         }
 

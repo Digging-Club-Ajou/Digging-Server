@@ -7,7 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import server.domain.genre.Genre;
 import server.domain.member.persist.Member;
-import server.mapper.music_recommendation.dto.AIRecommendationResult;
+import server.mapper.music_recommendation.dto.AIRecommendationGenreResult;
+import server.mapper.music_recommendation.dto.AIRecommendationIdResult;
 import server.mapper.music_recommendation.dto.AIResponse;
 import server.repository.genre.GenreRepository;
 import server.repository.member.MemberRepository;
@@ -61,11 +62,21 @@ public class AIService {
     }
 
     // todo ML 로직 확정되면 변경 (임시 코드)
-    @Cacheable(value = "recommendation-album", key = "#memberId")
-    public AIRecommendationResult findIds(final long memberId) {
+    @Cacheable(value = "recommendation-ai-album", key = "#memberId")
+    public AIRecommendationIdResult findIds(final long memberId) {
         String url = "http://helloworld.com/recommendations/{memberId}";
-        ResponseEntity<AIRecommendationResult> aiRecommendationResultResponseEntity =
-                restTemplate.getForEntity(url, AIRecommendationResult.class, memberId);
+        ResponseEntity<AIRecommendationIdResult> aiRecommendationResultResponseEntity =
+                restTemplate.getForEntity(url, AIRecommendationIdResult.class, memberId);
+
+        return aiRecommendationResultResponseEntity.getBody();
+    }
+
+    // todo ML 로직 확정되면 변경 (임시 코드)
+    @Cacheable(value = "recommendation-ai-genre", key = "#memberId")
+    public AIRecommendationGenreResult findAlbumAndMelodyCard(final long memberId) {
+        String url = "http://helloworld.com/recommendations/{memberId}";
+        ResponseEntity<AIRecommendationGenreResult> aiRecommendationResultResponseEntity =
+                restTemplate.getForEntity(url, AIRecommendationGenreResult.class, memberId);
 
         return aiRecommendationResultResponseEntity.getBody();
     }

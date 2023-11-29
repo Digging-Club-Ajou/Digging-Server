@@ -84,14 +84,8 @@ public class AlbumController {
 
     // todo 추천 장르 반환하기
     @GetMapping("/albums/recommendation-genres")
-    public AlbumResponses getGenresAlbumResponses() {
-        List<AlbumResponse> albumResponses = genreAlbumFindService.findAll();
-        return new AlbumResponses(albumResponses);
-    }
-
-    @GetMapping("/albums/dummy")
-    public AlbumResponses getDummyAlbums() {
-        List<AlbumResponse> albumResponses = genreAlbumFindService.findAll();
+    public AlbumResponses getGenresAlbumResponses(@Login final MemberSession memberSession) {
+        List<AlbumResponse> albumResponses = genreAlbumFindService.findAll(memberSession.id());
         return new AlbumResponses(albumResponses);
     }
 
