@@ -31,6 +31,10 @@ public class MelodyCardRepository {
         return melodyCardJpaRepository.save(melodyCard);
     }
 
+    public Optional<MelodyCard> findById(final long melodyCardId) {
+        return melodyCardJpaRepository.findById(melodyCardId);
+    }
+
     public MelodyCard getById(final long melodyCardId) {
         return melodyCardJpaRepository.findById(melodyCardId)
                 .orElseThrow(() -> new NotFoundException(MELODY_CARD_NOT_FOUND.message));
