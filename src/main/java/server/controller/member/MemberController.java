@@ -1,5 +1,6 @@
 package server.controller.member;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,8 +78,9 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@Login final MemberSession memberSession) {
-        jwtFacade.deleteJwtRefreshToken(memberSession.id());
+    public ResponseEntity<Void> logout(@Login final MemberSession memberSession,
+                                       final HttpServletResponse response) {
+        jwtFacade.deleteJwtRefreshToken(memberSession.id(), response);
         return ResponseEntity.noContent().build();
     }
 

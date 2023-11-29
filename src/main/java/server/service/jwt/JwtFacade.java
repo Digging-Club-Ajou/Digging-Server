@@ -11,6 +11,8 @@ import server.repository.jwt.JwtRefreshTokenRepository;
 
 import java.util.Optional;
 
+import static server.global.constant.TextConstant.ACCESS_TOKEN;
+
 @Slf4j
 @Service
 public class JwtFacade {
@@ -54,11 +56,13 @@ public class JwtFacade {
     }
 
     @Transactional
-    public void deleteJwtRefreshToken(final long memberId) {
+    public void deleteJwtRefreshToken(final long memberId, final HttpServletResponse response) {
         Optional<JwtRefreshToken> optionalJwtRefreshToken = jwtRefreshTokenRepository.findByMemberId(memberId);
         if (optionalJwtRefreshToken.isPresent()) {
             JwtRefreshToken jwtRefreshToken = optionalJwtRefreshToken.get();
             jwtRefreshTokenRepository.delete(jwtRefreshToken);
         }
+
+        response.setHeader(ACCESS_TOKEN.value, null);
     }
 }
