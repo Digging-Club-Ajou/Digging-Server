@@ -48,7 +48,7 @@ public class CardFavoriteRepository {
         return Optional.ofNullable(artistName);
     }
 
-    public void deleteByCardFavorite(CardFavorite cardFavorite){
+    public void delete(CardFavorite cardFavorite){
         cardFavoriteJpaRepository.delete(cardFavorite);
     }
 
