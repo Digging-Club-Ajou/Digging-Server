@@ -103,10 +103,10 @@ public class AlbumController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/albums/update")
+    @PatchMapping("/albums")
     public ResponseEntity<Void> updateAlbum(@Login final MemberSession memberSession,
-                            @RequestPart final AlbumNameRequest albumNameRequest,
-                            @RequestPart final MultipartFile albumImage){
+                                            @RequestPart final AlbumNameRequest albumNameRequest,
+                                            @RequestPart final MultipartFile albumImage) {
         albumCreateService.updateAlbum(memberSession, albumNameRequest, albumImage);
         return ResponseEntity.noContent().build();
     }
