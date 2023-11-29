@@ -47,13 +47,15 @@ public class RecommendationAlbumFindService {
     public List<AlbumResponse> findAll(final long memberId) {
         List<AlbumResponse> albumResponses = new ArrayList<>();
         int i = 0;
+        int j = 0;
 
-        while(albumResponses.size() < 5) {
+        while(albumResponses.size() < 5 && j < 100) {
             if (albumValidationService.validateExistByAlbumId(i)) {
                 AlbumResponse albumResponse = albumFindService.getAlbumResponse(i);
                 albumResponses.add(albumResponse);
             }
             i++;
+            j++;
         }
 
         return albumResponses;

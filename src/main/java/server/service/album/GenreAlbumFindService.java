@@ -54,17 +54,20 @@ public class GenreAlbumFindService {
 //        return albumResponses;
 //    }
 
+    // todo 장르 확정되면 변경 (임시 코드)
     @Transactional(readOnly = true)
     public List<AlbumResponse> findAll(final long memberId) {
         List<AlbumResponse> albumResponses = new ArrayList<>();
         int i = 0;
+        int j = 0;
 
-        while(albumResponses.size() < 5) {
+        while(albumResponses.size() < 5 && j < 100) {
             if (albumValidationService.validateExistByAlbumId(i)) {
                 AlbumResponse albumResponse = albumFindService.getAlbumResponse(i);
                 albumResponses.add(albumResponse);
             }
             i++;
+            j++;
         }
 
         return albumResponses;
