@@ -18,13 +18,16 @@ import server.mapper.member.MemberMapper;
 import server.repository.jwt.JwtRefreshTokenRepository;
 import server.repository.member.MemberRepository;
 import server.service.jwt.JwtCreateTokenService;
+import server.service.jwt.JwtFacade;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 
 import static server.global.constant.ExceptionMessage.*;
 import static server.global.constant.JwtKey.JWT_KEY;
 import static server.global.constant.TextConstant.*;
-import static server.global.constant.TimeConstant.ONE_HOUR;
+import static server.global.constant.TimeConstant.*;
 
 @Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
@@ -34,16 +37,16 @@ public class LoginInterceptor implements HandlerInterceptor {
     private final ObjectMapper objectMapper;
     private final MemberRepository memberRepository;
     private final JwtRefreshTokenRepository jwtRefreshTokenRepository;
-    private final JwtCreateTokenService jwtCreateTokenService;
+    private final JwtFacade jwtFacade;
 
     public LoginInterceptor(final ObjectMapper objectMapper,
                             final MemberRepository memberRepository,
                             final JwtRefreshTokenRepository jwtRefreshTokenRepository,
-                            final JwtCreateTokenService jwtCreateTokenService) {
+                            final JwtFacade jwtFacade) {
         this.objectMapper = objectMapper;
         this.memberRepository = memberRepository;
         this.jwtRefreshTokenRepository = jwtRefreshTokenRepository;
-        this.jwtCreateTokenService = jwtCreateTokenService;
+        this.jwtFacade = jwtFacade;
     }
 
     @Override
@@ -94,13 +97,27 @@ public class LoginInterceptor implements HandlerInterceptor {
         try {
             Jws<Claims> claims = getClaims(refreshToken);
             String memberId = claims.getBody().getSubject();
-            JwtRefreshToken jwtRefreshToken = jwtRefreshTokenRepository.getByMemberId(Long.parseLong(memberId));
 
-            if (refreshToken.equals(jwtRefreshToken.getRefreshToken())) {
+            JwtRefreshToken jwtRefreshToken = jwtRefreshTokenRepository.getByMemberId(Long.parseLong(memberId));
+            Jws<Claims> expectedClaims = getClaims(jwtRefreshToken.getRefreshToken());
+            String expectedMemberId = expectedClaims.getBody().getSubject();
+
+            if (memberId.equals(expectedMemberId)) {
                 Member member = memberRepository.getById(Long.parseLong(memberId));
                 MemberSession memberSession = MemberMapper.toMemberSession(member);
-                String accessToken = jwtCreateTokenService.createAccessToken(memberSession, ONE_HOUR.value);
+                String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
                 response.setHeader(ACCESS_TOKEN.value, accessToken);
+
+                LocalDateTime lastModifiedAt = jwtRefreshToken.getLastModifiedAt();
+                long daysDifference = ChronoUnit.DAYS.between(lastModifiedAt, LocalDateTime.now());
+
+                if (daysDifference >= ONE_DAY.value) {
+                    String updateRefreshToken =
+                            jwtFacade.createRefreshToken(Long.parseLong(memberId), ONE_MONTH.value);
+                    jwtFacade.saveJwtRefreshToken(Long.parseLong(memberId), updateRefreshToken);
+                    response.setHeader(REFRESH_TOKEN.value, updateRefreshToken);
+                }
+
                 return memberSession;
             }
 

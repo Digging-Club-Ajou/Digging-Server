@@ -10,6 +10,7 @@ import server.global.interceptor.LoginInterceptor;
 import server.repository.jwt.JwtRefreshTokenRepository;
 import server.repository.member.MemberRepository;
 import server.service.jwt.JwtCreateTokenService;
+import server.service.jwt.JwtFacade;
 
 import java.util.List;
 
@@ -19,22 +20,23 @@ public class InterceptorWebConfig implements WebMvcConfigurer {
     private final ObjectMapper objectMapper;
     private final MemberRepository memberRepository;
     private final JwtRefreshTokenRepository jwtRefreshTokenRepository;
-    private final JwtCreateTokenService jwtCreateTokenService;
+    private final JwtFacade jwtFacade;
 
-    public InterceptorWebConfig(final ObjectMapper objectMapper, final MemberRepository memberRepository,
+    public InterceptorWebConfig(final ObjectMapper objectMapper,
+                                final MemberRepository memberRepository,
                                 final JwtRefreshTokenRepository jwtRefreshTokenRepository,
-                                final JwtCreateTokenService jwtCreateTokenService) {
+                                final JwtFacade jwtFacade) {
         this.objectMapper = objectMapper;
         this.memberRepository = memberRepository;
         this.jwtRefreshTokenRepository = jwtRefreshTokenRepository;
-        this.jwtCreateTokenService = jwtCreateTokenService;
+        this.jwtFacade = jwtFacade;
     }
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor(
                         objectMapper, memberRepository,
-                        jwtRefreshTokenRepository, jwtCreateTokenService
+                        jwtRefreshTokenRepository, jwtFacade
                 ))
                 .order(1)
                 .addPathPatterns("/api/**")
