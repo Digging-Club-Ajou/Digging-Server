@@ -12,6 +12,7 @@ import server.repository.jwt.JwtRefreshTokenRepository;
 import java.util.Optional;
 
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
+import static server.global.constant.TextConstant.REFRESH_TOKEN;
 
 @Slf4j
 @Service
@@ -64,5 +65,6 @@ public class JwtFacade {
         }
 
         response.setHeader(ACCESS_TOKEN.value, null);
+        response.setHeader(REFRESH_TOKEN.value, null);
     }
 }
