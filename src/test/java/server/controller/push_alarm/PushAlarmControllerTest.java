@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
 import server.mapper.push_alarm.dto.PushAlarmInfo;
+import server.mapper.push_alarm.dto.TargetToken;
 import server.util.ControllerTest;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
@@ -17,6 +18,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
@@ -99,6 +101,47 @@ class PushAlarmControllerTest extends ControllerTest {
                                 )
                                 .requestFields(
                                         fieldWithPath("pushAlarm").type(BOOLEAN).description("푸쉬 알림 여부")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("로그인한 회원의 알림 받을 기기 토큰 값을 설정합니다.")
+    void updateTargetToken() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+        TargetToken targetToken = new TargetToken("target token value");
+
+        // expected
+        mockMvc.perform(post("/api/push-alarm/target-token")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(targetToken))
+                )
+                .andExpect(status().isNoContent())
+                .andDo(document("알림 받을 기기 토큰 값 저장",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("알림")
+                                .summary("알림 받을 기기 토큰 값 저장")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .requestFields(
+                                        fieldWithPath("targetToken").type(STRING).description("기기 토큰 값")
                                 )
                                 .build()
                         )));
