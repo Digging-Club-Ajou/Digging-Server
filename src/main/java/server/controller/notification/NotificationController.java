@@ -5,8 +5,10 @@ import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
 import server.global.annotation.Login;
 import server.mapper.notification.dto.NotificationResult;
+import server.mapper.notification.dto.TargetToken;
 import server.service.notification.NotificationDeleteService;
 import server.service.notification.NotificationFindService;
+import server.service.notification.NotificationTargetTokenService;
 
 @RequestMapping("/api")
 @RestController
@@ -14,16 +16,26 @@ public class NotificationController {
 
     private final NotificationFindService notificationFindService;
     private final NotificationDeleteService notificationDeleteService;
+    private final NotificationTargetTokenService notificationTargetTokenService;
 
     public NotificationController(final NotificationFindService notificationFindService,
-                                  final NotificationDeleteService notificationDeleteService) {
+                                  final NotificationDeleteService notificationDeleteService,
+                                  final NotificationTargetTokenService notificationTargetTokenService) {
         this.notificationFindService = notificationFindService;
         this.notificationDeleteService = notificationDeleteService;
+        this.notificationTargetTokenService = notificationTargetTokenService;
     }
 
     @GetMapping("/notifications")
     public NotificationResult findAllNotificationResponses(@Login final MemberSession memberSession) {
         return notificationFindService.findNotifications(memberSession.id());
+    }
+
+    @PostMapping("/notification/target-token")
+    public ResponseEntity<Void> saveNotificationTargetToken(@Login final MemberSession memberSession,
+                                                            @RequestBody final TargetToken targetToken) {
+        notificationTargetTokenService.save(memberSession.id(), targetToken.targetToken());
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/notifications/{notificationId}")
