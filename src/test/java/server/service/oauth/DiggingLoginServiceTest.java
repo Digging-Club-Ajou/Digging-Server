@@ -33,7 +33,6 @@ class DiggingLoginServiceTest extends ServiceTest {
         // given 2
         KakaoSignupRequest dto = KakaoSignupRequest.builder()
                 .email(TEST_EMAIL.value)
-                .ageRange(TEST_AGE_RANGE.value)
                 .build();
 
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -52,7 +51,6 @@ class DiggingLoginServiceTest extends ServiceTest {
         // given
         KakaoSignupRequest dto = KakaoSignupRequest.builder()
                 .email(TEST_EMAIL.value)
-                .ageRange(TEST_AGE_RANGE.value)
                 .build();
 
         MockHttpServletResponse response = new MockHttpServletResponse();

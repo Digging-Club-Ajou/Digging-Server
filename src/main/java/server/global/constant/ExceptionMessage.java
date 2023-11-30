@@ -23,6 +23,7 @@ public enum ExceptionMessage {
     COOKIE_NOT_EXIST("쿠키가 존재하지 않습니다"),
     MEMBER_SESSION_JSON_PARSING("세션 정보를 Json 형태로 파싱할 수 없습니다"),
     MUSIC_JSON_PARSING("음악 정보를 Json 형태로 파싱할 수 없습니다"),
+    KAKAO_JSON_PARSING("카카오 유저 정보를 Json 형태로 파싱할 수 없습니다."),
     LOCATION_JSON_PARSING("위치 정보를 Json 형태로 파싱할 수 없습니다"),
     REFRESH_TOKEN_NOT_MATCH("Refresh Token이 일치하지 않습니다"),
     REFRESH_TOKEN_NOT_EXIST("Refresh Token을 찾을 수 없습니다"),
