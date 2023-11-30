@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
-import server.mapper.push_alarm.PushAlarmInfo;
+import server.mapper.push_alarm.dto.PushAlarmInfo;
 import server.util.ControllerTest;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;

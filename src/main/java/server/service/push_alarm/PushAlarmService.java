@@ -3,7 +3,7 @@ package server.service.push_alarm;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.domain.push_alarm.PushAlarm;
-import server.mapper.push_alarm.PushAlarmResponse;
+import server.mapper.push_alarm.dto.PushAlarmResponse;
 import server.repository.push_alarm.PushAlarmRepository;
 
 import java.util.Optional;

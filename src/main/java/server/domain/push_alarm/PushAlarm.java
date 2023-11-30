@@ -22,13 +22,20 @@ public class PushAlarm extends BaseTimeEntity {
 
     private Boolean pushAlarm;
 
+    private String targetToken;
+
     @Builder
-    private PushAlarm(final long memberId, final Boolean pushAlarm) {
+    private PushAlarm(final Long memberId, final Boolean pushAlarm, final String targetToken) {
         this.memberId = memberId;
         this.pushAlarm = pushAlarm;
+        this.targetToken = targetToken;
     }
 
     public void updatePushAlarmInfo(final Boolean pushAlarm) {
         this.pushAlarm = pushAlarm;
+    }
+
+    public void updateTargetToken(final String targetToken) {
+        this.targetToken = targetToken;
     }
 }
