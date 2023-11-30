@@ -18,8 +18,13 @@ import server.mapper.member.dto.KakaoToken;
 import server.service.member.DiggingLoginService;
 import server.service.oauth.KakaoLoginService;
 
+import static server.global.constant.ExceptionMessage.KAKAO_JSON_PARSING;
 import static server.global.constant.ExceptionMessage.MUSIC_JSON_PARSING;
 import static server.global.constant.KakaoConstant.*;
+import static server.global.constant.KakaoConstant.AUTHORIZATION;
+import static server.global.constant.KakaoConstant.BEARER;
+import static server.global.constant.SpotifyConstant.*;
+import static server.global.constant.SpotifyConstant.NAME;
 
 @Profile({"prod", "dev"})
 @Service
@@ -97,19 +102,23 @@ public class KakaoLoginProdService implements KakaoLoginService {
         );
 
         JsonNode rootNode;
+
         try {
             rootNode = objectMapper.readTree(response.getBody());
             JsonNode itemsNode = rootNode.path(KAKAO_ACCOUNT);
 
-            KakaoSignupRequest kakaoSignupRequest = KakaoSignupRequest.builder()
-                    .email(itemsNode.get(EMAIL).asText())
-                    .ageRange(itemsNode.get(AGE_RANGE).asText()).build();
+            KakaoSignupRequest kakaoSignupRequest = KakaoSignupRequest.builder().build();
+
+            if(!itemsNode.get(EMAIL).isNull()){
+                kakaoSignupRequest = KakaoSignupRequest.builder()
+                        .email(itemsNode.get(EMAIL).asText()).build();
+            }
 
             return kakaoSignupRequest;
 
 
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(MUSIC_JSON_PARSING.message);
+            throw new RuntimeException(KAKAO_JSON_PARSING.message);
         }
     }
 }
