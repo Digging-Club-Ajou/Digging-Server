@@ -4,6 +4,7 @@ import server.domain.notification.persist.NotificationInfo;
 import server.mapper.notification.dto.NotificationResponse;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 import static server.global.constant.NotificationConstant.MINUTES_UNIT;
@@ -25,8 +26,28 @@ public class NotificationInfoMapper {
         LocalDateTime createdAt = notificationInfo.getCreatedAt();
         long minutes = ChronoUnit.MINUTES.between(createdAt, now);
 
-        return new NotificationResponse(notificationInfo.getId(),
-                notificationInfo.getNotificationMessage(),
-                minutes + MINUTES_UNIT);
+        if (minutes < 60 * 24) {
+            long hours = ChronoUnit.HOURS.between(createdAt, now);
+            if (hours > 0) {
+                return new NotificationResponse(notificationInfo.getId(),
+                        notificationInfo.getNotificationMessage(),
+                        hours + "시간");
+            } else {
+                return new NotificationResponse(notificationInfo.getId(),
+                        notificationInfo.getNotificationMessage(),
+                        minutes + "분");
+            }
+        } else if (minutes < 60 * 24 * 7) {
+            long days = ChronoUnit.DAYS.between(createdAt, now);
+            return new NotificationResponse(notificationInfo.getId(),
+                    notificationInfo.getNotificationMessage(),
+                    days + "일");
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return new NotificationResponse(notificationInfo.getId(),
+                    notificationInfo.getNotificationMessage(),
+                    createdAt.format(formatter));
+        }
     }
+
 }
