@@ -6,6 +6,7 @@ import server.domain.album.Album;
 import server.domain.following.FollowingInfo;
 import server.domain.member.persist.Member;
 import server.domain.member.vo.MemberSession;
+import server.global.constant.ExceptionMessage;
 import server.global.exception.BadRequestException;
 import server.mapper.following.dto.FollowingDto;
 import server.mapper.following.dto.FollowingInfoDto;
@@ -21,8 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static server.global.constant.ExceptionMessage.FOLLOWING_ALREADY_EXISTS;
-import static server.global.constant.ExceptionMessage.FOLLOWING_NOT_FOUND;
+import static server.global.constant.ExceptionMessage.*;
 import static server.global.constant.NotificationConstant.FOLLOWING_NOTIFICATION;
 
 @Service
@@ -46,6 +46,9 @@ public class FollowingService {
 
     @Transactional
     public void saveFollowing(Long memberId, FollowingDto followingDto){
+        if (memberId.equals(followingDto.memberId())) {
+            throw new BadRequestException(FOLLOWING_SELF_EXCEPTION.message);
+        }
 
         FollowingInfo following = followingRepository.findByFollowingIdAndFollowedId(memberId,followingDto.memberId());
 
@@ -56,10 +59,6 @@ public class FollowingService {
         FollowingInfo followingInfo = FollowingInfo.builder().followedId(followingDto.memberId()).followingId(memberId).build();
         followingRepository.save(followingInfo);
         notification(memberId, followingDto);
-
-
-
-
     }
 
     private void notification(final long memberId, final FollowingDto followingDto) {

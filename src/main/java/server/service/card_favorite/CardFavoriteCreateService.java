@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import server.domain.card_favorite.CardFavorite;
 import server.domain.melody_card.MelodyCard;
 import server.domain.member.persist.Member;
+import server.global.constant.ExceptionMessage;
+import server.global.exception.BadRequestException;
 import server.mapper.card_favorite.CardFavoriteMapper;
 import server.repository.card_favorite.CardFavoriteRepository;
 import server.repository.melody_card.MelodyCardRepository;
@@ -13,6 +15,7 @@ import server.service.notification.NotificationCreateService;
 
 import java.util.Optional;
 
+import static server.global.constant.ExceptionMessage.*;
 import static server.global.constant.NotificationConstant.MELODY_CARD_LIKES_NOTIFICATION;
 
 @Service
@@ -35,6 +38,12 @@ public class CardFavoriteCreateService {
 
     @Transactional
     public void saveFavorite(final long memberId, final long melodyCardId) {
+        MelodyCard melodyCard = melodyCardRepository.getById(melodyCardId);
+
+        if (memberId == melodyCard.getMemberId()) {
+            throw new BadRequestException(CARD_FAVORITE_SELF_EXCEPTION.message);
+        }
+
         Optional<CardFavorite> optionalCardFavorite =
                 cardFavoriteRepository.findByMemberIdAndMelodyCardId(memberId, melodyCardId);
 

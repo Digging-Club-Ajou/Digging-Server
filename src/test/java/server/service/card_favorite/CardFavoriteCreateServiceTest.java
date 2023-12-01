@@ -27,7 +27,7 @@ class CardFavoriteCreateServiceTest extends ServiceTest {
         memberRepository.save(member);
 
         MelodyCard melodyCard = MelodyCard.builder()
-                .memberId(member.getId())
+                .memberId(9999L)
                 .build();
 
         melodyCardRepository.save(melodyCard);
@@ -50,7 +50,7 @@ class CardFavoriteCreateServiceTest extends ServiceTest {
         memberRepository.save(member);
 
         MelodyCard melodyCard = MelodyCard.builder()
-                .memberId(member.getId())
+                .memberId(9999L)
                 .build();
 
         melodyCardRepository.save(melodyCard);

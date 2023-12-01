@@ -43,7 +43,7 @@ public class NotificationInfoMapper {
                     notificationInfo.getNotificationMessage(),
                     days + "일");
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
             return new NotificationResponse(notificationInfo.getId(),
                     notificationInfo.getNotificationMessage(),
                     createdAt.format(formatter));

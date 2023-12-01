@@ -47,7 +47,7 @@ class CardFavoriteControllerTest extends ControllerTest {
 
         // given 3
         MelodyCard melodyCard = MelodyCard.builder()
-                .memberId(member.getId())
+                .memberId(9999L)
                 .build();
 
         melodyCardRepository.save(melodyCard);
