@@ -52,6 +52,7 @@ public class MelodyCardRepository {
         return queryFactory.select(melodyCard.artistName)
                 .from(melodyCard)
                 .where(melodyCard.albumId.eq(albumId))
+                .distinct()
                 .fetch();
     }
 
