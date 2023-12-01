@@ -47,7 +47,8 @@ public enum ExceptionMessage {
     METHOD_NOT_ALLOWED("HTTP 메소드가 올바르지 않습니다"),
     NOT_ENOUGH_PLAY_RECORD("활동이 충분하지 않아 활동 내역을 추적할 수 없습니다"),
     CARD_FAVORITE_SELF_EXCEPTION("자기 자신의 멜로디 카드는 좋아요 누를 수가 없습니다"),
-    FOLLOWING_SELF_EXCEPTION("자기 자신의 팔로잉 할 수가 없습니다");
+    FOLLOWING_SELF_EXCEPTION("자기 자신의 팔로잉 할 수가 없습니다"),
+    NOTIFICATION_NOT_FOUND_EXCEPTION("알림이 없습니다");
 
     public final String message;
 

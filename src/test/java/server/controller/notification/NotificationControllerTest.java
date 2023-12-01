@@ -16,6 +16,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static server.global.constant.TextConstant.ACCESS_TOKEN;
@@ -73,6 +74,45 @@ class NotificationControllerTest extends ControllerTest {
                                         fieldWithPath("notificationResponses[].notificationId").description("알림 메시지 id"),
                                         fieldWithPath("notificationResponses[].message").description("알림 메시지"),
                                         fieldWithPath("notificationResponses[].minutes").description("알림 시간 (분)")
+                                )
+                                .build()
+                        )));
+    }
+
+    @Test
+    @DisplayName("알림 목록이 존재하지 않으면 예외가 발생합니다")
+    void getNotificationsException() throws Exception {
+        // given 1
+        Member member = Member.builder()
+                .username(TEST_USERNAME.value)
+                .build();
+
+        memberRepository.save(member);
+
+        // given 2
+        MemberSession memberSession = MemberSession.builder()
+                .id(member.getId())
+                .username(TEST_USERNAME.value)
+                .build();
+
+        String accessToken = jwtFacade.createAccessToken(memberSession, ONE_HOUR.value);
+
+        // expected
+        mockMvc.perform(get("/api/notifications")
+                        .header(ACCESS_TOKEN.value, accessToken)
+                )
+                .andExpect(status().isNotFound())
+                .andDo(document("알림 목록이 존재하지 않으면 예외 발생",
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("알림")
+                                .summary("알림 목록 가져오기")
+                                .requestHeaders(
+                                        headerWithName(ACCESS_TOKEN.value).description("AccessToken")
+                                )
+                                .responseFields(
+                                        fieldWithPath("statusCode").type(STRING).description("상태 코드"),
+                                        fieldWithPath("message").type(STRING).description("오류 메세지")
                                 )
                                 .build()
                         )));

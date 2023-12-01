@@ -140,7 +140,6 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         return melodyCardResponses;
     }
 
-
     private ObjectMetadata getObjectMetadata(final MultipartFile multipartFile) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(multipartFile.getContentType());
