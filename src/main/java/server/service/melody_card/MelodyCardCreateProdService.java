@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import server.domain.album.Album;
 import server.domain.melody_card.MelodyCard;
 import server.global.exception.BadRequestException;
+import server.global.exception.NotFoundException;
 import server.mapper.melody_card.dto.MelodyCardRequest;
 import server.mapper.melody_card.dto.MelodyCardResponse;
 import server.repository.album.AlbumRepository;
@@ -109,6 +110,10 @@ public class MelodyCardCreateProdService implements MelodyCardCreateService {
         expiration.setTime(expTimeMillis);
 
         List<MelodyCard> melodyCards = melodyCardFindService.findMelodyCardsByAlbumId(albumId);
+
+        if(melodyCards.isEmpty()){
+            throw new NotFoundException(MELODY_CARD_NOT_FOUND.message);
+        }
 
         List<MelodyCardResponse> melodyCardResponses = new ArrayList<>();
         for (MelodyCard melodyCard : melodyCards) {
