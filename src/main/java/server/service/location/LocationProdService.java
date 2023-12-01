@@ -74,7 +74,14 @@ public class LocationProdService implements LocationService {
             for (JsonNode document : documents) {
                 String placeName = document.get(PLACE_NAME).asText();
                 String distance = document.get(DISTANCE).asText();
-                locationResponses.add(new LocationResponse(placeName, distance + M));
+                long distanceLong = Long.parseLong(distance);
+
+                if (distanceLong < 1000) {
+                    locationResponses.add(new LocationResponse(placeName, distance + M));
+                } else {
+                    long distanceKm = distanceLong / 1000;
+                    locationResponses.add(new LocationResponse(placeName, distanceKm + KM));
+                }
             }
         } catch (IOException e) {
             throw new BadRequestException(LOCATION_JSON_PARSING.message);

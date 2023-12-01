@@ -33,6 +33,7 @@ public enum SpotifyConstant {
     public static final String Y = "y";
     public static final String PAGE = "page";
     public static final String M = "m";
+    public static final String KM = "km";
     public static final int ZERO = 0;
     public static final String ID = "id";
 
