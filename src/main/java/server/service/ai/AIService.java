@@ -7,8 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import server.domain.genre.Genre;
 import server.domain.member.persist.Member;
+import server.global.exception.NotFoundException;
 import server.mapper.music_recommendation.dto.AIRecommendationGenreResult;
-import server.mapper.music_recommendation.dto.AIRecommendationIdResult;
+import server.mapper.music_recommendation.dto.AIRecommendationIdMapper;
+import server.mapper.music_recommendation.dto.AIRecommendationResult;
 import server.mapper.music_recommendation.dto.AIResponse;
 import server.repository.genre.GenreRepository;
 import server.repository.member.MemberRepository;
@@ -16,7 +18,10 @@ import server.repository.music_recommendation.MusicRecommendationRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import static server.global.constant.ExceptionMessage.*;
 
 @Service
 public class AIService {
@@ -61,23 +66,44 @@ public class AIService {
         return aiResponses;
     }
 
+    @Cacheable(value = "recommendation-ai-album")
+    public AIRecommendationIdMapper findIds() {
+        String url = "http://15.165.120.141:8080/recommend";
+        ResponseEntity<AIRecommendationIdMapper> aiRecommendationResultResponseEntity =
+                restTemplate.getForEntity(url, AIRecommendationIdMapper.class);
+
+        return aiRecommendationResultResponseEntity.getBody();
+    }
+
     // todo ML 로직 확정되면 변경 (임시 코드)
     @Cacheable(value = "recommendation-ai-album", key = "#memberId")
-    public AIRecommendationIdResult findIds(final long memberId) {
-        String url = "http://helloworld.com/recommendations/{memberId}";
-        ResponseEntity<AIRecommendationIdResult> aiRecommendationResultResponseEntity =
-                restTemplate.getForEntity(url, AIRecommendationIdResult.class, memberId);
+    public AIRecommendationResult findRecommendationIds(final long memberId) {
+        AIRecommendationIdMapper ids = findIds();
+        Map<Long, List<Long>> memberMaps = ids.memberIds();
 
-        return aiRecommendationResultResponseEntity.getBody();
+        for (long id : memberMaps.keySet()) {
+            if (id == memberId) {
+                List<Long> memberIds = memberMaps.get(id);
+                return new AIRecommendationResult(memberIds);
+            }
+        }
+
+        throw new NotFoundException(MEMBER_NOT_FOUND_EXCEPTION.message);
     }
 
     // todo ML 로직 확정되면 변경 (임시 코드)
-    @Cacheable(value = "recommendation-ai-genre", key = "#memberId")
-    public AIRecommendationGenreResult findAlbumAndMelodyCard(final long memberId) {
-        String url = "http://helloworld.com/recommendations/{memberId}";
-        ResponseEntity<AIRecommendationGenreResult> aiRecommendationResultResponseEntity =
-                restTemplate.getForEntity(url, AIRecommendationGenreResult.class, memberId);
-
-        return aiRecommendationResultResponseEntity.getBody();
-    }
+//    @Cacheable(value = "recommendation-ai-genre", key = "#memberId")
+//    public AIRecommendationGenreResult findAlbumAndMelodyCard(final long memberId) {
+//        AIRecommendationIdMapper ids = findIds();
+//        Map<Long, List<Long>> memberMaps = ids.memberIds();
+//
+//        for (long id : memberMaps.keySet()) {
+//            if (id == memberId) {
+//                List<Long> memberIds = memberMaps.get(id);
+//                return new AIRecommendationGenreResult(memberIds);
+//            }
+//        }
+//
+//        throw new NotFoundException(MEMBER_NOT_FOUND_EXCEPTION.message);
+//    }
 }
