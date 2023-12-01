@@ -2,12 +2,14 @@ package server.service.album;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import server.domain.album.Album;
 import server.mapper.album.dto.AlbumResponse;
 import server.service.ai.AIService;
 import server.service.spotify.SpotifySearchMusicService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GenreAlbumFindService {
@@ -63,8 +65,13 @@ public class GenreAlbumFindService {
 
         while(albumResponses.size() < 5 && j < 100) {
             if (albumValidationService.validateExistByAlbumId(i)) {
-                AlbumResponse albumResponse = albumFindService.getAlbumResponse(i);
-                albumResponses.add(albumResponse);
+                Optional<Album> optionalAlbum = albumFindService.findByMemberId(i);
+
+                if (optionalAlbum.isPresent()) {
+                    Album album = optionalAlbum.get();
+                    AlbumResponse albumResponse = albumFindService.getAlbumResponse(album.getId());
+                    albumResponses.add(albumResponse);
+                }
             }
             i++;
             j++;
