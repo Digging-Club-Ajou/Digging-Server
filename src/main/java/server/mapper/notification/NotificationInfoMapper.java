@@ -31,17 +31,17 @@ public class NotificationInfoMapper {
             if (hours > 0) {
                 return new NotificationResponse(notificationInfo.getId(),
                         notificationInfo.getNotificationMessage(),
-                        hours + "시간");
+                        hours + "시간 전");
             } else {
                 return new NotificationResponse(notificationInfo.getId(),
                         notificationInfo.getNotificationMessage(),
-                        minutes + "분");
+                        minutes + "분 전");
             }
         } else if (minutes < 60 * 24 * 7) {
             long days = ChronoUnit.DAYS.between(createdAt, now);
             return new NotificationResponse(notificationInfo.getId(),
                     notificationInfo.getNotificationMessage(),
-                    days + "일");
+                    days + "일 전");
         } else {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
             return new NotificationResponse(notificationInfo.getId(),
