@@ -3,13 +3,17 @@ package server.dummy;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import server.domain.album.Album;
 import server.domain.melody_card.MelodyCard;
 import server.domain.member.persist.Member;
 import server.domain.music_recommentdation.MusicRecommendation;
 import server.dummy.dto.*;
+import server.global.exception.BadRequestException;
 import server.mapper.spotify.SpotifySearchDto;
 import server.repository.album.AlbumRepository;
 import server.repository.melody_card.MelodyCardRepository;
@@ -18,11 +22,13 @@ import server.repository.music_recommendation.MusicRecommendationRepository;
 import server.service.spotify.SpotifySearchMusicService;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Base64;
 import java.util.List;
 
+import static server.global.constant.ExceptionMessage.MELODY_CARD_EXCEPTION;
 import static server.global.constant.TextConstant.*;
 
 @Service
@@ -34,19 +40,22 @@ public class DummyService {
     private final MusicRecommendationRepository musicRecommendationRepository;
     private final AmazonS3Client amazonS3Client;
     private final SpotifySearchMusicService spotifySearchMusicService;
+    private final RestTemplate restTemplate;
 
     public DummyService(final MemberRepository memberRepository,
                         final AlbumRepository albumRepository,
                         final MelodyCardRepository melodyCardRepository,
                         final MusicRecommendationRepository musicRecommendationRepository,
                         final AmazonS3Client amazonS3Client,
-                        final SpotifySearchMusicService spotifySearchMusicService) {
+                        final SpotifySearchMusicService spotifySearchMusicService,
+                        final RestTemplate restTemplate) {
         this.memberRepository = memberRepository;
         this.albumRepository = albumRepository;
         this.melodyCardRepository = melodyCardRepository;
         this.musicRecommendationRepository = musicRecommendationRepository;
         this.amazonS3Client = amazonS3Client;
         this.spotifySearchMusicService = spotifySearchMusicService;
+        this.restTemplate = restTemplate;
     }
 
     @Transactional
@@ -98,18 +107,27 @@ public class DummyService {
 
                 melodyCardRepository.save(melodyCard);
 
-                byte[] melodyCardDecodedBytes = Base64.getDecoder().decode(albumDto.albumImage());
-                ByteBuffer melodyCardByteBuffer = ByteBuffer.wrap(melodyCardDecodedBytes);
+                String url = spotifySearchDto.imageUrl();
+                ResponseEntity<MultipartFile> multipartFileResponseEntity =
+                        restTemplate.getForEntity(url, MultipartFile.class);
 
-                ObjectMetadata melodyCardMetadata = new ObjectMetadata();
-                melodyCardMetadata.setContentLength(melodyCardByteBuffer.array().length);
+                MultipartFile melodyCardImage = multipartFileResponseEntity.getBody();
 
-                InputStream melodyCardTargetStream = new ByteArrayInputStream(melodyCardByteBuffer.array());
-                PutObjectRequest melodyCardPutObjectRequest =
-                        new PutObjectRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value + melodyCard.getId(),
-                                melodyCardTargetStream, melodyCardMetadata);
+                assert melodyCardImage != null;
+                ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
 
-                amazonS3Client.putObject(melodyCardPutObjectRequest);
+                try {
+                    PutObjectRequest putObjectRequest = new PutObjectRequest(
+                            DIGGING_CLUB.value,
+                            MELODY_CARD_IMAGE.value + melodyCard.getId(),
+                            melodyCardImage.getInputStream(),
+                            objectMetadata
+                    );
+                    amazonS3Client.putObject(putObjectRequest);
+
+                } catch (IOException e) {
+                    throw new BadRequestException(MELODY_CARD_EXCEPTION.message);
+                }
 
                 MusicRecommendation musicRecommendation = MusicRecommendation.builder()
                         .artistName(melodyCardDto.artistName())
@@ -128,5 +146,12 @@ public class DummyService {
 
         memberRepository.save(member);
         return member;
+    }
+
+    private ObjectMetadata getObjectMetadata(final MultipartFile multipartFile) {
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(multipartFile.getContentType());
+        objectMetadata.setContentLength(multipartFile.getSize());
+        return objectMetadata;
     }
 }
