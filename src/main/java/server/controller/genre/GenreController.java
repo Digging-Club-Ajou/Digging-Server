@@ -25,4 +25,6 @@ public class GenreController {
         genreService.saveUserGenre(memberSession.id(), genreRequest);
         return ResponseEntity.noContent().build();
     }
+
+
 }

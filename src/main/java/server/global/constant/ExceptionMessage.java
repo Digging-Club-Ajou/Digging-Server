@@ -35,19 +35,17 @@ public enum ExceptionMessage {
 
     MELODY_CARD_LIMIT("멜로디 카드의 최대 갯수 만큼 저장되어 있습니다"),
     MELODY_CARD_NOT_FOUND("멜로디 카드가 존재하지 않습니다"),
-
     MELODY_CARD_EXCEPTION("멜로디 카드를 저장할 수 없습니다"),
     FOLLOWING_NOT_FOUND("팔로잉 정보를 찾을 수 없습니다."),
-
     FOLLOWING_ALREADY_EXISTS("팔로잉 정보가 이미 존재합니다"),
     ALBUM_NOT_EXIST("앨범이 존재하지 않습니다."),
-
     METHOD_ARGUMENT_TYPE_MISMATCH("서버에 전달한 파라미터와 타입이 맞지 않습니다"),
     SERVLET_REQUEST_BINDING("파라미터나 HTTP 바디 데이터를 바인딩 할 수 없습니다"),
     METHOD_NOT_ALLOWED("HTTP 메소드가 올바르지 않습니다"),
     NOT_ENOUGH_PLAY_RECORD("활동이 충분하지 않아 활동 내역을 추적할 수 없습니다"),
     CARD_FAVORITE_SELF_EXCEPTION("자기 자신의 멜로디 카드는 좋아요 누를 수가 없습니다"),
     FOLLOWING_SELF_EXCEPTION("자기 자신의 팔로잉 할 수가 없습니다"),
+    ARTIST_INFO_NOT_FOUND("아티스트 정보를 찾을 수 없습니다"),
     NOTIFICATION_NOT_FOUND_EXCEPTION("알림이 없습니다");
 
     public final String message;
