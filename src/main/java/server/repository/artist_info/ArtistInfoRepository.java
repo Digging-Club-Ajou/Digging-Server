@@ -33,15 +33,16 @@ public class ArtistInfoRepository {
 
         return queryFactory.select(artistInfo.artistName)
                 .from(artistInfo)
-                .where(artistInfo.ballade.isNull(),
-                        artistInfo.dance.isNull(),
-                        artistInfo.dance.isNull(),
-                        artistInfo.rockMetal.isNull(),
-                        artistInfo.rapHiphop.isNull(),
-                        artistInfo.folkBlues.isNull(),
-                        artistInfo.indie.isNull(),
-                        artistInfo.pop.isNull(),
-                        artistInfo.ostAndMusical.isNull())
+                .where(artistInfo.ballade.isFalse(),
+                        artistInfo.dance.isFalse(),
+                        artistInfo.dance.isFalse(),
+                        artistInfo.rockMetal.isFalse(),
+                        artistInfo.rbAndSoul.isFalse(),
+                        artistInfo.rapHiphop.isFalse(),
+                        artistInfo.folkBlues.isFalse(),
+                        artistInfo.indie.isFalse(),
+                        artistInfo.pop.isFalse(),
+                        artistInfo.ostAndMusical.isFalse())
                 .fetch();
     }
 

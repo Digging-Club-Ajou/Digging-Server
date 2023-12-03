@@ -1,8 +1,10 @@
 package server.service.artist_info;
 
-import com.google.api.client.util.Value;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,8 @@ import static server.global.constant.KakaoConstant.*;
 @Service
 public class ArtistInfoScheduledTasks {
 
-    @Value("")
-    private String getArtistInfoUrl;
+
+    private final String getArtistInfoUrl = "http://54.180.109.224:7000/api/genres";
 
     private final ArtistInfoService artistInfoService;
     private final RestTemplate restTemplate;
@@ -28,34 +30,42 @@ public class ArtistInfoScheduledTasks {
         this.restTemplate = restTemplate;
     }
     @Scheduled(cron = "0 0 5 * * 0")
-    public void createArtistInfoGenre(){
+    public void createArtistInfoGenre() {
         ArtistInfoRequests artistInfoRequests = artistInfoService.getNullArtists();
-        if(!artistInfoRequests.artistInfoRespons().isEmpty()){
+        if(!artistInfoRequests.artistInfoRequests().isEmpty()){
             ArtistInfoResponses artistInfoResponses = getArtistInfoResponses(artistInfoRequests);
             artistInfoService.createArtistInfo(artistInfoResponses);
         }
 
     }
 
-    public ArtistInfoResponses getArtistInfoResponses(ArtistInfoRequests artistInfoRequests){
+    public ArtistInfoResponses getArtistInfoResponses(ArtistInfoRequests artistInfoRequests) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String header;
-        headers.add(CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("artistInfoRequests", artistInfoRequests);
+        try {
 
-        // HTTP 요청 보내기
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<ArtistInfoResponses> response = restTemplate.postForEntity(
-                getArtistInfoUrl,
-                requestEntity,
-                ArtistInfoResponses.class
-        );
+            String request = objectMapper.writeValueAsString(artistInfoRequests);
 
-        ArtistInfoResponses artistInfoResponses = response.getBody();
-        assert  artistInfoResponses != null;
-        return artistInfoResponses;
+            // HTTP 요청 보내기
+            HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
+
+            ResponseEntity<ArtistInfoResponses> response =
+                    restTemplate.postForEntity(getArtistInfoUrl, requestEntity, ArtistInfoResponses.class);
+
+            ArtistInfoResponses artistInfoResponses = response.getBody();
+            assert  artistInfoResponses != null;
+            return artistInfoResponses;
+
+        }catch (JsonProcessingException e){
+            throw new RuntimeException("Error parsing Crawling API response for artist details.");
+
+        }
+
+
+
+
     }
 }
