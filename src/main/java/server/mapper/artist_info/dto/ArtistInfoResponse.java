@@ -3,14 +3,11 @@ package server.mapper.artist_info.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record ArtistInfoResponse(
-
         @JsonProperty("artistName")
         String artistName,
         @JsonProperty("ballade")
-
         boolean ballade,
         @JsonProperty("dance")
-
         boolean dance,
         @JsonProperty("rockMetal")
         boolean rockMetal,
@@ -24,7 +21,7 @@ public record ArtistInfoResponse(
         boolean indie,
         @JsonProperty("pop")
         boolean pop,
-        @JsonProperty("access_ostAndMusicaltoken")
+        @JsonProperty("ostAndMusical")
         boolean ostAndMusical
 ) {
 }
