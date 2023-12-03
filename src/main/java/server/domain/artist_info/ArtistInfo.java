@@ -6,8 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import server.domain.BaseTimeEntity;
-import server.mapper.artist_info.dto.ArtistInfoRequest;
-import server.mapper.genre.dto.GenreRequest;
+import server.mapper.artist_info.dto.ArtistInfoResponse;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,7 +15,7 @@ public class ArtistInfo extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "artist_genre_id")
+    @Column(name = "artist_info_id")
     private Long id;
 
     private String artistName;
@@ -55,16 +54,16 @@ public class ArtistInfo extends BaseTimeEntity {
         this.ostAndMusical = ostAndMusical;
     }
 
-    public void updateArtistInfo(final ArtistInfoRequest artistInfoRequest) {
-        this.ballade = artistInfoRequest.ballade();
-        this.dance = artistInfoRequest.dance();
-        this.rockMetal = artistInfoRequest.rockMetal();
-        this.rbAndSoul = artistInfoRequest.rbAndSoul();
-        this.rapHiphop = artistInfoRequest.rapHiphop();
-        this.folkBlues = artistInfoRequest.folkBlues();
-        this.indie = artistInfoRequest.indie();
-        this.pop = artistInfoRequest.pop();
-        this.ostAndMusical = artistInfoRequest.ostAndMusical();
+    public void updateArtistInfo(final ArtistInfoResponse artistInfoResponse) {
+        this.ballade = artistInfoResponse.ballade();
+        this.dance = artistInfoResponse.dance();
+        this.rockMetal = artistInfoResponse.rockMetal();
+        this.rbAndSoul = artistInfoResponse.rbAndSoul();
+        this.rapHiphop = artistInfoResponse.rapHiphop();
+        this.folkBlues = artistInfoResponse.folkBlues();
+        this.indie = artistInfoResponse.indie();
+        this.pop = artistInfoResponse.pop();
+        this.ostAndMusical = artistInfoResponse.ostAndMusical();
     }
 
 

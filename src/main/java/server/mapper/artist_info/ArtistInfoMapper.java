@@ -1,9 +1,7 @@
 package server.mapper.artist_info;
 
-import server.domain.album.Album;
 import server.domain.artist_info.ArtistInfo;
-import server.domain.member.persist.Member;
-import server.mapper.artist_info.dto.ArtistInfoRequest;
+import server.mapper.artist_info.dto.ArtistInfoResponse;
 
 public class ArtistInfoMapper {
 
@@ -11,18 +9,18 @@ public class ArtistInfoMapper {
 
     }
 
-    public static ArtistInfo toEntity(final ArtistInfoRequest artistInfoRequest) {
+    public static ArtistInfo toEntity(final ArtistInfoResponse artistInfoResponse) {
         return ArtistInfo.builder()
-                .artistName(artistInfoRequest.artistName())
-                .ballade(artistInfoRequest.ballade())
-                .dance(artistInfoRequest.dance())
-                .rockMetal(artistInfoRequest.rockMetal())
-                .rbAndSoul(artistInfoRequest.rbAndSoul())
-                .rapHiphop(artistInfoRequest.rapHiphop())
-                .folkBlues(artistInfoRequest.folkBlues())
-                .indie(artistInfoRequest.indie())
-                .pop(artistInfoRequest.pop())
-                .ostAndMusical(artistInfoRequest.ostAndMusical())
+                .artistName(artistInfoResponse.artistName())
+                .ballade(artistInfoResponse.ballade())
+                .dance(artistInfoResponse.dance())
+                .rockMetal(artistInfoResponse.rockMetal())
+                .rbAndSoul(artistInfoResponse.rbAndSoul())
+                .rapHiphop(artistInfoResponse.rapHiphop())
+                .folkBlues(artistInfoResponse.folkBlues())
+                .indie(artistInfoResponse.indie())
+                .pop(artistInfoResponse.pop())
+                .ostAndMusical(artistInfoResponse.ostAndMusical())
                 .build();
     }
 }
