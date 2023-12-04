@@ -7,28 +7,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 import server.domain.album.Album;
+import server.domain.genre.Genre;
 import server.domain.melody_card.MelodyCard;
 import server.domain.member.persist.Member;
 import server.domain.music_recommentdation.MusicRecommendation;
 import server.dummy.dto.*;
-import server.global.exception.BadRequestException;
 import server.mapper.spotify.SpotifySearchDto;
 import server.repository.album.AlbumRepository;
+import server.repository.genre.GenreRepository;
 import server.repository.melody_card.MelodyCardRepository;
 import server.repository.member.MemberRepository;
 import server.repository.music_recommendation.MusicRecommendationRepository;
 import server.service.spotify.SpotifySearchMusicService;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 
-import static server.global.constant.ExceptionMessage.MELODY_CARD_EXCEPTION;
 import static server.global.constant.TextConstant.*;
 
 @Service
@@ -38,6 +38,7 @@ public class DummyService {
     private final AlbumRepository albumRepository;
     private final MelodyCardRepository melodyCardRepository;
     private final MusicRecommendationRepository musicRecommendationRepository;
+    private final GenreRepository genreRepository;
     private final AmazonS3Client amazonS3Client;
     private final SpotifySearchMusicService spotifySearchMusicService;
     private final RestTemplate restTemplate;
@@ -46,13 +47,14 @@ public class DummyService {
                         final AlbumRepository albumRepository,
                         final MelodyCardRepository melodyCardRepository,
                         final MusicRecommendationRepository musicRecommendationRepository,
-                        final AmazonS3Client amazonS3Client,
+                        final GenreRepository genreRepository, final AmazonS3Client amazonS3Client,
                         final SpotifySearchMusicService spotifySearchMusicService,
                         final RestTemplate restTemplate) {
         this.memberRepository = memberRepository;
         this.albumRepository = albumRepository;
         this.melodyCardRepository = melodyCardRepository;
         this.musicRecommendationRepository = musicRecommendationRepository;
+        this.genreRepository = genreRepository;
         this.amazonS3Client = amazonS3Client;
         this.spotifySearchMusicService = spotifySearchMusicService;
         this.restTemplate = restTemplate;
@@ -105,33 +107,33 @@ public class DummyService {
                 melodyCardRepository.save(melodyCard);
 
                 String url = spotifySearchDto.imageUrl();
-                ResponseEntity<MultipartFile> multipartFileResponseEntity =
-                        restTemplate.getForEntity(url, MultipartFile.class);
 
-                MultipartFile melodyCardImage = multipartFileResponseEntity.getBody();
+                ResponseEntity<byte[]> responseEntity = restTemplate.getForEntity(url, byte[].class);
+                byte[] melodyCardBytes = responseEntity.getBody();
 
-                assert melodyCardImage != null;
-                ObjectMetadata objectMetadata = getObjectMetadata(melodyCardImage);
+                assert melodyCardBytes != null;
+                ByteBuffer melodyCardByteBuffer = ByteBuffer.wrap(melodyCardBytes);
 
-                try {
-                    PutObjectRequest putObjectRequest = new PutObjectRequest(
-                            DIGGING_CLUB.value,
-                            MELODY_CARD_IMAGE.value + melodyCard.getId(),
-                            melodyCardImage.getInputStream(),
-                            objectMetadata
-                    );
-                    amazonS3Client.putObject(putObjectRequest);
+                ObjectMetadata melodyCardMetadata = new ObjectMetadata();
+                melodyCardMetadata.setContentLength(melodyCardByteBuffer.array().length);
 
-                } catch (IOException e) {
-                    throw new BadRequestException(MELODY_CARD_EXCEPTION.message);
-                }
+                InputStream melodyCardTargetStream = new ByteArrayInputStream(melodyCardByteBuffer.array());
+                PutObjectRequest melodyCardPutObjectRequest =
+                        new PutObjectRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value + melodyCard.getId(),
+                                melodyCardTargetStream, melodyCardMetadata);
+
+                amazonS3Client.putObject(melodyCardPutObjectRequest);
 
                 MusicRecommendation musicRecommendation = MusicRecommendation.builder()
-                        .artistName(melodyCardDto.artistName())
+                        .memberId(member.getId())
+                        .artistName(spotifySearchDto.artistName())
                         .build();
 
                 musicRecommendationRepository.save(musicRecommendation);
             }
+
+            Genre genre = getGenre(member.getId());
+            genreRepository.save(genre);
         }
     }
 
@@ -143,11 +145,82 @@ public class DummyService {
         memberRepository.save(member);
         return member;
     }
+    
+    private Genre getGenre(final long memberId) {
+        Genre genre1 = Genre.builder()
+                .memberId(memberId)
+                .ballade(true)
+                .dance(true)
+                .rockMetal(true)
+                .rbAndSoul(false)
+                .rapHiphop(false)
+                .folkBlues(false)
+                .indie(true)
+                .pop(false)
+                .ostAndMusical(true)
+                .build();
 
-    private ObjectMetadata getObjectMetadata(final MultipartFile multipartFile) {
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(multipartFile.getContentType());
-        objectMetadata.setContentLength(multipartFile.getSize());
-        return objectMetadata;
+        Genre genre2 = Genre.builder()
+                .memberId(memberId)
+                .ballade(false)
+                .dance(true)
+                .rockMetal(false)
+                .rbAndSoul(false)
+                .rapHiphop(false)
+                .folkBlues(true)
+                .indie(true)
+                .pop(true)
+                .ostAndMusical(true)
+                .build();
+
+        Genre genre3 = Genre.builder()
+                .memberId(memberId)
+                .ballade(true)
+                .dance(true)
+                .rockMetal(false)
+                .rbAndSoul(false)
+                .rapHiphop(false)
+                .folkBlues(false)
+                .indie(true)
+                .pop(true)
+                .ostAndMusical(true)
+                .build();
+
+        Genre genre4 = Genre.builder()
+                .memberId(memberId)
+                .ballade(false)
+                .dance(false)
+                .rockMetal(true)
+                .rbAndSoul(true)
+                .rapHiphop(true)
+                .folkBlues(true)
+                .indie(false)
+                .pop(false)
+                .ostAndMusical(true)
+                .build();
+
+        Genre genre5 = Genre.builder()
+                .memberId(memberId)
+                .ballade(false)
+                .dance(true)
+                .rockMetal(false)
+                .rbAndSoul(false)
+                .rapHiphop(true)
+                .folkBlues(true)
+                .indie(false)
+                .pop(true)
+                .ostAndMusical(true)
+                .build();
+
+        List<Genre> genres = new ArrayList<>();
+        genres.add(genre1);
+        genres.add(genre2);
+        genres.add(genre3);
+        genres.add(genre4);
+        genres.add(genre5);
+        Random random = new Random();
+        int randomNumber = random.nextInt(5);
+
+        return genres.get(randomNumber);
     }
 }
