@@ -61,7 +61,7 @@ public class DummyService {
     @Transactional
     public void dummySave(final DummyDto dummyDto) {
         for (RequestDto requestDto : dummyDto.requestDtos()) {
-            Member member = saveMember(requestDto);
+            Member member = saveMember();
 
             AlbumDto albumDto = requestDto.albumDto();
             Album album = Album.builder()
@@ -98,9 +98,6 @@ public class DummyService {
                         .artistName(spotifySearchDto.artistName())
                         .songTitle(spotifySearchDto.songTitle())
                         .previewUrl(spotifySearchDto.previewUrl())
-                        .address(melodyCardDto.address())
-                        .cardDescription(melodyCardDto.cardDescription())
-                        .color(melodyCardDto.color())
                         .isImageUrl(true)
                         .albumCoverImageUrl(spotifySearchDto.imageUrl())
                         .build();
@@ -138,10 +135,9 @@ public class DummyService {
         }
     }
 
-    private Member saveMember(final RequestDto requestDto) {
-        MemberDto memberDto = requestDto.memberDto();
+    private Member saveMember() {
         Member member = Member.builder()
-                .nickname(memberDto.nickname())
+                .nickname("admin")
                 .build();
 
         memberRepository.save(member);
