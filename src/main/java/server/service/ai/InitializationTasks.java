@@ -17,6 +17,6 @@ public class InitializationTasks {
     @PostConstruct
     public void initialize() {
         aiService.findIds();
-        log.info("AI 추천 목록 최신화 완료");
+        log.info("서버 재배포 AI 추천 목록 최신화 완료");
     }
 }

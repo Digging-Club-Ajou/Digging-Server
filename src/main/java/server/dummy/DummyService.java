@@ -91,45 +91,48 @@ public class DummyService {
             for (MelodyCardDto melodyCardDto : melodyCardDtos) {
                 List<SpotifySearchDto> spotifySearchDtos = spotifySearchMusicService.searchTracks(
                         melodyCardDto.artistName() + " " + melodyCardDto.songTitle(), 1);
-                SpotifySearchDto spotifySearchDto = spotifySearchDtos.get(0);
 
-                MelodyCard melodyCard = MelodyCard.builder()
-                        .albumId(album.getId())
-                        .memberId(member.getId())
-                        .nickname(member.getNickname())
-                        .artistName(spotifySearchDto.artistName())
-                        .songTitle(spotifySearchDto.songTitle())
-                        .previewUrl(spotifySearchDto.previewUrl())
-                        .isImageUrl(true)
-                        .albumCoverImageUrl(spotifySearchDto.imageUrl())
-                        .build();
+                if (!spotifySearchDtos.isEmpty()) {
+                    SpotifySearchDto spotifySearchDto = spotifySearchDtos.get(0);
 
-                melodyCardRepository.save(melodyCard);
+                    MelodyCard melodyCard = MelodyCard.builder()
+                            .albumId(album.getId())
+                            .memberId(member.getId())
+                            .nickname(member.getNickname())
+                            .artistName(spotifySearchDto.artistName())
+                            .songTitle(spotifySearchDto.songTitle())
+                            .previewUrl(spotifySearchDto.previewUrl())
+                            .isImageUrl(true)
+                            .albumCoverImageUrl(spotifySearchDto.imageUrl())
+                            .build();
 
-                String url = spotifySearchDto.imageUrl();
+                    melodyCardRepository.save(melodyCard);
 
-                ResponseEntity<byte[]> responseEntity = restTemplate.getForEntity(url, byte[].class);
-                byte[] melodyCardBytes = responseEntity.getBody();
+                    String url = spotifySearchDto.imageUrl();
 
-                assert melodyCardBytes != null;
-                ByteBuffer melodyCardByteBuffer = ByteBuffer.wrap(melodyCardBytes);
+                    ResponseEntity<byte[]> responseEntity = restTemplate.getForEntity(url, byte[].class);
+                    byte[] melodyCardBytes = responseEntity.getBody();
 
-                ObjectMetadata melodyCardMetadata = new ObjectMetadata();
-                melodyCardMetadata.setContentLength(melodyCardByteBuffer.array().length);
+                    assert melodyCardBytes != null;
+                    ByteBuffer melodyCardByteBuffer = ByteBuffer.wrap(melodyCardBytes);
 
-                InputStream melodyCardTargetStream = new ByteArrayInputStream(melodyCardByteBuffer.array());
-                PutObjectRequest melodyCardPutObjectRequest =
-                        new PutObjectRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value + melodyCard.getId(),
-                                melodyCardTargetStream, melodyCardMetadata);
+                    ObjectMetadata melodyCardMetadata = new ObjectMetadata();
+                    melodyCardMetadata.setContentLength(melodyCardByteBuffer.array().length);
 
-                amazonS3Client.putObject(melodyCardPutObjectRequest);
+                    InputStream melodyCardTargetStream = new ByteArrayInputStream(melodyCardByteBuffer.array());
+                    PutObjectRequest melodyCardPutObjectRequest =
+                            new PutObjectRequest(DIGGING_CLUB.value, MELODY_CARD_IMAGE.value + melodyCard.getId(),
+                                    melodyCardTargetStream, melodyCardMetadata);
 
-                MusicRecommendation musicRecommendation = MusicRecommendation.builder()
-                        .memberId(member.getId())
-                        .artistName(spotifySearchDto.artistName())
-                        .build();
+                    amazonS3Client.putObject(melodyCardPutObjectRequest);
 
-                musicRecommendationRepository.save(musicRecommendation);
+                    MusicRecommendation musicRecommendation = MusicRecommendation.builder()
+                            .memberId(member.getId())
+                            .artistName(spotifySearchDto.artistName())
+                            .build();
+
+                    musicRecommendationRepository.save(musicRecommendation);
+                }
             }
 
             Genre genre = getGenre(member.getId());
