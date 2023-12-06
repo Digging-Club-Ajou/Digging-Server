@@ -23,6 +23,7 @@ public class ArtistInfoService {
     }
 
 
+
     @Transactional
     public ArtistInfoRequests getNullArtists() {
         List<ArtistInfoRequest> artistInfoRequests = new ArrayList<>();
