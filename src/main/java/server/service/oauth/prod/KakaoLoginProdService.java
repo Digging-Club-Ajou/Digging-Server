@@ -108,14 +108,15 @@ public class KakaoLoginProdService implements KakaoLoginService {
             JsonNode itemsNode = rootNode.path(KAKAO_ACCOUNT);
 
             KakaoSignupRequest kakaoSignupRequest = KakaoSignupRequest.builder().build();
+            JsonNode emailNode = itemsNode.get(EMAIL);
 
-            if(!itemsNode.get(EMAIL).isNull()){
+            if (emailNode != null && !emailNode.isNull()) {
                 kakaoSignupRequest = KakaoSignupRequest.builder()
-                        .email(itemsNode.get(EMAIL).asText()).build();
+                        .email(emailNode.asText())
+                        .build();
             }
 
             return kakaoSignupRequest;
-
 
         } catch (JsonProcessingException e) {
             throw new RuntimeException(KAKAO_JSON_PARSING.message);
