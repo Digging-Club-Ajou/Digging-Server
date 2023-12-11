@@ -26,6 +26,7 @@ public class MemberMapper {
 
     public static Member toEntity(final KakaoSignupRequest dto) {
         return Member.builder()
+                .kakaoId(dto.kakaoId())
                 .email(dto.email())
                 .phoneNumber(dto.phoneNumber())
                 .loginType(LoginType.KAKAO)

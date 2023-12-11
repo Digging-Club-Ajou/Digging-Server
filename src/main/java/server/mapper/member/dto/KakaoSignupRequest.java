@@ -5,7 +5,7 @@ import server.domain.member.vo.Gender;
 
 @Builder
 public record KakaoSignupRequest(
-        Long kakaoId,
+        long kakaoId,
         String email,
         String phoneNumber,
         String name

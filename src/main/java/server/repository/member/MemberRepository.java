@@ -39,6 +39,10 @@ public class MemberRepository {
         return memberJpaRepository.findByNickname(nickname);
     }
 
+    public Optional<Member> findByKakaoId(final long kakaoId) {
+        return memberJpaRepository.findByKakaoId(kakaoId);
+    }
+
     public List<Member> findByNicknameStartingWith(final String keyword){
         return memberJpaRepository.findByNicknameStartingWith(keyword);
     }

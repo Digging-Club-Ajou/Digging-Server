@@ -19,23 +19,45 @@ import static server.global.constant.TimeConstant.ONE_MONTH;
 public class DiggingLoginService {
 
     private final MemberFindByEmailService memberFindByEmailService;
+    private final MemberFindByKakaoIdService memberFindByKakaoIdService;
     private final KakaoSignupService kakaoSignupService;
     private final PushAlarmService pushAlarmService;
     private final JwtFacade jwtFacade;
 
     public DiggingLoginService(final MemberFindByEmailService memberFindByEmailService,
+                               MemberFindByKakaoIdService memberFindByKakaoIdService,
                                final KakaoSignupService kakaoSignupService,
                                final PushAlarmService pushAlarmService, final JwtFacade jwtFacade) {
         this.memberFindByEmailService = memberFindByEmailService;
+        this.memberFindByKakaoIdService = memberFindByKakaoIdService;
         this.kakaoSignupService = kakaoSignupService;
         this.pushAlarmService = pushAlarmService;
         this.jwtFacade = jwtFacade;
     }
 
     public JwtToken kakaoLogin(final KakaoSignupRequest dto) {
-        Optional<Member> optionalMember = memberFindByEmailService.findByEmail(dto.email());
+        boolean isNew;
         Member member;
-        Boolean isNew;
+
+        if (dto.email() == null) {
+            Optional<Member> byKakaoId = memberFindByKakaoIdService.findByKakaoId(dto.kakaoId());
+
+            if (byKakaoId.isEmpty()) {
+                member = kakaoSignupService.kakaoSignup(dto);
+                pushAlarmService.savePushAlarm(member.getId());
+                isNew = true;
+            } else {
+                member = byKakaoId.get();
+                isNew = false;
+            }
+
+            MemberSession memberSession = MemberMapper.toMemberSession(member);
+            return createToken(memberSession, isNew);
+        }
+
+        // todo kakaoId 만으로 처리하도록 수정 필요, 기존 회원 로그인 유지를 위해 사용
+        Optional<Member> optionalMember = memberFindByEmailService.findByEmail(dto.email());
+
         if (optionalMember.isEmpty()) {
             member = kakaoSignupService.kakaoSignup(dto);
             pushAlarmService.savePushAlarm(member.getId());
