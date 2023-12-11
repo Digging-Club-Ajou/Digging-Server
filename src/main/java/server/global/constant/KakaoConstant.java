@@ -22,6 +22,7 @@ public enum KakaoConstant {
 
     public static final String KAKAO_ACCOUNT = "kakao_account";
     public static final String EMAIL = "email";
+    public static final String ID = "id";
     public static final String AGE_RANGE = "age_range";
     public static final String GENDER = "gender";
 }

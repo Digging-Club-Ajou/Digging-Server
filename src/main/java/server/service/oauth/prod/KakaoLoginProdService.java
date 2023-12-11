@@ -23,6 +23,7 @@ import static server.global.constant.ExceptionMessage.MUSIC_JSON_PARSING;
 import static server.global.constant.KakaoConstant.*;
 import static server.global.constant.KakaoConstant.AUTHORIZATION;
 import static server.global.constant.KakaoConstant.BEARER;
+import static server.global.constant.KakaoConstant.ID;
 import static server.global.constant.SpotifyConstant.*;
 import static server.global.constant.SpotifyConstant.NAME;
 
@@ -107,11 +108,18 @@ public class KakaoLoginProdService implements KakaoLoginService {
             rootNode = objectMapper.readTree(response.getBody());
             JsonNode itemsNode = rootNode.path(KAKAO_ACCOUNT);
 
-            KakaoSignupRequest kakaoSignupRequest = KakaoSignupRequest.builder().build();
             JsonNode emailNode = itemsNode.get(EMAIL);
+            JsonNode idNode = rootNode.get(ID);
 
-            if (emailNode != null && !emailNode.isNull()) {
+            KakaoSignupRequest kakaoSignupRequest;
+
+            if (emailNode == null) {
                 kakaoSignupRequest = KakaoSignupRequest.builder()
+                        .kakaoId(idNode.asLong())
+                        .build();
+            }else{
+                kakaoSignupRequest = KakaoSignupRequest.builder()
+                        .kakaoId(idNode.asLong())
                         .email(emailNode.asText())
                         .build();
             }
