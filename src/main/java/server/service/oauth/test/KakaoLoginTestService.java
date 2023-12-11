@@ -41,6 +41,7 @@ public class KakaoLoginTestService implements KakaoLoginService {
     }
 
     private KakaoSignupRequest getUserProfile(final String accessToken) throws JsonProcessingException {
-        return new KakaoSignupRequest(TEST_EMAIL.value, TEST_PHONE_NUMBER.value, TEST_NAME.value);
+        long testId = 123;
+        return new KakaoSignupRequest(testId,TEST_EMAIL.value, TEST_PHONE_NUMBER.value, TEST_NAME.value);
     }
 }
