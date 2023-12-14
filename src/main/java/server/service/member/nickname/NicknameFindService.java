@@ -1,4 +1,4 @@
-package server.service.member;
+package server.service.member.nickname;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

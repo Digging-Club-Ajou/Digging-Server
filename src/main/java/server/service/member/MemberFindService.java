@@ -35,4 +35,14 @@ public class MemberFindService {
             return MemberMapper.toMemberResponseWithoutAlbum(member);
         }
     }
+
+    @Transactional(readOnly = true)
+    public Optional<Member> findByKakaoId(final long kakaoId) {
+        return memberRepository.findByKakaoId(kakaoId);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Member> findByEmail(final String email) {
+        return memberRepository.findByEmail(email);
+    }
 }

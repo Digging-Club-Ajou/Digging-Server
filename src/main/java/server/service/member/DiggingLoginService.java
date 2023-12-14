@@ -18,18 +18,16 @@ import static server.global.constant.TimeConstant.ONE_MONTH;
 @Service
 public class DiggingLoginService {
 
-    private final MemberFindByEmailService memberFindByEmailService;
-    private final MemberFindByKakaoIdService memberFindByKakaoIdService;
+    private final MemberFindService memberFindService;
     private final KakaoSignupService kakaoSignupService;
     private final PushAlarmService pushAlarmService;
     private final JwtFacade jwtFacade;
 
-    public DiggingLoginService(final MemberFindByEmailService memberFindByEmailService,
-                               MemberFindByKakaoIdService memberFindByKakaoIdService,
+    public DiggingLoginService(final MemberFindService memberFindService,
                                final KakaoSignupService kakaoSignupService,
-                               final PushAlarmService pushAlarmService, final JwtFacade jwtFacade) {
-        this.memberFindByEmailService = memberFindByEmailService;
-        this.memberFindByKakaoIdService = memberFindByKakaoIdService;
+                               final PushAlarmService pushAlarmService,
+                               final JwtFacade jwtFacade) {
+        this.memberFindService = memberFindService;
         this.kakaoSignupService = kakaoSignupService;
         this.pushAlarmService = pushAlarmService;
         this.jwtFacade = jwtFacade;
@@ -40,7 +38,7 @@ public class DiggingLoginService {
         Member member;
 
         if (dto.email() == null) {
-            Optional<Member> byKakaoId = memberFindByKakaoIdService.findByKakaoId(dto.kakaoId());
+            Optional<Member> byKakaoId = memberFindService.findByKakaoId(dto.kakaoId());
 
             if (byKakaoId.isEmpty()) {
                 member = kakaoSignupService.kakaoSignup(dto);
@@ -56,7 +54,7 @@ public class DiggingLoginService {
         }
 
         // todo kakaoId 만으로 처리하도록 수정 필요, 기존 회원 로그인 유지를 위해 사용
-        Optional<Member> optionalMember = memberFindByEmailService.findByEmail(dto.email());
+        Optional<Member> optionalMember = memberFindService.findByEmail(dto.email());
 
         if (optionalMember.isEmpty()) {
             member = kakaoSignupService.kakaoSignup(dto);

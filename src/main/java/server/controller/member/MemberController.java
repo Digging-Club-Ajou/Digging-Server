@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.domain.member.vo.MemberSession;
-import server.domain.withdrawal.vo.WithdrawalReason;
 import server.global.annotation.Login;
 import server.global.exception.dto.ResultResponse;
 import server.mapper.member.MemberMapper;
@@ -13,6 +12,9 @@ import server.mapper.member.dto.*;
 import server.mapper.withdrawal.dto.MemberWithdrawalRequest;
 import server.service.jwt.JwtFacade;
 import server.service.member.*;
+import server.service.member.nickname.NicknameCreateService;
+import server.service.member.nickname.NicknameFindService;
+import server.service.member.nickname.NicknameValidationService;
 
 @Slf4j
 @RequestMapping("/api")
