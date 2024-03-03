@@ -51,4 +51,4 @@ jobs:
       - name: SCP transfer
         run: scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
       - name: Deploy application
-        run: /home/ec2-user//deploy.sh
+        run: /home/ec2-user/deploy.sh
