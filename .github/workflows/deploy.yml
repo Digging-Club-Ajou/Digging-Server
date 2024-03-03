@@ -21,4 +21,4 @@ jobs:
           ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy application
-        run: ssh -o ServerAliveInterval=600 ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "/home/ec2-user/deploy.sh"
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "bash /home/ec2-user/deploy.sh"
