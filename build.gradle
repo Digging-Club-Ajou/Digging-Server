@@ -15,7 +15,7 @@ plugins {
 }
 
 group = 'server'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 
 java {
     sourceCompatibility = '17'
@@ -133,3 +133,5 @@ bootJar {
         into 'static/docs'
     }
 }
+
+jar.enabled = false
