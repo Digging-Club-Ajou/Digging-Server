@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: Build with Gradle
 
 on:
   push:
@@ -36,8 +36,14 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: build
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.4
         with:
-          name: cicd
-          path: build/libs/*.jar
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add SSH key to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      - name: SCP transfer
+        run: scp build/libs/*.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
