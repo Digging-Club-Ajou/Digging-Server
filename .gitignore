@@ -4,7 +4,11 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+application.yml
 application-prod.yml
+application-dev.yml
+application-test.yml
+
 firebase_service_key.json
 /src/server/dummy
 

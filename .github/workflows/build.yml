@@ -29,9 +29,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Create Prod Config
+      - name: Create Config
         run: |
+          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" > src/test/resources/application.yml
+          echo "${{ secrets.APPLICATION_DEV_YML }}" > src/main/resources/application-dev.yml
           echo "${{ secrets.APPLICATION_PROD_YML }}" > src/main/resources/application-prod.yml
+          echo "${{ secrets.APPLICATION_TEST_YML }}" > src/test/resources/application-test.yml
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
